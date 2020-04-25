@@ -6,9 +6,9 @@ on:
       - master
       - dev
       - stage
-  push:
-    branches:
-      - 'feat/*'
+#  push:
+#    branches:
+#      - 'feat/*'
 
 jobs:
   lint:
