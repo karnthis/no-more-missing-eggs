@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "npm i lerna && lerna bootstrap",
     "start": "lerna run start",
     "start:dev": "lerna run start:dev"
   },
