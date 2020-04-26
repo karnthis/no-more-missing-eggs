@@ -11,7 +11,7 @@ export class User {
   @Column({ length: 50, nullable: false })
   lastName: string;
 
-  @Index("username-index")
+  @Index('username-index')
   @Column({ length: 50, nullable: false, unique: true })
   username: string;
 
@@ -25,5 +25,3 @@ export class User {
   status: string;
 
 }
-
-  

@@ -15,13 +15,13 @@ export class UserService {
   }
 
   async saveNew(createUser) {
-    let tmp = new User();
-    const userToSave = {...tmp, ...createUser}
+    const tmp = new User();
+    const userToSave = {...tmp, ...createUser};
     // console.dir(userToSave)
 
     const result = await this.userRepository.save(userToSave)
     .catch(err => ({error: err}));
-    const {password, ...toSend} = result
-    return toSend
+    const {password, ...toSend} = result;
+    return toSend;
   }
 }

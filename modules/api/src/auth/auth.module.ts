@@ -29,8 +29,8 @@ dotenv.config();
     AuthService,
     LocalStrategy,
     JwtStrategy,
-    UserService
+    UserService,
   ],
-  exports: [AuthService]
+  exports: [AuthService],
 })
 export class AuthModule {}
