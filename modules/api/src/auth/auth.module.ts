@@ -4,9 +4,12 @@ import { AuthService } from './services/auth.service';
 import { UserModule } from '../user/user.module';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies/local.strategy';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { JwtModule } from '@nestjs/jwt';
 import { UserService } from '../user/services/user.service';
 
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 @Module({
   imports: [
@@ -19,8 +22,8 @@ import { UserService } from '../user/services/user.service';
   ],
   providers: [
     AuthService,
-    // JwtService,
     LocalStrategy,
+    JwtStrategy,
     UserService
   ],
   exports: [AuthService]
