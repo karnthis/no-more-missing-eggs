@@ -7,6 +7,8 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { UserService } from '../user/services/user.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from '../user/entities/user.entity';
 
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -15,10 +17,11 @@ dotenv.config();
   imports: [
     JwtModule.register({
       secret: process.env.JWTSECRET,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '1d' },
     }),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    TypeOrmModule.forFeature([User]),
     UserModule,
-    PassportModule,
   ],
   providers: [
     AuthService,
