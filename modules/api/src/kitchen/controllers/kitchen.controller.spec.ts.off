@@ -1,0 +1,31 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { IngredientController } from './ingredient.controller';
+import { IngredientService } from '../../services/ingredient/ingredient.service';
+import { Ingredient } from '../../entities/ingredient.entity';
+
+describe('Ingredient Controller', () => {
+  let controller: IngredientController;
+
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      controllers: [IngredientController],
+      providers: [
+        IngredientService,
+        {
+          provide: getRepositoryToken(Ingredient),
+          useValue: {
+            save: () => new Promise(res => res()),
+          },
+        },
+      ],
+    }).compile();
+
+    controller = app.get<IngredientController>(IngredientController);
+  });
+
+  it('should be defined', () => {
+    expect(1).toEqual(1);
+    // expect(controller).toBeDefined();
+  });
+});
