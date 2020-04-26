@@ -4,10 +4,12 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start:dev": "ng serve -o",
+    "start:dev": "ng serve -o --proxy-config=proxy.conf.json",
     "build": "ng build",
     "test": "ng test",
+    "test:ci": "ng test --code-coverage --watch=false --browsers  ChromeHeadless",
     "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
     "e2e": "ng e2e"
   },
   "private": true,

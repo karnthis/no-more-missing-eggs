@@ -2,11 +2,21 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "bootstrap": "npm i lerna && lerna bootstrap",
+    "bootstrap": "npm i && lerna bootstrap",
     "start": "lerna run start",
-    "start:dev": "lerna run start:dev"
+    "start:dev": "lerna run start:dev",
+    "test": "lerna run test:ci",
+    "lint": "lerna run lint",
+    "lint:fix": "lerna run lint:fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint:fix",
+      "pre-push": "npm run test"
+    }
   },
   "devDependencies": {
+    "husky": "^4.2.5",
     "lerna": "^3.20.2"
   }
 }

@@ -7,7 +7,7 @@ import { Kitchen } from '../entities/kitchen.entity';
 export class KitchenService {
   constructor(@InjectRepository(Kitchen) private readonly kitchenRepository: Repository<Kitchen>) {}
 
-  //TODO superadmin only
+  // TODO superadmin only
   findAll(): Promise<Kitchen[]> {
     return this.kitchenRepository.find();
   }
