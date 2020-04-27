@@ -1,0 +1,17 @@
+version: "3"
+
+networks:
+  main-net:
+
+services:
+
+  db:
+    image: postgres:latest
+    container_name: "postgres-main"
+    restart: always
+    ports:
+      - 5432:5432
+    networks:
+      - main-net
+    environment:
+      POSTGRES_PASSWORD: 'postgres'
