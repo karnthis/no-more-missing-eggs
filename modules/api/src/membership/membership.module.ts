@@ -7,7 +7,6 @@ import { Membership } from './entities/membership.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Membership])],
   providers: [MembershipService],
-  controllers: [],
   exports: [MembershipService],
 })
 export class MembershipModule {}
