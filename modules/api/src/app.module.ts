@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 
 import * as dotenv from 'dotenv';
+import {KitchenModule} from './kitchen/kitchen.module';
 dotenv.config();
 
 const { PGUSER, PGPASSWORD, PGDB, PGPORT, PGHOST } = process.env;
@@ -25,6 +26,7 @@ const { PGUSER, PGPASSWORD, PGDB, PGPORT, PGHOST } = process.env;
     }),
     AuthModule,
     UserModule,
+    KitchenModule,
 
   ],
   controllers: [AppController],

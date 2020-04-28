@@ -8,10 +8,7 @@ export class Kitchen {
   @Column('int')
   ownerId: number;
 
-  @Column('int')
-  memberId: number;
-
-  @Column('int')
-  pantryId: number;
+  @Column({ length: 50 })
+  name: string;
 
 }
