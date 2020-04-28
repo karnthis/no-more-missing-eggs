@@ -8,9 +8,9 @@ import { User } from './user/entities/user.entity';
 
 import * as dotenv from 'dotenv';
 import {KitchenModule} from './kitchen/kitchen.module';
-import {Kitchen} from "./kitchen/entities/kitchen.entity";
-import {Membership} from "./membership/entities/membership.entity";
-import {MembershipModule} from "./membership/membership.module";
+import {Kitchen} from './kitchen/entities/kitchen.entity';
+import {Membership} from './membership/entities/membership.entity';
+import {MembershipModule} from './membership/membership.module';
 dotenv.config();
 
 const { PGUSER, PGPASSWORD, PGDB, PGPORT, PGHOST } = process.env;
