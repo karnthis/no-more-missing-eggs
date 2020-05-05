@@ -11,7 +11,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/api/src/main",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "lint:fix": "tslint -p tsconfig.json -c tslint.json --fix",
     "test": "jest",
@@ -27,7 +27,7 @@
     "@nestjs/jwt": "^7.0.0",
     "@nestjs/passport": "^7.0.0",
     "@nestjs/platform-express": "^6.7.2",
-    "@nestjs/swagger": "github:nestjs/swagger",
+    "@nestjs/swagger": "^4.5.4",
     "@nestjs/typeorm": "^7.0.0",
     "bcrypt": "^4.0.1",
     "dotenv": "^8.2.0",
@@ -38,6 +38,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.3",
+    "swagger-ui-express": "^4.1.4",
     "typeorm": "^0.2.24"
   },
   "devDependencies": {

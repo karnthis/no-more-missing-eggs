@@ -4,25 +4,29 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Membership } from '../entities/membership.entity';
-import {INewMembership} from '../interfaces/newMembership.interface';
+import {Kitchen} from '../../kitchen/entities/kitchen.entity';
+import {User} from '../../user/entities/user.entity';
+import {MembershipDto} from '../../dto/membership/membership.dto';
 
 @Injectable()
 export class MembershipService {
 
-  constructor(@InjectRepository(Membership) private readonly membershipRepository: Repository<Membership>) {}
+  constructor(
+      @InjectRepository(Membership) private readonly membershipRepository: Repository<Membership>,
+      @InjectRepository(Kitchen) private readonly kitchenRepository: Repository<Kitchen>,
+      @InjectRepository(User) private readonly userRepository: Repository<User>,
+  ) {}
 
-  async findUserMemberships(memberId: number): Promise<Membership[]> {
-    return this.membershipRepository.find({where: {memberId}});
-  }
+  async saveNew(userId: number, kitchenId: number, createMembership: MembershipDto) {
 
-  async findMembershipUsers(kitchenId: number): Promise<Membership[]> {
-    return this.membershipRepository.find({where: {kitchenId}});
-  }
+    const myUserDetails: User = await this.userRepository.findOne(userId);
+    const myKitchenDetails: Kitchen = await this.kitchenRepository.findOne(kitchenId);
 
-  async saveNewMembership(createMembership: INewMembership): Promise<Membership> {
-    const tmp = new Membership();
-    const membershipToSave = {...tmp, ...createMembership};
-    return await this.membershipRepository.save(membershipToSave);
-    // .catch(err => ({error: err}));
+    const addedMembership = {...new Membership(), ...createMembership};
+    addedMembership.user = myUserDetails;
+    addedMembership.kitchen = myKitchenDetails;
+
+    const membership: Membership = await this.membershipRepository.save(addedMembership);
+    return membership;
   }
 }

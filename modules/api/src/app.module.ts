@@ -5,12 +5,14 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
-
-import * as dotenv from 'dotenv';
 import {KitchenModule} from './kitchen/kitchen.module';
 import {Kitchen} from './kitchen/entities/kitchen.entity';
 import {Membership} from './membership/entities/membership.entity';
 import {MembershipModule} from './membership/membership.module';
+import {Item} from './item/entities/item.entity';
+import {ItemModule} from './item/item.module';
+
+import * as dotenv from 'dotenv';
 dotenv.config();
 
 const { PGUSER, PGPASSWORD, PGDB, PGPORT, PGHOST } = process.env;
@@ -25,6 +27,7 @@ const { PGUSER, PGPASSWORD, PGDB, PGPORT, PGHOST } = process.env;
       password: PGPASSWORD,
       database: PGDB,
       entities: [
+        Item,
         User,
         Kitchen,
         Membership,
@@ -32,6 +35,7 @@ const { PGUSER, PGPASSWORD, PGDB, PGPORT, PGHOST } = process.env;
       synchronize: true,
     }),
     AuthModule,
+    ItemModule,
     UserModule,
     KitchenModule,
     MembershipModule,

@@ -2,46 +2,60 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Kitchen } from '../entities/kitchen.entity';
-import {INewKitchen} from '../interfaces/newKitchen.interface';
+import {Membership} from '../../membership/entities/membership.entity';
+import {User} from '../../user/entities/user.entity';
+import {MembershipDto} from '../../dto/membership/membership.dto';
+import {CreateKitchenDto} from '../../dto/kitchen/create-kitchen.dto';
 
 @Injectable()
 export class KitchenService {
   constructor(
-      @InjectRepository(Kitchen) private readonly kitchenRepository: Repository<Kitchen>) {}
+      @InjectRepository(Kitchen) private readonly kitchenRepository: Repository<Kitchen>,
+      @InjectRepository(Membership) private readonly membershipRepository: Repository<Membership>,
+      @InjectRepository(User) private readonly userRepository: Repository<User>) {}
 
-  async saveNewKitchen(createKitchen: INewKitchen): Promise<Kitchen> {
-    const tmp = new Kitchen();
-    const kitchenToSave = {...tmp, ...createKitchen};
-    return await this.kitchenRepository.save(kitchenToSave);
-    // .catch(err => ({error: err}));
+  async saveNewKitchen(userId: number, createKitchen: CreateKitchenDto, createMembership: MembershipDto) {
+
+    const myUserDetails = await this.userRepository.findOne(userId);
+
+    const addKitchen = {...new Kitchen(), ...createKitchen};
+    const savedKitchen = await this.kitchenRepository.save(addKitchen);
+
+    const addMembership = {...new Membership(), ...createMembership};
+    addMembership.user = myUserDetails;
+    addMembership.kitchen = savedKitchen;
+
+    return this.membershipRepository.save(addMembership);
   }
 
   // TODO superadmin only
-  // findAll(): Promise<Kitchen[]> {
-  //   return this.kitchenRepository.find();
-  // }
-
-  // findSome(owner): Promise<Kitchen[]> {
-  //   return this.kitchenRepository.find({ where: { owner } });
-  // }
-
-  findOne(id) {
-    return 'thingy';
-    // return this.kitchenRepository.findOne(id);
+  async findAll(): Promise<Kitchen[]> {
+    return await this.kitchenRepository
+        .createQueryBuilder('k')
+        .leftJoinAndSelect('k.membership', 'kmembers')
+        .leftJoinAndSelect('kmembers.user', 'user')
+        .getMany();
   }
 
-  // saveNew(ingr) {
-  //   return this.kitchenRepository.save(ingr);
-  // }
+  async findOne(id): Promise<Kitchen|undefined> {
+    return await this.kitchenRepository
+        .createQueryBuilder('k')
+        .leftJoinAndSelect('k.membership', 'kmembers')
+        .leftJoinAndSelect('kmembers.user', 'user')
+        .leftJoinAndSelect('k.item', 'items')
+        .where('k.id = :id', { id })
+        .getOne();
+  }
 
-  // async saveUpdate(id, ingr) {
-  //   const fromDb = await this.kitchenRepository.findOne(id);
-  //   const toUpdate = { ...fromDb, ingr };
-  //   return await this.kitchenRepository.save(toUpdate);
-  // }
+  async saveUpdate(id, replacement): Promise<Kitchen> {
+    const oldKitchen = await this.kitchenRepository.findOne(id);
+    const kitchenToSave = {...oldKitchen, ...replacement};
+    return await this.kitchenRepository.save(kitchenToSave);
+  }
 
-  // async delete(id) {
-  //   const toRemove = await this.kitchenRepository.findOne(id);
-  //   return await this.kitchenRepository.remove(toRemove);
-  // }
+  async addRelation(id, relation): Promise<Kitchen> {
+    const oldKitchen = await this.kitchenRepository.findOne(id);
+    oldKitchen.membership = [...oldKitchen.membership, relation];
+    return await this.kitchenRepository.save(oldKitchen);
+  }
 }

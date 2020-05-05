@@ -28,6 +28,11 @@
     "interface-name": [
       false
     ],
+    "indent": [
+      true,
+      "spaces",
+      2
+    ],
     "arrow-parens": false,
     "object-literal-sort-keys": false
   },
