@@ -10,14 +10,23 @@ export class UserService {
 
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
 
+  async findOneLogin(username: string): Promise<User | undefined> {
+    return await this.userRepository
+        .createQueryBuilder('u')
+        .addSelect('u.password')
+        .where('u.username = :user', {user: username})
+        .getOne();
+  }
+
   async findOne(username: string): Promise<User | undefined> {
-    return this.userRepository.findOne({username});
+    return this.userRepository
+        .createQueryBuilder('u')
+        .where('u.username = :user', {user: username})
+        .getOne();
   }
 
   async saveNew(createUser) {
-    const tmp = new User();
-    const userToSave = {...tmp, ...createUser};
-    // console.dir(userToSave)
+    const userToSave = {...new User(), ...createUser};
 
     const result = await this.userRepository.save(userToSave)
     .catch(err => ({error: err}));

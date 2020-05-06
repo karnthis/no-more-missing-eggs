@@ -5,6 +5,12 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
+import {KitchenModule} from './kitchen/kitchen.module';
+import {Kitchen} from './kitchen/entities/kitchen.entity';
+import {Membership} from './membership/entities/membership.entity';
+import {MembershipModule} from './membership/membership.module';
+import {Item} from './item/entities/item.entity';
+import {ItemModule} from './item/item.module';
 
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -20,12 +26,19 @@ const { PGUSER, PGPASSWORD, PGDB, PGPORT, PGHOST } = process.env;
       username: PGUSER,
       password: PGPASSWORD,
       database: PGDB,
-      entities: [User],
+      entities: [
+        Item,
+        User,
+        Kitchen,
+        Membership,
+      ],
       synchronize: true,
     }),
     AuthModule,
+    ItemModule,
     UserModule,
-
+    KitchenModule,
+    MembershipModule,
   ],
   controllers: [AppController],
   providers: [

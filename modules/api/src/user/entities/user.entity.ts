@@ -1,4 +1,5 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import {Column, Entity, Index, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {Membership} from '../../membership/entities/membership.entity';
 
 @Entity()
 export class User {
@@ -15,7 +16,7 @@ export class User {
   @Column({ length: 50, nullable: false, unique: true })
   username: string;
 
-  @Column({ length: 100, nullable: false })
+  @Column({ length: 100, nullable: false, select: false })
   password: string;
 
   @Column({ length: 100, nullable: false })
@@ -23,5 +24,8 @@ export class User {
 
   @Column({ length: 10, nullable: false })
   status: string;
+
+  @OneToMany(type => Membership, membership => membership.user)
+  public membership: Membership[];
 
 }

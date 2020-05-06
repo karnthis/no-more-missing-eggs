@@ -1,39 +1,44 @@
-import { Controller, Get, Post, Put, Param, Body, Delete } from '@nestjs/common';
-import { KitchenService } from '../services/kitchen.service';
+import {Body, Controller, Get, Param, Post, Put, Request, UseGuards} from '@nestjs/common';
+import {KitchenService} from '../services/kitchen.service';
+import {JwtAuthGuard} from '../../auth/guards/jwt-auth.guard';
+import {CreateKitchenDto} from '../../dto/kitchen/create-kitchen.dto';
+import {MembershipDto} from '../../dto/membership/membership.dto';
 
-@Controller('ingredient')
+@Controller('kitchen')
 export class KitchenController {
-  constructor(private readonly kitchenService: KitchenService) {}
+    constructor(
+        private readonly kitchenService: KitchenService,
+    ) {}
 
-  // TODO do we need this?
-  @Get()
-  getAll() {
-    return this.kitchenService.findAll();
-  }
+    @UseGuards(JwtAuthGuard)
+    @Post()
+    async saveNew(
+        @Request() req,
+        @Body() createKitchenDTO: CreateKitchenDto,
+    ) {
+        const membershipToMake: MembershipDto = {
+            role: 'Owner',
+        };
+        return await this.kitchenService.saveNewKitchen(req.user.sub.id, createKitchenDTO, membershipToMake);
 
-  // @Post()
-  // saveNew(@Body() createIngredientDto: CreateIngredientDto) {
-  //   this.kitchenService.saveNew(createIngredientDto);
-  //   return 'done';
-  // }
+    }
 
-  @Get('one/:id')
-  getOne(@Param('id') id: string) {
-    return this.kitchenService.findOne(id);
-  }
+    // TODO do we need this?
+    @UseGuards(JwtAuthGuard)
+    @Get()
+    getAll() {
+        return 'hello from kitchen';
+    }
 
-  // @Put('one/:id')
-  // updateExisting(@Param('id') id: string, @Body() updateIngredientDto: UpdateIngredientDto) {
-  //   return this.kitchenService.saveUpdate(id, updateIngredientDto);
-  // }
+    @Get(':id')
+    async getOne(@Param('id') id: string) {
+        return await this.kitchenService.findOne(id);
+    }
 
-  @Delete('one/:id')
-  deleteOne(@Param('id') id: string) {
-    return this.kitchenService.delete(id);
-  }
+    @UseGuards(JwtAuthGuard)
+    @Put(':id')
+    async UpdateKitchen(@Request() req, @Param('id') id: string) {
+        return await this.kitchenService.saveUpdate(id, req.body);
+    }
 
-  @Get(':owner')
-  getMine(@Param('owner') owner: string) {
-    return this.kitchenService.findSome(owner);
-  }
 }
