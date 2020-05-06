@@ -12,9 +12,9 @@ export class MembershipController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async createMembership(
-      @Body() {userId, kitchenId, membership}: CreateMembershipDto,
+      @Body() createMembershipDto: CreateMembershipDto,
   ) {
-    return await this.membershipService.saveNew(userId, kitchenId, membership);
+    return await this.membershipService.saveNew(createMembershipDto);
 }
 
   // TODO do we need this?

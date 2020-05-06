@@ -7,6 +7,7 @@ import { Membership } from '../entities/membership.entity';
 import {Kitchen} from '../../kitchen/entities/kitchen.entity';
 import {User} from '../../user/entities/user.entity';
 import {MembershipDto} from '../../dto/membership/membership.dto';
+import {CreateMembershipDto} from '../../dto/membership/create-membership.dto';
 
 @Injectable()
 export class MembershipService {
@@ -17,16 +18,16 @@ export class MembershipService {
       @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
-  async saveNew(userId: number, kitchenId: number, createMembership: MembershipDto) {
-
+  async saveNew(createMembershipDto: CreateMembershipDto) {
+    const {userId, kitchenId, membership} = createMembershipDto;
     const myUserDetails: User = await this.userRepository.findOne(userId);
     const myKitchenDetails: Kitchen = await this.kitchenRepository.findOne(kitchenId);
 
-    const addedMembership = {...new Membership(), ...createMembership};
+    const addedMembership = {...new Membership(), ...membership};
     addedMembership.user = myUserDetails;
     addedMembership.kitchen = myKitchenDetails;
 
-    const membership: Membership = await this.membershipRepository.save(addedMembership);
-    return membership;
+    const myMembership: Membership = await this.membershipRepository.save(addedMembership);
+    return myMembership;
   }
 }
