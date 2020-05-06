@@ -6,6 +6,7 @@ import { IPassportUser } from '../../user/interfaces/passportUser.interface';
 import { INewUser } from '../../user/interfaces/newUser.interface';
 
 import * as bcrypt from 'bcrypt';
+import {CreateUserDto} from '../../dto/user/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -32,12 +33,11 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign(payload),
       username: passportUser.username,
-      // id: 6,
       id: passportUser.id,
     };
   }
 
-  async signup({ body }: { body: INewUser }) {
+  async signup(body: CreateUserDto) {
     if (body.password === body.confirmPassword) {
       return bcrypt.hash(body.password, 10)
       .then((hash) => {

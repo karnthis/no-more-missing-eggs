@@ -6,7 +6,6 @@ import { Repository } from 'typeorm';
 import { Membership } from '../entities/membership.entity';
 import {Kitchen} from '../../kitchen/entities/kitchen.entity';
 import {User} from '../../user/entities/user.entity';
-import {MembershipDto} from '../../dto/membership/membership.dto';
 import {CreateMembershipDto} from '../../dto/membership/create-membership.dto';
 
 @Injectable()
@@ -27,7 +26,6 @@ export class MembershipService {
     addedMembership.user = myUserDetails;
     addedMembership.kitchen = myKitchenDetails;
 
-    const myMembership: Membership = await this.membershipRepository.save(addedMembership);
-    return myMembership;
+    return await this.membershipRepository.save(addedMembership);
   }
 }
