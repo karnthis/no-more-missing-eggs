@@ -1,6 +1,9 @@
 import {ApiProperty} from '@nestjs/swagger';
 
-export class CreateUserDto {
+export class CleanUserDto {
+
+    @ApiProperty()
+    id: number;
 
     @ApiProperty()
     firstName: string;
@@ -10,12 +13,6 @@ export class CreateUserDto {
 
     @ApiProperty()
     username: string;
-
-    @ApiProperty()
-    password: string;
-
-    @ApiProperty()
-    confirmPassword: string;
 
     @ApiProperty()
     emailAddress: string;

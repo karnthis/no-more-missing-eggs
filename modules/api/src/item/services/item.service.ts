@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {Item} from '../entities/item.entity';
 import {Kitchen} from '../../kitchen/entities/kitchen.entity';
-import {ItemDto} from '../../dto/item/item.dto';
 
 @Injectable()
 export class ItemService {
@@ -12,13 +11,12 @@ export class ItemService {
     @InjectRepository(Kitchen) private readonly kitchenRepository: Repository<Kitchen>,
   ) {}
 
-  async saveNew(kitchenId: number, createItem: ItemDto) {
-
+  async saveNew(body) {
+    const {kitchenId, item} = body;
     const myKitchenDetails: Kitchen = await this.kitchenRepository.findOne(kitchenId);
-    const addedItem = {...new Item(), ...createItem};
+    const addedItem = {...new Item(), ...item};
     addedItem.kitchen = myKitchenDetails;
 
-    const item: Item = await this.itemRepository.save(addedItem);
-    return item;
+    return await this.itemRepository.save(addedItem);
   }
 }

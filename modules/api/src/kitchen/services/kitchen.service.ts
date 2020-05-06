@@ -17,10 +17,8 @@ export class KitchenService {
   async saveNewKitchen(userId: number, createKitchen: CreateKitchenDto, createMembership: MembershipDto) {
 
     const myUserDetails = await this.userRepository.findOne(userId);
-
     const addKitchen = {...new Kitchen(), ...createKitchen};
     const savedKitchen = await this.kitchenRepository.save(addKitchen);
-
     const addMembership = {...new Membership(), ...createMembership};
     addMembership.user = myUserDetails;
     addMembership.kitchen = savedKitchen;

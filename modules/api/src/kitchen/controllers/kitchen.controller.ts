@@ -3,6 +3,9 @@ import {KitchenService} from '../services/kitchen.service';
 import {JwtAuthGuard} from '../../auth/guards/jwt-auth.guard';
 import {CreateKitchenDto} from '../../dto/kitchen/create-kitchen.dto';
 import {MembershipDto} from '../../dto/membership/membership.dto';
+import {Membership} from '../../membership/entities/membership.entity';
+import {Kitchen} from '../entities/kitchen.entity';
+import {UpdateKitchenDto} from '../../dto/kitchen/update-kitchen.dto';
 
 @Controller('kitchen')
 export class KitchenController {
@@ -15,7 +18,7 @@ export class KitchenController {
     async saveNew(
         @Request() req,
         @Body() createKitchenDTO: CreateKitchenDto,
-    ) {
+    ): Promise<Membership> {
         const membershipToMake: MembershipDto = {
             role: 'Owner',
         };
@@ -31,14 +34,14 @@ export class KitchenController {
     }
 
     @Get(':id')
-    async getOne(@Param('id') id: string) {
+    async getOne(@Param('id') id: string): Promise<Kitchen|undefined> {
         return await this.kitchenService.findOne(id);
     }
 
     @UseGuards(JwtAuthGuard)
     @Put(':id')
-    async UpdateKitchen(@Request() req, @Param('id') id: string) {
-        return await this.kitchenService.saveUpdate(id, req.body);
+    async UpdateKitchen(@Body() body: UpdateKitchenDto, @Param('id') id: string): Promise<Kitchen> {
+        return await this.kitchenService.saveUpdate(id, body);
     }
 
 }
