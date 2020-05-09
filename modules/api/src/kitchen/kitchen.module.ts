@@ -14,10 +14,11 @@ import {Item} from '../item/entities/item.entity';
 @Module({
   imports: [
       TypeOrmModule.forFeature([Kitchen, Item, Membership, User]),
-      MembershipModule,
+      // MembershipModule,
       UserModule,
   ],
   controllers: [KitchenController],
   providers: [KitchenService, MembershipService, UserService],
+  exports: [KitchenService],
 })
 export class KitchenModule {}

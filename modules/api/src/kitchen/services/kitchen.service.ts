@@ -45,6 +45,13 @@ export class KitchenService {
         .getOne();
   }
 
+  async findOneDetails(id): Promise<Kitchen|undefined> {
+    return await this.kitchenRepository
+      .createQueryBuilder('k')
+      .where('k.id = :id', { id })
+      .getOne();
+  }
+
   async saveUpdate(id, replacement): Promise<Kitchen> {
     const oldKitchen = await this.kitchenRepository.findOne(id);
     const kitchenToSave = {...oldKitchen, ...replacement};
