@@ -1,10 +1,16 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
-import {Kitchen} from '../../kitchen/entities/kitchen.entity';
+import {Column, Entity, ManyToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {Category} from '../../category/entities/category.entity';
 
 @Entity()
 export class Item {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ length: 50, nullable: false })
+  name: string;
+
+  @Column({ length: 50 })
+  category: string;
 
   @Column('int')
   count: number;
@@ -15,13 +21,13 @@ export class Item {
   @Column('date')
   added: number;
 
-  @Column({ length: 50, nullable: false })
-  name: string;
+  @Column()
+  isDelete: boolean;
 
-  @Column({ length: 50 })
-  category: string;
+  // @ManyToOne(type => Kitchen, kitchen => kitchen.item)
+  // public kitchen: Kitchen;
 
-  @ManyToOne(type => Kitchen, kitchen => kitchen.item)
-  public kitchen: Kitchen;
+  @ManyToMany(type => Category)
+  categories: Category[];
 
 }
