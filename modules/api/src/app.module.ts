@@ -13,12 +13,16 @@ import {Item} from './item/entities/item.entity';
 import {ItemModule} from './item/item.module';
 
 import * as dotenv from 'dotenv';
+import {ConfigModule} from '@nestjs/config';
 dotenv.config();
 
 const { PGUSER, PGPASSWORD, PGDB, PGPORT, PGHOST } = process.env;
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      load: [],
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: PGHOST,
