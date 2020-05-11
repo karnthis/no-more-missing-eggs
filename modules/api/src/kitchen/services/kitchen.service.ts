@@ -2,28 +2,31 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Kitchen } from '../entities/kitchen.entity';
-import {Membership} from '../../membership/entities/membership.entity';
-import {User} from '../../user/entities/user.entity';
-import {MembershipDto} from '../../dto/membership/membership.dto';
 import {CreateKitchenDto} from '../../dto/kitchen/create-kitchen.dto';
+import {MembershipService} from '../../membership/services/membership.service';
+import {CreateMembershipDto} from '../../dto/membership/create-membership.dto';
 
 @Injectable()
 export class KitchenService {
   constructor(
       @InjectRepository(Kitchen) private readonly kitchenRepository: Repository<Kitchen>,
-      @InjectRepository(Membership) private readonly membershipRepository: Repository<Membership>,
-      @InjectRepository(User) private readonly userRepository: Repository<User>) {}
+      private readonly membershipService: MembershipService,
+  ) {}
 
-  async saveNewKitchen(userId: number, createKitchen: CreateKitchenDto, createMembership: MembershipDto) {
+  async saveNewKitchen(createKitchen: CreateKitchenDto) {
 
-    const myUserDetails = await this.userRepository.findOne(userId);
-    const addKitchen = {...new Kitchen(), ...createKitchen};
+    const {userId, savableKitchen, membership} = createKitchen;
+
+    const addKitchen = {...new Kitchen(), ...savableKitchen};
     const savedKitchen = await this.kitchenRepository.save(addKitchen);
-    const addMembership = {...new Membership(), ...createMembership};
-    addMembership.user = myUserDetails;
-    addMembership.kitchen = savedKitchen;
 
-    return this.membershipRepository.save(addMembership);
+    const createMembership: CreateMembershipDto = {
+      userId,
+      myKitchen: savedKitchen,
+      membership,
+    };
+
+    return this.membershipService.saveNew(createMembership);
   }
 
   // TODO superadmin only
@@ -58,6 +61,7 @@ export class KitchenService {
     return await this.kitchenRepository.save(kitchenToSave);
   }
 
+  // TODO: move this to membership
   async addRelation(id, relation): Promise<Kitchen> {
     const oldKitchen = await this.kitchenRepository.findOne(id);
     oldKitchen.membership = [...oldKitchen.membership, relation];

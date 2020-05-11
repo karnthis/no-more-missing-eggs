@@ -25,7 +25,7 @@ export class UserService {
         .getOne();
   }
 
-  async findOneId(userId: number): Promise<User | undefined> {
+  async findOneById(userId: number): Promise<User | undefined> {
     return this.userRepository
       .createQueryBuilder('u')
       .where('u.id = :user', {user: userId})
