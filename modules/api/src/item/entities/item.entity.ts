@@ -7,11 +7,11 @@ export class Item {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 50, nullable: false })
+  @Column({ length: 50 })
   name: string;
 
-  // @Column({ length: 50 })
-  // category: string;
+  @Column({type: 'int', nullable: true})
+  barcode: number;
 
   @Column('int')
   count: number;
