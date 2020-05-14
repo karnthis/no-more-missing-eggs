@@ -18,10 +18,10 @@ dotenv.config();
   imports: [
     JwtModule.register({
       secret: process.env.JWTSECRET,
-      signOptions: { expiresIn: '1d' },
+      signOptions: { expiresIn: '12h' },
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    TypeOrmModule.forFeature([User]),
+    // TypeOrmModule.forFeature([User]),
     UserModule,
   ],
   controllers: [AuthController],
@@ -29,7 +29,7 @@ dotenv.config();
     AuthService,
     LocalStrategy,
     JwtStrategy,
-    UserService,
+    // UserService,
   ],
   exports: [AuthService],
 })

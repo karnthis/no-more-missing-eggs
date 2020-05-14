@@ -4,13 +4,12 @@ import { MembershipService } from './services/membership.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Membership } from './entities/membership.entity';
 import {MembershipController} from './controllers/membership.controller';
-import {Kitchen} from '../kitchen/entities/kitchen.entity';
-import {User} from '../user/entities/user.entity';
+import {UserModule} from '../user/user.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Kitchen, Membership, User]),
-
+    TypeOrmModule.forFeature([Membership]),
+    UserModule,
   ],
   controllers: [MembershipController],
   providers: [MembershipService],

@@ -1,11 +1,11 @@
 import {Body, Controller, Get, Param, Post, Put, Request, UseGuards} from '@nestjs/common';
 import {KitchenService} from '../services/kitchen.service';
 import {JwtAuthGuard} from '../../auth/guards/jwt-auth.guard';
-import {CreateKitchenDto} from '../../dto/kitchen/create-kitchen.dto';
 import {MembershipDto} from '../../dto/membership/membership.dto';
 import {Membership} from '../../membership/entities/membership.entity';
 import {Kitchen} from '../entities/kitchen.entity';
 import {UpdateKitchenDto} from '../../dto/kitchen/update-kitchen.dto';
+import {KitchenDto} from '../../dto/kitchen/kitchen.dto';
 
 @Controller('kitchen')
 export class KitchenController {
@@ -17,12 +17,16 @@ export class KitchenController {
     @Post()
     async saveNew(
         @Request() req,
-        @Body() createKitchenDTO: CreateKitchenDto,
+        @Body() savableKitchen: KitchenDto,
     ): Promise<Membership> {
-        const membershipToMake: MembershipDto = {
+        const membership: MembershipDto = {
             role: 'Owner',
         };
-        return await this.kitchenService.saveNewKitchen(req.user.sub.id, createKitchenDTO, membershipToMake);
+        return await this.kitchenService.saveNewKitchen({
+            userId: req.user.sub.id,
+            savableKitchen,
+            membership,
+        });
 
     }
 

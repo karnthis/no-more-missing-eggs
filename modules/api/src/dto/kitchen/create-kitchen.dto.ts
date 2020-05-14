@@ -1,11 +1,16 @@
 import {ApiProperty} from '@nestjs/swagger';
+import {KitchenDto} from './kitchen.dto';
+import {MembershipDto} from '../membership/membership.dto';
 
 export class CreateKitchenDto {
 
     @ApiProperty()
-    ownerId: number;
+    userId: number;
 
     @ApiProperty()
-    name: string;
+    membership: MembershipDto;
+
+    @ApiProperty()
+    savableKitchen: KitchenDto;
 
 }
