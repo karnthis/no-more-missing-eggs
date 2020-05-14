@@ -34,13 +34,18 @@ export class UserService {
       .getOne();
   }
 
-  async saveNew(createUser): Promise<User|undefined> {
+  async saveNew(createUser): Promise<User|string> {
     const userToSave = {...new User(), ...createUser};
 
     const result = await this.userRepository.save(userToSave)
-    .catch(err => ({error: err}));
-    const {password, ...toSend} = result;
-    return toSend;
+    .catch(err => (`error: ${err}`));
+    if (typeof result === 'string') {
+      return result;
+    } else {
+      const {password, ...toSend} = result;
+      return toSend;
+    }
+
   }
 
   async updateUser(id: number, user: UpdateUserDto): Promise<User> {
