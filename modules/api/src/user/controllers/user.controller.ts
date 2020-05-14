@@ -21,7 +21,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async getOne(
-    @Param('id') username: string
+    @Param('id') username: string,
   ): Promise<User|undefined> {
     return await this.userService.findOne(username);
   }
