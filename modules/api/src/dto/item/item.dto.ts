@@ -1,4 +1,5 @@
 import {ApiProperty} from '@nestjs/swagger';
+import {Category} from '../../category/entities/category.entity';
 
 export class ItemDto {
 
@@ -15,6 +16,6 @@ export class ItemDto {
     name: string;
 
     @ApiProperty()
-    category: string;
+    category: Category[];
 
 }

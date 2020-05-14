@@ -6,6 +6,6 @@ export class KitchenDto {
     ownerId: number;
 
     @ApiProperty()
-    name: string;
+    kitchenName: string;
 
 }

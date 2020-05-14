@@ -18,12 +18,16 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req): Promise<LoginResponseDto> {
+  async login(
+    @Request() req,
+  ): Promise<LoginResponseDto> {
     return this.authService.login(req.user);
   }
 
   @Post('signup')
-  signMeUp(@Body() body: CreateUserDto): Promise<CleanUserDto> {
+  signMeUp(
+    @Body() body: CreateUserDto,
+  ): Promise<CleanUserDto|string> {
     return this.authService.signup(body);
   }
 }

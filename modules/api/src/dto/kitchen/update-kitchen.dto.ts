@@ -1,4 +1,4 @@
 import {PartialType} from '@nestjs/swagger';
-import {CreateKitchenDto} from './create-kitchen.dto';
+import {KitchenDto} from './kitchen.dto';
 
-export class UpdateKitchenDto extends PartialType(CreateKitchenDto) {}
+export class UpdateKitchenDto extends PartialType(KitchenDto) {}

@@ -1,23 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import {Item} from '../entities/category.entity';
-import {Kitchen} from '../../kitchen/entities/kitchen.entity';
+import {Category} from '../entities/category.entity';
+import {CreateCategoryDto} from '../../dto/category/create-category.dto';
+import {KitchenDto} from '../../dto/kitchen/kitchen.dto';
 
   // TODO update all of this
 @Injectable()
 export class CategoryService {
   constructor(
-    @InjectRepository(Item) private readonly itemRepository: Repository<Item>,
-    @InjectRepository(Kitchen) private readonly kitchenRepository: Repository<Kitchen>,
+    @InjectRepository(Category) private readonly categoryRepository: Repository<Category>,
   ) {}
 
-  async saveNew(body) {
-    const {kitchenId, item} = body;
-    const myKitchenDetails: Kitchen = await this.kitchenRepository.findOne(kitchenId);
-    const addedItem = {...new Item(), ...item};
-    addedItem.kitchen = myKitchenDetails;
+  async saveNew(createCategoryDto: CreateCategoryDto) {
+    const addedCategory = {...new Category(), ...createCategoryDto};
+    return await this.categoryRepository.save(addedCategory);
+  }
 
-    return await this.itemRepository.save(addedItem);
+  async saveDefaults(freshKitchen: KitchenDto) {
+    const defaultCategories: string[] = [
+      'All',
+      'Frozen',
+      'Refrigerated',
+      'Pantry',
+    ];
+    const baseCategory: CreateCategoryDto = {
+      categoryName: '',
+      kitchen: freshKitchen,
+      items: [],
+    };
+    for (const name of defaultCategories) {
+      baseCategory.categoryName = name;
+      await this.saveNew(baseCategory);
+    }
+    return true;
   }
 }

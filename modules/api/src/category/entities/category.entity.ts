@@ -8,12 +8,12 @@ export class Category {
   id: number;
 
   @Column({ length: 50, nullable: false })
-  name: string;
+  categoryName: string;
 
   @ManyToOne(type => Kitchen, kitchen => kitchen.category)
   public kitchen: Kitchen;
 
-  @ManyToMany(type => Item)
+  @ManyToMany(type => Item, item => item.categories)
   @JoinTable()
   items: Item[];
 

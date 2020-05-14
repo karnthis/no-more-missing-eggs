@@ -1,5 +1,6 @@
 import {Column, Entity, ManyToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {Category} from '../../category/entities/category.entity';
+// import {Category} from '../../category/entities/category.entity';
 
 @Entity()
 export class Item {
@@ -9,8 +10,8 @@ export class Item {
   @Column({ length: 50, nullable: false })
   name: string;
 
-  @Column({ length: 50 })
-  category: string;
+  // @Column({ length: 50 })
+  // category: string;
 
   @Column('int')
   count: number;
@@ -27,7 +28,7 @@ export class Item {
   // @ManyToOne(type => Kitchen, kitchen => kitchen.item)
   // public kitchen: Kitchen;
 
-  @ManyToMany(type => Category)
+  @ManyToMany(type => Category, category => category.items)
   categories: Category[];
 
 }

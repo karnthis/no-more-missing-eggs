@@ -12,7 +12,7 @@ export class Kitchen {
   ownerId: number;
 
   @Column({ length: 50 })
-  name: string;
+  kitchenName: string;
 
   @OneToMany(type => Membership, membership => membership.kitchen)
   public membership: Membership[];
