@@ -1,0 +1,95 @@
+<h3>Sign Up</h3>
+
+<form action="/api/auth/signup" method="post" [formGroup]="signUpForm">
+  <p class="input">
+
+  <label class="input-label" for="username"
+  >
+    Username <br>
+    <input type="username"
+           formControlName="username"
+           class="input-control"
+           name="username"
+           id="username"
+           placeholder="Username"
+           aria-labelledby="Create a username"
+    >
+  </label>
+  </p>
+
+  <p class="input">
+  <label class="input-label" for="email">
+    Email <br>
+    <input type="email"
+           formControlName="email"
+           class="input-control"
+           name="email"
+           id="email"
+           placeholder="Email@email.com"
+           aria-labelledby="Enter an email address"
+           [ngClass]="{'input-error': signUpForm.get('email').errors}"
+    >
+  </label>
+  </p>
+
+  <p class="input">
+
+  <label class="input-label" for="confirm-email">
+    Confirm Email <br>
+    <input type="email"
+           formControlName="confirmEmail"
+           class="input-control"
+           name="confirm-email"
+           id="confirm-email"
+           placeholder="Confirm@email.com"
+           aria-labelledby="Confirm your email address"
+    >
+  </label>
+  </p>
+
+  <p class="input">
+  <label class="input-label" for="password"  >
+    Password <br>
+    <input type="password"
+           formControlName="password"
+           class="input-control"
+           name="password"
+           id="password"
+           placeholder="Super Secret"
+           aria-labelledby="Create a password"
+    >
+  </label>
+  </p>
+
+  <p class="input">
+
+  <label class="input-label" for="confirm-password"
+  >
+    Confirm Password <br>
+    <input type="password"
+           formControlName="confirmPassword"
+           class="input-control"
+           name="confirm-password"
+           id="confirm-password"
+           placeholder="Super Secret"
+           aria-labelledby="Confirm you password"
+    >
+  </label>
+  </p>
+<p class="btn-group">
+  <button class="btn btn--danger"
+          type="reset"
+  >
+    Reset
+  </button>
+  <span class="flex-spacer"></span>
+  <button class="btn btn--default"
+          type="button"
+          [disabled]="!signUpForm.valid"
+          (click)="signUp()"
+  >
+    Sign Up
+  </button>
+</p>
+</form>
+<pre>{{signUpForm.errors | json}}</pre>
