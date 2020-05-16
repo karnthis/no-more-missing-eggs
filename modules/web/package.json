@@ -10,11 +10,13 @@
     "test:ci": "ng test --code-coverage --watch=false --browsers  ChromeHeadless",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "ngcc"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~9.1.7",
+    "@angular/cdk": "^9.2.3",
     "@angular/common": "~9.1.7",
     "@angular/compiler": "~9.1.7",
     "@angular/core": "~9.1.7",
