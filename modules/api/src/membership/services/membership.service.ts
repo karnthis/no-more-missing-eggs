@@ -7,6 +7,8 @@ import { Membership } from '../entities/membership.entity';
 import {User} from '../../user/entities/user.entity';
 import {CreateMembershipDto} from '../../dto/membership/create-membership.dto';
 import {UserService} from '../../user/services/user.service';
+import {UpdateMembershipDto} from '../../dto/membership/update-membership.dto';
+import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
 
 @Injectable()
 export class MembershipService {
@@ -16,7 +18,8 @@ export class MembershipService {
       private readonly userService: UserService,
   ) {}
 
-  async saveNew(createMembershipDto: CreateMembershipDto) {
+  // Used on Kitchen creation and to add new relations
+  async saveNew(createMembershipDto: CreateMembershipDto): Promise<Membership> {
     const {userId, myKitchen, membership} = createMembershipDto;
     const myUserDetails: User = await this.userService.findOneById(userId);
 
@@ -25,5 +28,18 @@ export class MembershipService {
     addedMembership.kitchen = myKitchen;
 
     return await this.membershipRepository.save(addedMembership);
+  }
+
+  async update(id: number, updateMembership: UpdateMembershipDto): Promise<Membership> {
+    await this.membershipRepository.update(id, updateMembership);
+    return this.membershipRepository.findOne(id);
+  }
+
+  async getOne(id: number): Promise<Membership|undefined> {
+    return await this.membershipRepository.findOne(id);
+  }
+
+  async deleteOne(id: number): Promise<DeleteResultsDto> {
+    return await this.membershipRepository.delete(id);
   }
 }

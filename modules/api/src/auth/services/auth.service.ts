@@ -45,15 +45,13 @@ export class AuthService {
         bodyToSave.password = hash;
         return this.userService.saveNew(bodyToSave)
         .catch(err => {
-          return {error: err};
+          return `error: ${err}`;
         });
       })
       .catch(err => {
-        return {error: err};
+        return `error: ${err}`;
       });
     }
-    return {
-      sub: 'Passwords do not match',
-    };
+    return 'error: Passwords do not match';
   }
 }

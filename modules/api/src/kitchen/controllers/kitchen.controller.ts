@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post, Put, Request, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, Request, UseGuards} from '@nestjs/common';
 import {KitchenService} from '../services/kitchen.service';
 import {JwtAuthGuard} from '../../auth/guards/jwt-auth.guard';
 import {MembershipDto} from '../../dto/membership/membership.dto';
@@ -6,6 +6,7 @@ import {Membership} from '../../membership/entities/membership.entity';
 import {Kitchen} from '../entities/kitchen.entity';
 import {UpdateKitchenDto} from '../../dto/kitchen/update-kitchen.dto';
 import {KitchenDto} from '../../dto/kitchen/kitchen.dto';
+import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
 
 @Controller('kitchen')
 export class KitchenController {
@@ -18,7 +19,7 @@ export class KitchenController {
     async saveNew(
         @Request() req,
         @Body() savableKitchen: KitchenDto,
-    ): Promise<Membership> {
+    ): Promise<Kitchen> {
         const membership: MembershipDto = {
             role: 'Owner',
         };
@@ -27,7 +28,6 @@ export class KitchenController {
             savableKitchen,
             membership,
         });
-
     }
 
     // TODO do we need this?
@@ -37,15 +37,29 @@ export class KitchenController {
         return 'hello from kitchen';
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
-    async getOne(@Param('id') id: string): Promise<Kitchen|undefined> {
-        return await this.kitchenService.findOne(id);
+    async getOne(
+      @Param('id') id: number,
+    ): Promise<Kitchen|undefined> {
+        return await this.kitchenService.findOneExpanded(id);
     }
 
     @UseGuards(JwtAuthGuard)
     @Put(':id')
-    async UpdateKitchen(@Body() body: UpdateKitchenDto, @Param('id') id: string): Promise<Kitchen> {
+    async updateKitchen(
+      @Param('id') id: number,
+      @Body() body: UpdateKitchenDto,
+    ): Promise<Kitchen> {
         return await this.kitchenService.saveUpdate(id, body);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete(':id')
+    async deleteKitchen(
+      @Param('id') id: number,
+    ): Promise<DeleteResultsDto> {
+        return await this.kitchenService.delete(id);
     }
 
 }

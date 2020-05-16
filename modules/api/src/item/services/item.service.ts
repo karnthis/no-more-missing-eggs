@@ -2,21 +2,33 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {Item} from '../entities/item.entity';
-import {Kitchen} from '../../kitchen/entities/kitchen.entity';
+import {ItemDto} from '../../dto/item/item.dto';
+import {UpdateItemDto} from '../../dto/item/update-item.dto';
+import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
 
 @Injectable()
 export class ItemService {
   constructor(
     @InjectRepository(Item) private readonly itemRepository: Repository<Item>,
-    @InjectRepository(Kitchen) private readonly kitchenRepository: Repository<Kitchen>,
   ) {}
 
-  async saveNew(body) {
-    const {kitchenId, item} = body;
-    const myKitchenDetails: Kitchen = await this.kitchenRepository.findOne(kitchenId);
-    const addedItem = {...new Item(), ...item};
-    addedItem.kitchen = myKitchenDetails;
-
-    return await this.itemRepository.save(addedItem);
+  async saveNew(item: ItemDto): Promise<Item> {
+    const creatableItem = {...new Item(), ...item};
+    return this.itemRepository.save(creatableItem);
   }
+
+  async getOne(id: number): Promise<Item|undefined> {
+    return this.itemRepository.findOne(id);
+  }
+
+  async updateItem(id: number, updateItem: UpdateItemDto): Promise<Item> {
+    const {added, ...updatableItem} = updateItem;
+    await this.itemRepository.update(id, updatableItem);
+    return this.itemRepository.findOne(id);
+  }
+
+  async deleteItem(id: number): Promise<DeleteResultsDto> {
+    return this.itemRepository.delete(id);
+  }
+
 }

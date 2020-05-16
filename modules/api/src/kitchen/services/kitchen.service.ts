@@ -5,18 +5,21 @@ import { Kitchen } from '../entities/kitchen.entity';
 import {CreateKitchenDto} from '../../dto/kitchen/create-kitchen.dto';
 import {MembershipService} from '../../membership/services/membership.service';
 import {CreateMembershipDto} from '../../dto/membership/create-membership.dto';
+import {CategoryService} from '../../category/services/category.service';
+import {UpdateKitchenDto} from '../../dto/kitchen/update-kitchen.dto';
+import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
 
 @Injectable()
 export class KitchenService {
   constructor(
       @InjectRepository(Kitchen) private readonly kitchenRepository: Repository<Kitchen>,
       private readonly membershipService: MembershipService,
+      private readonly categoryService: CategoryService,
   ) {}
 
   async saveNewKitchen(createKitchen: CreateKitchenDto) {
 
     const {userId, savableKitchen, membership} = createKitchen;
-
     const addKitchen = {...new Kitchen(), ...savableKitchen};
     const savedKitchen = await this.kitchenRepository.save(addKitchen);
 
@@ -26,7 +29,10 @@ export class KitchenService {
       membership,
     };
 
-    return this.membershipService.saveNew(createMembership);
+    await this.membershipService.saveNew(createMembership);
+    await this.categoryService.saveDefaults(savedKitchen);
+
+    return this.findOneExpanded(savedKitchen.id);
   }
 
   // TODO superadmin only
@@ -38,33 +44,27 @@ export class KitchenService {
         .getMany();
   }
 
-  async findOne(id): Promise<Kitchen|undefined> {
+  async findOneExpanded(id): Promise<Kitchen|undefined> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
         .leftJoinAndSelect('k.membership', 'kmembers')
         .leftJoinAndSelect('kmembers.user', 'user')
-        .leftJoinAndSelect('k.item', 'items')
+        .leftJoinAndSelect('k.category', 'category')
         .where('k.id = :id', { id })
         .getOne();
   }
 
-  async findOneDetails(id): Promise<Kitchen|undefined> {
-    return await this.kitchenRepository
-      .createQueryBuilder('k')
-      .where('k.id = :id', { id })
-      .getOne();
+  async findOneFocused(id): Promise<Kitchen|undefined> {
+    return this.kitchenRepository.findOne(id);
   }
 
-  async saveUpdate(id, replacement): Promise<Kitchen> {
-    const oldKitchen = await this.kitchenRepository.findOne(id);
-    const kitchenToSave = {...oldKitchen, ...replacement};
-    return await this.kitchenRepository.save(kitchenToSave);
+  async saveUpdate(id: number, replacement: UpdateKitchenDto): Promise<Kitchen|undefined> {
+    await this.kitchenRepository.update(id, replacement);
+    return this.kitchenRepository.findOne(id);
   }
 
-  // TODO: move this to membership
-  async addRelation(id, relation): Promise<Kitchen> {
-    const oldKitchen = await this.kitchenRepository.findOne(id);
-    oldKitchen.membership = [...oldKitchen.membership, relation];
-    return await this.kitchenRepository.save(oldKitchen);
+  async delete(id: number): Promise<DeleteResultsDto> {
+    return this.kitchenRepository.delete(id);
   }
+
 }

@@ -11,14 +11,21 @@ import {Membership} from './membership/entities/membership.entity';
 import {MembershipModule} from './membership/membership.module';
 import {Item} from './item/entities/item.entity';
 import {ItemModule} from './item/item.module';
+import config from './config';
 
 import * as dotenv from 'dotenv';
+import {ConfigModule} from '@nestjs/config';
+import {Category} from './category/entities/category.entity';
+import {CategoryModule} from './category/category.module';
 dotenv.config();
 
 const { PGUSER, PGPASSWORD, PGDB, PGPORT, PGHOST } = process.env;
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      load: [config],
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: PGHOST,
@@ -30,6 +37,7 @@ const { PGUSER, PGPASSWORD, PGDB, PGPORT, PGHOST } = process.env;
         Item,
         User,
         Kitchen,
+        Category,
         Membership,
       ],
       synchronize: true,
@@ -38,6 +46,7 @@ const { PGUSER, PGPASSWORD, PGDB, PGPORT, PGHOST } = process.env;
     ItemModule,
     UserModule,
     KitchenModule,
+    CategoryModule,
     MembershipModule,
   ],
   controllers: [AppController],

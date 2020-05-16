@@ -1,6 +1,7 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {Membership} from '../../membership/entities/membership.entity';
 import {Item} from '../../item/entities/item.entity';
+import {Category} from '../../category/entities/category.entity';
 
 @Entity()
 export class Kitchen {
@@ -11,12 +12,15 @@ export class Kitchen {
   ownerId: number;
 
   @Column({ length: 50 })
-  name: string;
+  kitchenName: string;
 
   @OneToMany(type => Membership, membership => membership.kitchen)
   public membership: Membership[];
 
-  @OneToMany(type => Item, kItem => kItem.kitchen)
-  public item: Item[];
+  @OneToMany(type => Category, category => category.kitchen)
+  public category: Category[];
+
+  // @OneToMany(type => Item, item => item.kitchen)
+  // public item: Item[];
 
 }
