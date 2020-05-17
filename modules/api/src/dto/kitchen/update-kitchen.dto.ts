@@ -1,4 +1,11 @@
-import {PartialType} from '@nestjs/swagger';
-import {KitchenDto} from './kitchen.dto';
+import {ApiProperty} from '@nestjs/swagger';
+import {IsNotEmpty, IsOptional} from 'class-validator';
 
-export class UpdateKitchenDto extends PartialType(KitchenDto) {}
+export class UpdateKitchenDto {
+
+  @ApiProperty()
+  @IsNotEmpty()
+  // @IsOptional()
+  kitchenName: string;
+
+}
