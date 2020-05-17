@@ -1,4 +1,4 @@
-import {Controller, UseGuards, Get, Param, Put, Body, Delete} from '@nestjs/common';
+import {Controller, UseGuards, Get, Param, Put, Body, Delete, HttpException, HttpStatus} from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import {UserService} from '../../user/services/user.service';
 import {User} from '../entities/user.entity';
@@ -21,18 +21,34 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async getOne(
-    @Param('id') username: string,
-  ): Promise<User|undefined> {
-    return await this.userService.findOne(username);
+    @Param('id') id: number,
+  ): Promise<User> {
+    const user = await this.userService.findOneById(id);
+    if (user) {
+      return user;
+    } else {
+      throw new HttpException({
+        statusCode: HttpStatus.NOT_FOUND,
+        error: 'No User Found',
+      }, HttpStatus.NOT_FOUND);
+    }
   }
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
-  updateOne(
+  async updateOne(
     @Param('id') id: number,
     @Body() userInfo: UpdateUserDto,
   ): Promise<User> {
-    return this.userService.updateUser(id, userInfo);
+    const user = await this.userService.updateUser(id, userInfo);
+    if (user) {
+      return user;
+    } else {
+      throw new HttpException({
+        statusCode: HttpStatus.NOT_FOUND,
+        error: 'No User Found to Update',
+      }, HttpStatus.NOT_FOUND);
+    }
   }
 
   @UseGuards(JwtAuthGuard)

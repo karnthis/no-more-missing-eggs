@@ -1,4 +1,4 @@
-import {Controller, UseGuards, Get, Post, Body, Put, Param, Delete} from '@nestjs/common';
+import {Controller, UseGuards, Get, Post, Body, Put, Param, Delete, HttpException, HttpStatus} from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import {MembershipService} from '../services/membership.service';
 import {CreateMembershipDto} from '../../dto/membership/create-membership.dto';
@@ -28,20 +28,36 @@ export class MembershipController {
   // }
 
   @UseGuards(JwtAuthGuard)
-  @Put('/:id')
-  updateOne(
+  @Get('/:id')
+  async getOne(
     @Param() id: number,
-    @Body() updateMembership: UpdateMembershipDto,
   ): Promise<Membership> {
-    return this.membershipService.update(id, updateMembership);
+    const membership = await this.membershipService.getOne(id);
+    if (membership) {
+      return membership;
+    } else {
+      throw new HttpException({
+        statusCode: HttpStatus.NOT_FOUND,
+        error: 'No Membership Found',
+      }, HttpStatus.NOT_FOUND);
+    }
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('/:id')
-  getOne(
+  @Put('/:id')
+  async updateOne(
     @Param() id: number,
-  ): Promise<Membership|undefined> {
-    return this.membershipService.getOne(id);
+    @Body() updateMembership: UpdateMembershipDto,
+  ): Promise<Membership> {
+    const membership = await this.membershipService.update(id, updateMembership);
+    if (membership) {
+      return membership;
+    } else {
+      throw new HttpException({
+        statusCode: HttpStatus.NOT_FOUND,
+        error: 'No Membership Found to Update',
+      }, HttpStatus.NOT_FOUND);
+    }
   }
 
   @UseGuards(JwtAuthGuard)

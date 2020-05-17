@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Request, Get, Post, Put, Param, Body, Delete } from '@nestjs/common';
+import {Controller, UseGuards, Request, Get, Post, Put, Param, Body, Delete, HttpException, HttpStatus} from '@nestjs/common';
 import { ItemService } from '../services/item.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import {CreateItemDto} from '../../dto/item/create-item.dto';
@@ -23,8 +23,16 @@ export class ItemController {
   @Get(':id')
   async getOne(
     @Param('id') id: number,
-  ): Promise<Item|undefined> {
-    return this.itemService.getOne(id);
+  ): Promise<Item> {
+    const item = await this.itemService.getOne(id);
+    if (item) {
+      return item;
+    } else {
+      throw new HttpException({
+        statusCode: HttpStatus.NOT_FOUND,
+        error: 'No Item Found',
+      }, HttpStatus.NOT_FOUND);
+    }
   }
 
   @UseGuards(JwtAuthGuard)
@@ -33,7 +41,15 @@ export class ItemController {
     @Param('id') id: number,
     @Body() body: any,
   ): Promise<Item> {
-    return this.itemService.updateItem(id, body);
+    const item = await this.itemService.updateItem(id, body);
+    if (item) {
+      return item;
+    } else {
+      throw new HttpException({
+        statusCode: HttpStatus.NOT_FOUND,
+        error: 'No Item Found to Update',
+      }, HttpStatus.NOT_FOUND);
+    }
   }
 
   @UseGuards(JwtAuthGuard)

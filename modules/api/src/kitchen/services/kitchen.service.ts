@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Kitchen } from '../entities/kitchen.entity';
@@ -18,21 +18,28 @@ export class KitchenService {
   ) {}
 
   async saveNewKitchen(createKitchen: CreateKitchenDto) {
+    try {
+      const {userId, savableKitchen, membership} = createKitchen;
+      const addKitchen = {...new Kitchen(), ...savableKitchen};
+      const savedKitchen = await this.kitchenRepository.save(addKitchen);
 
-    const {userId, savableKitchen, membership} = createKitchen;
-    const addKitchen = {...new Kitchen(), ...savableKitchen};
-    const savedKitchen = await this.kitchenRepository.save(addKitchen);
+      const createMembership: CreateMembershipDto = {
+        userId,
+        myKitchen: savedKitchen,
+        membership,
+      };
 
-    const createMembership: CreateMembershipDto = {
-      userId,
-      myKitchen: savedKitchen,
-      membership,
-    };
+      await this.membershipService.saveNew(createMembership);
+      await this.categoryService.saveDefaults(savedKitchen);
 
-    await this.membershipService.saveNew(createMembership);
-    await this.categoryService.saveDefaults(savedKitchen);
+      return this.findOneExpanded(savedKitchen.id);
+    } catch (err) {
+      throw new HttpException({
+        statusCode: 400,
+        error: err,
+      }, 400);
+    }
 
-    return this.findOneExpanded(savedKitchen.id);
   }
 
   // TODO superadmin only
