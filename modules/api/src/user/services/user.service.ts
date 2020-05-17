@@ -46,8 +46,8 @@ export class UserService {
   }
 
   async updateUser(id: number, user: UpdateUserDto): Promise<User> {
-    const {password, confirmPassword, ...updatableUser} = user;
-    await this.userRepository.update(id, updatableUser);
+    // const {password, confirmPassword, ...updatablsUser} = user;
+    await this.userRepository.update(id, user);
     return this.userRepository.findOne(id);
   }
 
