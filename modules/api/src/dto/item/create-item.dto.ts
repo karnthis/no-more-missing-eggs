@@ -4,7 +4,7 @@ import {ApiProperty} from '@nestjs/swagger';
 export class CreateItemDto {
 
     @ApiProperty()
-    kitchenId: number;
+    usedCategories: number[];
 
     @ApiProperty()
     item: ItemDto;
