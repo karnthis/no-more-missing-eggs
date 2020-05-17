@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {HttpException, Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {Item} from '../entities/item.entity';
@@ -16,10 +16,17 @@ export class ItemService {
   ) {}
 
   async saveNew(createItemObject: CreateItemDto): Promise<Item> {
-    const {item, usedCategories} = createItemObject;
-    const creatableItem = {...new Item(), ...item};
-    creatableItem.categories = await this.loadCategories(usedCategories);
-    return this.itemRepository.save(creatableItem);
+    try {
+      const {item, usedCategories} = createItemObject;
+      const creatableItem = {...new Item(), ...item};
+      creatableItem.categories = await this.loadCategories(usedCategories);
+      return this.itemRepository.save(creatableItem);
+    } catch (err) {
+      throw new HttpException({
+        statusCode: 400,
+        error: err,
+      }, 400);
+    }
   }
 
   getOne(id: number): Promise<Item|undefined> {

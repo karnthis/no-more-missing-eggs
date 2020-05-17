@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, Request, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, Request, UseGuards} from '@nestjs/common';
 import {KitchenService} from '../services/kitchen.service';
 import {JwtAuthGuard} from '../../auth/guards/jwt-auth.guard';
 import {MembershipDto} from '../../dto/membership/membership.dto';
@@ -41,9 +41,19 @@ export class KitchenController {
     @Get(':id')
     async getOne(
       @Param('id') id: number,
-    ): Promise<Kitchen|undefined> {
-        return await this.kitchenService.findOneExpanded(id);
+    ): Promise<Kitchen> {
+        const foundKitchen = await this.kitchenService.findOneExpanded(id);
+        if (foundKitchen) {
+            return foundKitchen;
+        } else {
+            throw new HttpException({
+                statusCode: HttpStatus.NOT_FOUND,
+                error: 'No Kitchen Found',
+            }, HttpStatus.NOT_FOUND);
+        }
     }
+
+
 
     @UseGuards(JwtAuthGuard)
     @Put(':id')
@@ -51,7 +61,15 @@ export class KitchenController {
       @Param('id') id: number,
       @Body() body: UpdateKitchenDto,
     ): Promise<Kitchen> {
-        return await this.kitchenService.saveUpdate(id, body);
+        const kitchen = await this.kitchenService.saveUpdate(id, body);
+        if (kitchen) {
+            return kitchen;
+        } else {
+            throw new HttpException({
+                statusCode: HttpStatus.NOT_FOUND,
+                error: 'No Kitchen Found to Update',
+            }, HttpStatus.NOT_FOUND);
+        }
     }
 
     @UseGuards(JwtAuthGuard)
