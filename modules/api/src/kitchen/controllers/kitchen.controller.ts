@@ -53,8 +53,6 @@ export class KitchenController {
         }
     }
 
-
-
     @UseGuards(JwtAuthGuard)
     @Put(':id')
     async updateKitchen(
