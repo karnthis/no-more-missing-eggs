@@ -1,12 +1,12 @@
 
-import { Injectable } from '@nestjs/common';
+import {HttpException, Injectable} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../../user/services/user.service';
 import { IPassportUser } from '../../user/interfaces/passportUser.interface';
-import { INewUser } from '../../user/interfaces/newUser.interface';
 
 import * as bcrypt from 'bcrypt';
 import {CreateUserDto} from '../../dto/user/create-user.dto';
+import {CleanUserDto} from '../../dto/user/clean-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -37,21 +37,18 @@ export class AuthService {
     };
   }
 
-  async signup(body: CreateUserDto) {
+  async signup(body: CreateUserDto): Promise<CleanUserDto> {
     if (body.password === body.confirmPassword) {
       return bcrypt.hash(body.password, 10)
       .then((hash) => {
         const {confirmPassword, ...bodyToSave} = body;
         bodyToSave.password = hash;
-        return this.userService.saveNew(bodyToSave)
-        .catch(err => {
-          return `error: ${err}`;
-        });
-      })
-      .catch(err => {
-        return `error: ${err}`;
+        return this.userService.saveNew(bodyToSave);
       });
     }
-    return 'error: Passwords do not match';
+    throw new HttpException({
+      statusCode: 400,
+      error: 'Passwords Do Not Match',
+    }, 400);
   }
 }

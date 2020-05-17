@@ -1,5 +1,5 @@
 
-import { Injectable } from '@nestjs/common';
+import {HttpException, Injectable} from '@nestjs/common';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -20,23 +20,30 @@ export class MembershipService {
 
   // Used on Kitchen creation and to add new relations
   async saveNew(createMembershipDto: CreateMembershipDto): Promise<Membership> {
-    const {userId, myKitchen, membership} = createMembershipDto;
-    const myUserDetails: User = await this.userService.findOneById(userId);
+    try {
+      const {userId, myKitchen, membership} = createMembershipDto;
+      const myUserDetails: User = await this.userService.findOneById(userId);
 
-    const addedMembership = {...new Membership(), ...membership};
-    addedMembership.user = myUserDetails;
-    addedMembership.kitchen = myKitchen;
+      const addedMembership = {...new Membership(), ...membership};
+      addedMembership.user = myUserDetails;
+      addedMembership.kitchen = myKitchen;
 
-    return await this.membershipRepository.save(addedMembership);
+      return await this.membershipRepository.save(addedMembership);
+    } catch (err) {
+      throw new HttpException({
+        statusCode: 400,
+        error: err,
+      }, 400);
+    }
+  }
+
+  async getOne(id: number): Promise<Membership|undefined> {
+    return await this.membershipRepository.findOne(id);
   }
 
   async update(id: number, updateMembership: UpdateMembershipDto): Promise<Membership> {
     await this.membershipRepository.update(id, updateMembership);
     return this.membershipRepository.findOne(id);
-  }
-
-  async getOne(id: number): Promise<Membership|undefined> {
-    return await this.membershipRepository.findOne(id);
   }
 
   async deleteOne(id: number): Promise<DeleteResultsDto> {
