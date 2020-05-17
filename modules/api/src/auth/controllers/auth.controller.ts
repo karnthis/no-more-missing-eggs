@@ -5,7 +5,6 @@ import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import {CreateUserDto} from '../../dto/user/create-user.dto';
 import {CleanUserDto} from '../../dto/user/clean-user.dto';
 import {LoginResponseDto} from '../../dto/auth/login-response.dto';
-import {ReturningErrorDto} from '../../dto/misc/returning-error.dto';
 
 @Controller('auth')
 export class AuthController {
