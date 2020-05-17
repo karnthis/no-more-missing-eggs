@@ -22,7 +22,7 @@ export class ItemDto {
     @Column()
     isDelete: boolean;
 
-    @ApiProperty()
-    category: Category[];
+    // @ApiProperty()
+    // category: Category[];
 
 }

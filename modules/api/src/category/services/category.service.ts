@@ -12,9 +12,13 @@ export class CategoryService {
     @InjectRepository(Category) private readonly categoryRepository: Repository<Category>,
   ) {}
 
-  async saveNew(createCategoryDto: CreateCategoryDto) {
+  saveNew(createCategoryDto: CreateCategoryDto): Promise<Category> {
     const addedCategory = {...new Category(), ...createCategoryDto};
-    return await this.categoryRepository.save(addedCategory);
+    return this.categoryRepository.save(addedCategory);
+  }
+
+  getOne(id: number): Promise<Category|undefined> {
+    return this.categoryRepository.findOne(id);
   }
 
   async saveDefaults(freshKitchen: KitchenDto) {

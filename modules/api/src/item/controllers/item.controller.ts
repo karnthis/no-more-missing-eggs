@@ -3,7 +3,6 @@ import { ItemService } from '../services/item.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import {CreateItemDto} from '../../dto/item/create-item.dto';
 import {Item} from '../entities/item.entity';
-import {ItemDto} from '../../dto/item/item.dto';
 import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
 
 @Controller('item')
@@ -15,7 +14,7 @@ export class ItemController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async saveNew(
-    @Body() createItemDto: ItemDto,
+    @Body() createItemDto: CreateItemDto,
   ): Promise<Item> {
     return this.itemService.saveNew(createItemDto);
   }
