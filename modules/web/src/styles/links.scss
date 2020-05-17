@@ -3,7 +3,7 @@
   --link-hover-color: var(--mute-green);
   color: var(--link-color);
   text-decoration: underline;
-  transition: color 200ms var(--ease-in-out-quint);
+  transition: color 200ms var(--ease-in-out-back);
   &:visited {
     color: var(--link-color);
   }

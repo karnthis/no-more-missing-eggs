@@ -1,20 +1,52 @@
 <h3>Sign Up</h3>
 
 <form action="/api/auth/signup" method="post" [formGroup]="signUpForm">
+
+
+  <p class="input">
+    <label for="first-name" class="input-label">
+      First Name <br>
+      <input type="text"
+             formControlName="firstName"
+             class="input-control"
+             name="first-name"
+             id="first-name"
+             placeholder="Jimmy"
+             aria-labelledby="First name for account"
+             autofocus
+      >
+    </label>
+  </p>
+
+  <p class="input">
+    <label for="last-name" class="input-label">
+      Last Name <br>
+      <input type="text"
+             formControlName="lastName"
+             class="input-control"
+             name="last-name"
+             id="last-name"
+             placeholder="Egg"
+             aria-labelledby="Last name for account"
+      >
+    </label>
+  </p>
+
   <p class="input">
 
-  <label class="input-label" for="username"
-  >
-    Username <br>
-    <input type="username"
-           formControlName="username"
-           class="input-control"
-           name="username"
-           id="username"
-           placeholder="Username"
-           aria-labelledby="Create a username"
+    <label class="input-label" for="username"
     >
-  </label>
+      Username <br>
+      <input type="username"
+             formControlName="username"
+             class="input-control"
+             name="username"
+             id="username"
+             placeholder="Username"
+             aria-labelledby="Create a username"
+      >
+    </label>
+    <button class="btn btn--default" type="button" (click)="genName()">Generate Username</button>
   </p>
 
   <p class="input">
@@ -27,25 +59,10 @@
            id="email"
            placeholder="Email@email.com"
            aria-labelledby="Enter an email address"
-           [ngClass]="{'input-error': signUpForm.get('email').errors}"
     >
   </label>
   </p>
 
-  <p class="input">
-
-  <label class="input-label" for="confirm-email">
-    Confirm Email <br>
-    <input type="email"
-           formControlName="confirmEmail"
-           class="input-control"
-           name="confirm-email"
-           id="confirm-email"
-           placeholder="Confirm@email.com"
-           aria-labelledby="Confirm your email address"
-    >
-  </label>
-  </p>
 
   <p class="input">
   <label class="input-label" for="password"  >
@@ -79,12 +96,14 @@
 <p class="btn-group">
   <button class="btn btn--danger"
           type="reset"
+          aria-labelledby="Reset sign up form"
   >
     Reset
   </button>
   <span class="flex-spacer"></span>
   <button class="btn btn--default"
           type="button"
+          aria-labelledby="Submit sign up form"
           [disabled]="!signUpForm.valid"
           (click)="signUp()"
   >
