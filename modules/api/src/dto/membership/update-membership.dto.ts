@@ -1,4 +1,11 @@
-import {PartialType} from '@nestjs/swagger';
-import {MembershipDto} from './membership.dto';
+import {ApiProperty} from '@nestjs/swagger';
+import {IsNotEmpty, IsOptional} from 'class-validator';
 
-export class UpdateMembershipDto extends PartialType(MembershipDto) {}
+export class UpdateMembershipDto {
+
+  @ApiProperty()
+  @IsNotEmpty()
+  // @IsOptional()
+  role: string;
+
+}
