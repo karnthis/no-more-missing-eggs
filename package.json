@@ -3,11 +3,11 @@
   "private": true,
   "scripts": {
     "bootstrap": "npm i && lerna bootstrap",
-    "start": "lerna run start",
+    "start": "lerna run start --stream",
     "start:dev": "lerna run start:dev --stream",
-    "test": "lerna run test:ci",
-    "lint": "lerna run lint",
-    "lint:fix": "lerna run lint:fix"
+    "test": "lerna run test:ci --stream",
+    "lint": "lerna run lint --stream",
+    "lint:fix": "lerna run lint:fix --stream"
   },
   "husky": {
     "hooks": {
