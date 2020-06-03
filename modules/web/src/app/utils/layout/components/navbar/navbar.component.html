@@ -1,3 +1,6 @@
-<span class="h4 nav-link">Home</span>
+<a class="h4 nav-link" routerLink="/">Home</a>
 <div class="flex-spacer"></div>
-<span class="h4 nav-link">Login</span>
+<a class="h4 nav-link" routerLink="/me" *ngIf="isLoggedIn$ | async; else showLogin">Profile</a>
+<ng-template #showLogin>
+  <a class="h4 nav-link" routerLink="/login">Login</a>
+</ng-template>
