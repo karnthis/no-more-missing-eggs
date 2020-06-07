@@ -24,11 +24,11 @@ export class MembershipService {
       const {userId, myKitchen, membership} = createMembershipDto;
       const myUserDetails: User = await this.userService.findOneById(userId);
 
-      const addedMembership = {...new Membership(), ...membership};
-      addedMembership.user = myUserDetails;
-      addedMembership.kitchen = myKitchen;
+      const firstMembership = {...new Membership(), ...membership};
+      firstMembership.user = myUserDetails;
+      firstMembership.kitchen = myKitchen;
 
-      return await this.membershipRepository.save(addedMembership);
+      return await this.membershipRepository.save(firstMembership);
     } catch (err) {
       throw new HttpException({
         statusCode: 400,
