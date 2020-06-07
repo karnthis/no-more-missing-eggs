@@ -3,9 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import {CreateUserDto} from '../../dto/user/create-user.dto';
-import {CleanUserDto} from '../../dto/user/clean-user.dto';
 import {LoginResponseDto} from '../../dto/auth/login-response.dto';
-import {ReturningErrorDto} from '../../dto/misc/returning-error.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -28,7 +26,7 @@ export class AuthController {
   @Post('signup')
   async signMeUp(
     @Body() body: CreateUserDto,
-  ): Promise<CleanUserDto> {
+  ): Promise<LoginResponseDto> {
     return await this.authService.signup(body)
       .catch(err => {
         throw new HttpException({

@@ -2,7 +2,6 @@ import {Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, P
 import {KitchenService} from '../services/kitchen.service';
 import {JwtAuthGuard} from '../../auth/guards/jwt-auth.guard';
 import {MembershipDto} from '../../dto/membership/membership.dto';
-import {Membership} from '../../membership/entities/membership.entity';
 import {Kitchen} from '../entities/kitchen.entity';
 import {UpdateKitchenDto} from '../../dto/kitchen/update-kitchen.dto';
 import {KitchenDto} from '../../dto/kitchen/kitchen.dto';
@@ -33,8 +32,10 @@ export class KitchenController {
     // TODO do we need this?
     @UseGuards(JwtAuthGuard)
     @Get()
-    getAll() {
-        return 'hello from kitchen';
+    getAllOfMine(
+      @Request() req,
+    ) {
+        return this.kitchenService.findMine(req.user.sub.id);
     }
 
     @UseGuards(JwtAuthGuard)
@@ -76,6 +77,23 @@ export class KitchenController {
       @Param('id') id: number,
     ): Promise<DeleteResultsDto> {
         return await this.kitchenService.delete(id);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('/m/:id')
+    async saveNewKitchenMembership(
+      @Request() req,
+      @Param() id: any,
+    ): Promise<Kitchen> {
+        const membership: MembershipDto = {
+            role: 'User',
+        };
+
+        return await this.kitchenService.saveNewKitchenMembership({
+            userId: req.user.sub,
+            kitchenId: id,
+            membership,
+        });
     }
 
 }
