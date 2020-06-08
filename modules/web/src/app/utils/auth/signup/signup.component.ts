@@ -5,6 +5,7 @@ import {ISignUp} from '../models/auth.model';
 import {AuthService} from '../services/auth.service';
 import {retryWhen} from 'rxjs/operators';
 import {genericRetryStrategy} from '../../general/retry-strategy';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -18,6 +19,7 @@ export class SignupComponent implements OnInit {
     private fb: FormBuilder,
     private nameSrv: NameGeneratorService,
     private authSrv: AuthService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -62,7 +64,7 @@ export class SignupComponent implements OnInit {
   .pipe(
     retryWhen(genericRetryStrategy())
   )
-  .subscribe(res => console.log(res));
+  .subscribe(res => this.router.navigateByUrl('/me'), (err) => console.error(err));
 
   }
 

@@ -18,4 +18,7 @@ export class MeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  logout() {
+    this.auth.logout();
+  }
 }

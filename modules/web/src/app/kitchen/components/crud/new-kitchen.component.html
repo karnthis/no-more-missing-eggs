@@ -1,0 +1,19 @@
+<form action="/api/kitchen/new" method="post" [formGroup]="newKitchen">
+
+  <p class="input"><label for="name" class="input-label">
+    Name<br>
+    <input type="text"
+           class="input-control"
+           formControlName="name"
+           name="name"
+           id="name"
+           placeholder="Kitchen Name"
+           aria-labelledby="Enter name for your kitchen"
+           autofocus
+    >
+  </label>
+  </p>
+
+  <button type="reset" class="btn btn--danger">Reset</button>
+  <button class="btn btn--default" (click)="save()">Save</button>
+</form>

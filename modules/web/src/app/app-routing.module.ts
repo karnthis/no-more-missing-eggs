@@ -8,6 +8,7 @@ const routes: Routes = [
   {path: '', loadChildren: () => import('./home/home.module').then(m => m.HomeModule)},
   {path: 'signup', component: SignupComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'kitchen', loadChildren: () => import('./kitchen/kitchen.module').then(m => m.KitchenModule), canActivate: [AuthenticationGuard]},
   {path: 'me', loadChildren: () => import('./me/me.module').then(m => m.MeModule), canActivate: [AuthenticationGuard]},
   {path: '**', loadChildren: () => import('./utils/bad-route/bad-route.module').then(m => m.BadRouteModule)}
 ];
