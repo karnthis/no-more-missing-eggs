@@ -12,6 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../user/entities/user.entity';
 
 import * as dotenv from 'dotenv';
+import {KitchenModule} from '../kitchen/kitchen.module';
 dotenv.config();
 
 @Module({
@@ -21,15 +22,14 @@ dotenv.config();
       signOptions: { expiresIn: '12h' },
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    // TypeOrmModule.forFeature([User]),
     UserModule,
+    KitchenModule,
   ],
   controllers: [AuthController],
   providers: [
     AuthService,
     LocalStrategy,
     JwtStrategy,
-    // UserService,
   ],
   exports: [AuthService],
 })

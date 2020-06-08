@@ -1,18 +1,19 @@
 
 import {HttpException, Injectable} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../../user/services/user.service';
-import { IPassportUser } from '../../user/interfaces/passportUser.interface';
-
 import * as bcrypt from 'bcrypt';
+import { UserService } from '../../user/services/user.service';
 import {CreateUserDto} from '../../dto/user/create-user.dto';
 import {CleanUserDto} from '../../dto/user/clean-user.dto';
+import {LoginResponseDto} from '../../dto/auth/login-response.dto';
+import {KitchenService} from '../../kitchen/services/kitchen.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     private userService: UserService,
+    private kitchenService: KitchenService,
     ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
@@ -27,23 +28,29 @@ export class AuthService {
     return null;
   }
 
-  async login(passportUser: IPassportUser) {
-
-    const payload = { sub: passportUser };
+  async login(passportUser: CleanUserDto): Promise<LoginResponseDto> {
+    const kitchens = await this.kitchenService.findMyIds(passportUser.id);
+    const kitchenIds = kitchens.map(item => item.id);
+    const payload = {
+      sub: passportUser.id,
+      username: passportUser.username,
+      kitchenIds,
+    };
     return {
       access_token: this.jwtService.sign(payload),
-      username: passportUser.username,
-      id: passportUser.id,
+      userInfo: passportUser,
+      kitchenIds,
     };
   }
 
-  async signup(body: CreateUserDto): Promise<CleanUserDto> {
+  async signup(body: CreateUserDto): Promise<LoginResponseDto> {
     if (body.password === body.confirmPassword) {
       return bcrypt.hash(body.password, 10)
-      .then((hash) => {
+      .then(async (hash) => {
         const {confirmPassword, ...bodyToSave} = body;
         bodyToSave.password = hash;
-        return this.userService.saveNew(bodyToSave);
+        const myNewUser = await this.userService.saveNew(bodyToSave);
+        return this.login(myNewUser);
       });
     }
     throw new HttpException({
