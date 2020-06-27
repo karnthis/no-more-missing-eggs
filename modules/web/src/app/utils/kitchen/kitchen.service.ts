@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {IKitchen, IKitchenDto} from './kitchen.model';
-import {Kitchen} from '../../../../../api/src/kitchen/entities/kitchen.entity';
+
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class KitchenService {
     return this.http.get<IKitchen>(`/api/kitchen/${id}`);
   }
 
-  update(kitchen: { id: number, name: string }): Observable<Kitchen> {
+  update(kitchen: { id: number, name: string }): Observable<IKitchen> {
     return this.http.put<IKitchen>(`/api/kitchen/${kitchen.id}`, kitchen);
   }
 
