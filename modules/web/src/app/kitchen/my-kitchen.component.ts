@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {KitchenService} from '../utils/kitchen/kitchen.service';
 
 @Component({
   selector: 'app-my-kitchen',
@@ -7,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyKitchenComponent implements OnInit {
 
-  constructor() { }
+  k$ = this.kitchenSrv.getMine();
+
+  constructor(
+    private kitchenSrv: KitchenService
+  ) {
+  }
 
   ngOnInit(): void {
   }

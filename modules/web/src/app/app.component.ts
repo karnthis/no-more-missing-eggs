@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
       .pipe(
         take(1),
         filter(u => !!u),
-        switchMap(u => this.user.get(u.sub.id))
+        switchMap(u => this.user.get(u.sub))
       )
       .subscribe(u => this.auth.user.next(u));
   }

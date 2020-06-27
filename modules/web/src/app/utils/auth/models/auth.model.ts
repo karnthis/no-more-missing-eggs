@@ -1,3 +1,5 @@
+import {IKitchenDto} from '../../kitchen/kitchen.model';
+
 export interface ISignUp {
   firstName: string;
   lastName: string;
@@ -23,6 +25,13 @@ export interface ILogin {
 
 export interface ILoginResponse {
   access_token: string;
-  username: string;
-  id: number;
+  kitchenIds: IKitchenDto[];
+  userInfo: {
+    emailAddress: string;
+    firstName: string;
+    id: number;
+    lastName: string;
+    status: string;
+    username: string;
+  };
 }

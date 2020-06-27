@@ -64,12 +64,15 @@ export class AuthService {
 interface IParsedToken {
   exp: number;
   iat: number;
-  sub: {
-    emailAddress: string;
-    firstName: string;
-    id: number;
-    lastName: string;
-    status: string;
-    username: string;
-  };
+  sub: number;
+  username: string;
+  kitchenIds: number[];
+  // sub: {
+  //   emailAddress: string;
+  //   firstName: string;
+  //   id: number;
+  //   lastName: string;
+  //   status: string;
+  //   username: string;
+  // };
 }

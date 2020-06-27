@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     this.authSrv.login(body)
       .pipe(
         switchMap(res => {
-          return this.userSrv.get(res?.id);
+          return this.userSrv.get(res?.userInfo.id);
         }),
         tap(user => {
           this.authSrv.user.next(user);

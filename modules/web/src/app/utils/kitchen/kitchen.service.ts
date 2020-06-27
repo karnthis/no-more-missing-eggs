@@ -18,6 +18,10 @@ export class KitchenService {
     return this.http.post<IKitchen>(`/api/kitchen`, kitchen);
   }
 
+  getMine(): Observable<IKitchen> {
+    return this.http.get<IKitchen>(`api/kitchen`);
+  }
+
   get(id: number): Observable<IKitchen> {
     return this.http.get<IKitchen>(`/api/kitchen/${id}`);
   }
