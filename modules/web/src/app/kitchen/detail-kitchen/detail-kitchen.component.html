@@ -1,0 +1,5 @@
+<ng-container *ngIf="kitchen$ | async as k">
+<a [routerLink]="['item', 'new']">Add Item</a>
+
+<pre>{{k | json}}</pre>
+</ng-container>

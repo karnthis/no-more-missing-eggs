@@ -1,0 +1,77 @@
+<form action="/api/item/new" method="post" [formGroup]="newItemForm">
+
+  <p class="input"><label for="name" class="input-label">
+    Name<br>
+    <input type="text"
+           class="input-control"
+           formControlName="name"
+           name="name"
+           id="name"
+           placeholder="Item Name"
+           aria-labelledby="Enter name for your item"
+           autofocus
+    >
+  </label>
+  </p>
+
+  <p class="input">
+    <label for="barcode" class="input-label">
+    Barcode <br>
+      <input type="number"
+             class="input-control"
+             formControlName="barcode"
+             name="barcode"
+             id="barcode"
+             placeholder="Scan barcode"
+             aria-labelledby="Scan your item barcode"
+      >
+    </label>
+  </p>
+  <p class="input">
+    <label for="count" class="input-label">
+      Count <br>
+      <input type="number"
+             class="input-control"
+             formControlName="count"
+             name="count"
+             id="count"
+             placeholder="How many do you have?"
+             aria-labelledby="Item count"
+      >
+    </label>
+  </p>
+  <p class="input">
+    <label for="exp" class="input-label">
+    Expiration Date <br>
+      <input type="date"
+             class="input-control"
+             formControlName="expiration"
+             name="exp"
+             id="exp"
+             placeholder="When does this item expire?"
+             aria-labelledby="Enter Expiration date"
+      >
+    </label>
+  </p>
+
+  <p class="input" formArrayName="usedCategories" *ngFor="let c of categories.controls; let i = index;">
+    <label [for]="'cat' + i" class="input-label">
+      Category {{i + 1}} <br>
+      <input type="number"
+             class="input-control"
+             [formControl]="c"
+             [name]="'cat' + i"
+             [id]="'cat' + i"
+             placeholder="Add Category"
+             aria-labelledby="Add Category to item"
+      >
+    </label>
+  </p>
+  <p>
+    <button class="btn btn--ok" (click)="addCategory()" type="button">Add Category</button>
+
+  </p>
+
+  <button type="reset" class="btn btn--danger">Reset</button>
+  <button type="submit" class="btn btn--default" (click)="save()">Add</button>
+</form>

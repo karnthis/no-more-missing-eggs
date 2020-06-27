@@ -54,7 +54,7 @@ export class NewKitchenComponent implements OnInit {
         retryWhen(genericRetryStrategy())
       )
       .subscribe(
-        (res) => console.log(res),
+        (res) => this.router.navigateByUrl('/kitchen'),
         (err) => console.error(err),
       );
   }
