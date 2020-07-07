@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ItemService} from '../../../../utils/item/item.service';
+import {INewItem} from '../../../../utils/item/item.model';
 
 @Component({
   selector: 'app-new-item',
@@ -14,7 +15,8 @@ export class NewItemComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private itemSrv: ItemService,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.newItemForm = this.fb.group({
@@ -39,8 +41,19 @@ export class NewItemComponent implements OnInit {
   get categories() {
     return this.newItemForm.get('usedCategories') as FormArray;
   }
+
   save() {
-    this.itemSrv.create(this.newItemForm.value)
+    const payload = {
+      usedCategories: this.newItemForm.get('usedCategories').value,
+      item: {
+        ...this.newItemForm.value,
+        expiration: new Date(this.newItemForm.get('expiration').value).valueOf()
+      }
+    };
+
+    delete payload.item.usedCategories;
+
+    this.itemSrv.create(payload)
       .subscribe(
         r => console.log(r)
       );
