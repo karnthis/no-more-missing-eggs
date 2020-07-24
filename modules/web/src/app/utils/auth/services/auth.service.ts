@@ -5,17 +5,16 @@ import {BehaviorSubject, EMPTY, Observable, ReplaySubject} from 'rxjs';
 import {IUser} from '../models/user.model';
 import {catchError, map, tap} from 'rxjs/operators';
 import * as JWT from 'jwt-decode';
+import {Stateful} from '../../general/stateful.base';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
   user = new ReplaySubject<IUser>(1);
   user$ = this.user.asObservable();
-
-  private token = new BehaviorSubject<string>(this.getToken());
-  token$ = this.token.asObservable()
+  private _token = new BehaviorSubject<string>(AuthService.getToken());
+  token$ = this._token.asObservable()
     .pipe(
       tap(t => localStorage.setItem('token', t))
     );
@@ -35,6 +34,14 @@ export class AuthService {
   ) {
   }
 
+  private static getToken() {
+    const token = localStorage.getItem('token');
+    if (token?.length > 100) {
+      return token;
+    }
+    return null;
+  }
+
   signUp(body: ISignUp): Observable<ISignUpResponse> {
     return this.http.post<any>(`/api/auth/signup`, body);
   }
@@ -42,22 +49,14 @@ export class AuthService {
   login(body: ILogin): Observable<ILoginResponse> {
     return this.http.post<any>(`/api/auth/login`, body)
       .pipe(
-        tap(r => this.token.next(r?.access_token))
+        tap(r => this._token.next(r?.access_token))
       );
   }
 
   logout(): void {
-    this.token.next(null);
+    this._token.next(null);
     localStorage.removeItem('token');
     this.user.next(null);
-  }
-
-  private getToken() {
-    const token = localStorage.getItem('token');
-    if (token?.length > 100) {
-      return token;
-    }
-    return null;
   }
 }
 
