@@ -10,6 +10,6 @@ export class CreateItemDto {
 
     @ApiProperty()
     @ValidateNested()
-    item: ItemDto;
+    item: any; // ItemDto;
 
 }
