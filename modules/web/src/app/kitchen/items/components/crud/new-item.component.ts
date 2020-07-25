@@ -18,13 +18,17 @@ export class NewItemComponent implements OnInit {
   ) {
   }
 
+  get categories() {
+    return this.newItemForm.get('usedCategories') as FormArray;
+  }
+
   ngOnInit(): void {
     this.newItemForm = this.fb.group({
       name: ['', [Validators.required]],
       barcode: [1234, []],
       count: [1, [Validators.required]],
-      expiration: [Date.now() + 604800000, [Validators.required]],
-      added: [1, []],
+      expiration: [Date.now() + 604800, [Validators.required]],
+      added: [1594581815263 /* Date.now()*/, []],
       isDelete: [false],
       usedCategories: this.fb.array([this.newCategory()])
     });
@@ -38,20 +42,18 @@ export class NewItemComponent implements OnInit {
     return this.fb.control(1, [Validators.required]);
   }
 
-  get categories() {
-    return this.newItemForm.get('usedCategories') as FormArray;
-  }
-
   save() {
-    const payload = {
-      usedCategories: this.newItemForm.get('usedCategories').value,
+    const payload: INewItem = {
+      usedCategories: [1], // this.newItemForm.get('usedCategories').value,
       item: {
-        ...this.newItemForm.value,
-        expiration: new Date(this.newItemForm.get('expiration').value).valueOf()
+        added: 1594581815263,
+        barcode: 1234,
+        count: 1,
+        isDelete: false,
+        name: 'test',
+        expiration: 1594581815263 // Date.now() // new Date(this.newItemForm.get('expiration').value).valueOf()
       }
     };
-
-    delete payload.item.usedCategories;
 
     this.itemSrv.create(payload)
       .subscribe(

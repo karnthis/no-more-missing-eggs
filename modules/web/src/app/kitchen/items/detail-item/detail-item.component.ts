@@ -19,8 +19,8 @@ export class DetailItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  remove(item: IItem) {
-    this.itemSrv.delete();
+  remove(item: IItem): void {
+    // this.itemSrv.delete();
   }
 
 }
