@@ -5,11 +5,11 @@ import {IsNumber, ValidateNested} from 'class-validator';
 export class CreateItemDto {
 
     @ApiProperty()
-    // @IsNumber()
+    @IsNumber()
     usedCategories: number[];
 
     @ApiProperty()
     @ValidateNested()
-    item: any; // ItemDto;
+    item: ItemDto;
 
 }

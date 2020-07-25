@@ -14,8 +14,10 @@ export class ItemController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async saveNew(
-    @Body() createItemDto: CreateItemDto,
+    @Body() createItemDto: any, // CreateItemDto,
   ): Promise<Item> {
+    // tslint:disable-next-line:no-console
+    console.log(createItemDto);
     return this.itemService.saveNew(createItemDto);
   }
 

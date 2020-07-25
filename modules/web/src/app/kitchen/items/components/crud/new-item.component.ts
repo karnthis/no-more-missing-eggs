@@ -25,7 +25,7 @@ export class NewItemComponent implements OnInit {
       count: [1, [Validators.required]],
       expiration: [Date.now() + 604800000, [Validators.required]],
       added: [1, []],
-      isDelete: [0],
+      isDelete: [false],
       usedCategories: this.fb.array([this.newCategory()])
     });
   }

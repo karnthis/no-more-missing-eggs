@@ -10,5 +10,5 @@ export interface IItem {
   count: number;
   expiration: number;
   added: number;
-  isDelete: number;
+  isDelete: boolean;
 }

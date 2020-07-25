@@ -29,4 +29,8 @@ export class DetailKitchenComponent implements OnInit {
 
   }
 
+  remove(kitchen: IKitchen) {
+    this.kitchenSrv.delete(kitchen.id)
+      .subscribe();
+  }
 }
