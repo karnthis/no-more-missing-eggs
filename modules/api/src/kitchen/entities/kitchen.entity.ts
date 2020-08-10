@@ -13,6 +13,12 @@ export class Kitchen {
   @Column({ length: 50 })
   kitchenName: string;
 
+  @Column({ length: 10 })
+  status: string;
+
+  @Column('date')
+  lastUpdated: Date;
+
   @OneToMany(type => Membership, membership => membership.kitchen)
   public membership: Membership[];
 
