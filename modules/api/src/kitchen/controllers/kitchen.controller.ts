@@ -75,7 +75,7 @@ export class KitchenController {
     @Delete(':id')
     async deleteKitchen(
       @Param('id') id: number,
-    ): Promise<DeleteResultsDto> {
+    ): Promise<any> {
         return await this.kitchenService.delete(id);
     }
 

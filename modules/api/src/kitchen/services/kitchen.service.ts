@@ -72,6 +72,7 @@ export class KitchenService {
         .leftJoinAndSelect('k.membership', 'kmembers')
         .leftJoinAndSelect('kmembers.user', 'user')
         .where('user.id = :id', { id })
+        .where('status <> "inactive"')
         .getMany();
   }
 
@@ -82,6 +83,7 @@ export class KitchenService {
       .leftJoin('k.membership', 'kmembers')
       .leftJoin('kmembers.user', 'user')
       .where('user.id = :id', { id })
+      .where('status <> "inactive"')
       .getMany();
   }
 
@@ -104,8 +106,11 @@ export class KitchenService {
     return this.kitchenRepository.findOne(id);
   }
 
-  async delete(id: number): Promise<DeleteResultsDto> {
-    return this.kitchenRepository.delete(id);
+  async delete(id: number): Promise<any> {
+    const toInactivate = await this.kitchenRepository.findOne(id);
+    toInactivate.status = 'inactive';
+    await this.kitchenRepository.update(id, toInactivate);
+    return this.kitchenRepository.findOne(id);
   }
 
 }
