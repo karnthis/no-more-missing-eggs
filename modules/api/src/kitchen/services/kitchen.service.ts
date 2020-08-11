@@ -20,7 +20,8 @@ export class KitchenService {
   async saveNewKitchen(createKitchen: CreateKitchenDto) {
     try {
       const {userId, savableKitchen, membership} = createKitchen;
-      const addKitchen = {...new Kitchen(), ...savableKitchen};
+      const baselineKitchen = {status: 'active', lastUpdated: new Date()};
+      const addKitchen = {...new Kitchen(), ...savableKitchen, ...baselineKitchen};
       const savedKitchen = await this.kitchenRepository.save(addKitchen);
 
       const createMembership: CreateMembershipDto = {
@@ -72,7 +73,7 @@ export class KitchenService {
         .leftJoinAndSelect('k.membership', 'kmembers')
         .leftJoinAndSelect('kmembers.user', 'user')
         .where('user.id = :id', { id })
-        .where('status <> "inactive"')
+        .where('k.status != :status', {status: 'inactive'})
         .getMany();
   }
 
@@ -83,7 +84,7 @@ export class KitchenService {
       .leftJoin('k.membership', 'kmembers')
       .leftJoin('kmembers.user', 'user')
       .where('user.id = :id', { id })
-      .where('status <> "inactive"')
+      .where('k.status != :status', {status: 'inactive'})
       .getMany();
   }
 
