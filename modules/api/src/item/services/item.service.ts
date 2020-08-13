@@ -38,9 +38,7 @@ export class ItemService {
     return await this.itemRepository
       .createQueryBuilder('items')
       .leftJoinAndSelect('items.kitchen', 'kitchen')
-      // .leftJoinAndSelect('kmembers.user', 'user')
       .where('kitchen.id = :id', { id })
-      // .where('k.status != :status', {status: 'inactive'})
       .getMany();
   }
 
