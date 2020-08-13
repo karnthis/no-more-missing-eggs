@@ -1,6 +1,6 @@
-import {Column, Entity, ManyToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 import {Category} from '../../category/entities/category.entity';
-// import {Category} from '../../category/entities/category.entity';
+import {Kitchen} from '../../kitchen/entities/kitchen.entity';
 
 @Entity()
 export class Item {
@@ -25,8 +25,8 @@ export class Item {
   @Column()
   isDelete: boolean;
 
-  // @ManyToOne(type => Kitchen, kitchen => kitchen.item)
-  // public kitchen: Kitchen;
+  @ManyToOne(type => Kitchen, kitchen => kitchen.item)
+  public kitchen: Kitchen;
 
   @ManyToMany(type => Category, category => category.items)
   categories: Category[];

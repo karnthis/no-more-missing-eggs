@@ -12,6 +12,15 @@ export class ItemController {
   ) {}
 
   @UseGuards(JwtAuthGuard)
+  @Get('k/:id')
+  getKitchenContents(
+    @Param('id') id: number,
+  ) {
+    return this.itemService.findFullKitchen(id);
+    // return 'true';
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post()
   async saveNew(
     @Body() createItemDto: any, // CreateItemDto,
