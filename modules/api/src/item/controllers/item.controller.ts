@@ -1,7 +1,7 @@
 import {Controller, UseGuards, Request, Get, Post, Put, Param, Body, Delete, HttpException, HttpStatus} from '@nestjs/common';
 import { ItemService } from '../services/item.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import {CreateItemDto} from '../../dto/item/create-item.dto';
+// import {CreateItemDto} from '../../dto/item/create-item.dto';
 import {Item} from '../entities/item.entity';
 import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
 
@@ -17,7 +17,6 @@ export class ItemController {
     @Param('id') id: number,
   ) {
     return this.itemService.findFullKitchen(id);
-    // return 'true';
   }
 
   @UseGuards(JwtAuthGuard)
@@ -25,8 +24,6 @@ export class ItemController {
   async saveNew(
     @Body() createItemDto: any, // CreateItemDto,
   ): Promise<Item> {
-    // tslint:disable-next-line:no-console
-    console.log(createItemDto);
     return this.itemService.saveNew(createItemDto);
   }
 

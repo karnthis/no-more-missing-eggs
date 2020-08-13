@@ -7,7 +7,6 @@ import {MembershipService} from '../../membership/services/membership.service';
 import {CreateMembershipDto} from '../../dto/membership/create-membership.dto';
 import {CategoryService} from '../../category/services/category.service';
 import {UpdateKitchenDto} from '../../dto/kitchen/update-kitchen.dto';
-import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
 
 @Injectable()
 export class KitchenService {
@@ -66,8 +65,6 @@ export class KitchenService {
 
   // TODO superadmin only
   async findMine(id: number): Promise<Kitchen[]> {
-    // tslint:disable-next-line:no-console
-    console.log('fetching kitchens for id', id);
     return await this.kitchenRepository
         .createQueryBuilder('k')
         .leftJoinAndSelect('k.membership', 'kmembers')
@@ -93,7 +90,6 @@ export class KitchenService {
         .createQueryBuilder('k')
         .leftJoinAndSelect('k.membership', 'kmembers')
         .leftJoinAndSelect('kmembers.user', 'user')
-        // .leftJoinAndSelect('k.category', 'category')
         .where('k.id = :id', { id })
         .getOne();
   }
