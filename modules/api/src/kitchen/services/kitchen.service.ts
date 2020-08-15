@@ -19,8 +19,7 @@ export class KitchenService {
   async saveNewKitchen(createKitchen: CreateKitchenDto) {
     try {
       const {userId, savableKitchen, membership} = createKitchen;
-      const baselineKitchen = {status: 'active', lastUpdated: new Date()};
-      const addKitchen = {...new Kitchen(), ...savableKitchen, ...baselineKitchen};
+      const addKitchen = {...new Kitchen(), ...savableKitchen, ...{status: 'active', lastUpdated: new Date()}};
       const savedKitchen = await this.kitchenRepository.save(addKitchen);
 
       const createMembership: CreateMembershipDto = {
@@ -99,7 +98,7 @@ export class KitchenService {
   }
 
   async saveUpdate(id: number, replacement: UpdateKitchenDto): Promise<Kitchen|undefined> {
-    await this.kitchenRepository.update(id, replacement);
+    await this.kitchenRepository.update(id, {...replacement, ...{lastUpdated: new Date()}});
     return this.kitchenRepository.findOne(id);
   }
 

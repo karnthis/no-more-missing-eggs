@@ -10,6 +10,6 @@ export class KitchenDto {
     @ApiProperty()
     @IsNotEmpty()
     @IsString()
-    kitchenName: string;
+    name: string;
 
 }

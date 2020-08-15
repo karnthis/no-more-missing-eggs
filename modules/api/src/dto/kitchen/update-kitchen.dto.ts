@@ -7,6 +7,6 @@ export class UpdateKitchenDto {
   @IsNotEmpty()
   @IsAlpha()
   // @IsOptional()
-  kitchenName: string;
+  name: string;
 
 }
