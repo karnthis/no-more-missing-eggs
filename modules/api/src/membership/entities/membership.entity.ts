@@ -10,6 +10,12 @@ export class Membership {
   @Column({ length: 50, nullable: false })
   role: string;
 
+  @Column({type: 'simple-json', nullable: true})
+  metadata: {data: string[]};
+
+  @Column({ length: 10 })
+  status: string;
+
   @ManyToOne(type => User, user => user.membership)
   public user?: User;
 

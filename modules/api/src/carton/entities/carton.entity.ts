@@ -1,9 +1,10 @@
-import {Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {Category} from '../../category/entities/category.entity';
 import {Kitchen} from '../../kitchen/entities/kitchen.entity';
+import {Item} from '../../item/entities/item.entity';
 
 @Entity()
-export class Item {
+export class Carton {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -13,22 +14,19 @@ export class Item {
   @Column({type: 'int', nullable: true})
   barcode: number;
 
-  @Column('int')
-  count: number;
+  @Column({type: 'simple-json', nullable: true})
+  metadata: {data: string[]};
 
-  @Column('date')
-  expiration: Date;
+  @Column({ length: 10 })
+  status: string;
 
-  @Column('date')
-  added: Date;
-
-  @Column()
-  isDelete: boolean;
-
-  @ManyToOne(type => Kitchen, kitchen => kitchen.item)
+  @ManyToOne(type => Kitchen, kitchen => kitchen.carton)
   public kitchen: Kitchen;
 
-  @ManyToMany(type => Category, category => category.items)
+  @OneToMany(type => Item, item => item.carton)
+  public item: Item[];
+
+  @ManyToMany(type => Category, category => category.cartons)
   categories: Category[];
 
 }
