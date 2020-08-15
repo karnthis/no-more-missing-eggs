@@ -14,6 +14,7 @@ import {Item} from './item/entities/item.entity';
 import {ItemModule} from './item/item.module';
 import {Category} from './category/entities/category.entity';
 import {CategoryModule} from './category/category.module';
+import {Carton} from './carton/entities/carton.entity';
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ const { PGUSER, PGPASSWORD, PGDB, PGPORT, PGHOST } = process.env;
       entities: [
         Item,
         User,
+        Carton,
         Kitchen,
         Category,
         Membership,

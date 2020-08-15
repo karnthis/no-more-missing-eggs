@@ -21,8 +21,8 @@ export class ItemService {
     try {
       const {item, usedCategories, kitchenId} = createItemObject;
       const creatableItem = {...new Item(), ...item, ...{isDelete: false}};
-      creatableItem.categories = await this.loadCategories(usedCategories);
-      creatableItem.kitchen = await this.kitchenService.findOneFocused(kitchenId);
+      // creatableItem.categories = await this.loadCategories(usedCategories);
+      // creatableItem.kitchen = await this.kitchenService.findOneFocused(kitchenId);
       return this.itemRepository.save(creatableItem);
     } catch (err) {
       throw new HttpException({
