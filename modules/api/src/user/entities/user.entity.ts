@@ -20,12 +20,15 @@ export class User {
   password: string;
 
   @Column({ length: 100 })
-  emailAddress: string;
+  email: string;
 
   @Column({ length: 10 })
   status: string;
 
+  @Column('date')
+  lastUpdated: Date;
+
   @OneToMany(type => Membership, membership => membership.user)
-  public membership: Membership[];
+  public memberships: Membership[];
 
 }

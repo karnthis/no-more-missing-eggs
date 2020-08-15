@@ -11,20 +11,20 @@ export class Carton {
   @Column({ length: 50 })
   name: string;
 
-  @Column({type: 'int', nullable: true})
-  barcode: number;
-
-  @Column({type: 'simple-json', nullable: true})
+  @Column({type: 'json', nullable: true})
   metadata: {data: string[]};
 
   @Column({ length: 10 })
   status: string;
 
-  @ManyToOne(type => Kitchen, kitchen => kitchen.carton)
+  @Column('date')
+  lastUpdated: Date;
+
+  @ManyToOne(type => Kitchen, kitchen => kitchen.cartons)
   public kitchen: Kitchen;
 
   @OneToMany(type => Item, item => item.carton)
-  public item: Item[];
+  public items: Item[];
 
   @ManyToMany(type => Category, category => category.cartons)
   categories: Category[];

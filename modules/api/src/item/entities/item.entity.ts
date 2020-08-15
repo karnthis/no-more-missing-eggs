@@ -10,6 +10,9 @@ export class Item {
   name: string;
 
   @Column('int')
+  barcode: number;
+
+  @Column('int')
   count: number;
 
   @Column('date')
@@ -24,7 +27,10 @@ export class Item {
   @Column({ length: 10 })
   status: string;
 
-  @ManyToOne(type => Carton, carton => carton.item)
+  @Column('date')
+  lastUpdated: Date;
+
+  @ManyToOne(type => Carton, carton => carton.items)
   public carton: Carton;
 
 }

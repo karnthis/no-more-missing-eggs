@@ -8,7 +8,7 @@ export class Category {
   id: number;
 
   @Column({ length: 50, nullable: false })
-  categoryName: string;
+  name: string;
 
   @Column({type: 'json', nullable: true})
   metadata: {data: string[]};
@@ -16,7 +16,10 @@ export class Category {
   @Column({ length: 10 })
   status: string;
 
-  @ManyToOne(type => Kitchen, kitchen => kitchen.category)
+  @Column('date')
+  lastUpdated: Date;
+
+  @ManyToOne(type => Kitchen, kitchen => kitchen.categories)
   public kitchen: Kitchen;
 
   @ManyToMany(type => Carton, carton => carton.categories)

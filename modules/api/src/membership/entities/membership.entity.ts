@@ -10,16 +10,19 @@ export class Membership {
   @Column({ length: 50, nullable: false })
   role: string;
 
-  @Column({type: 'simple-json', nullable: true})
+  @Column({type: 'json', nullable: true})
   metadata: {data: string[]};
 
   @Column({ length: 10 })
   status: string;
 
-  @ManyToOne(type => User, user => user.membership)
-  public user?: User;
+  @Column('date')
+  lastUpdated: Date;
 
-  @ManyToOne(type => Kitchen, kitchen => kitchen.membership)
-  public kitchen?: Kitchen;
+  @ManyToOne(type => User, user => user.memberships)
+  public user: User;
+
+  @ManyToOne(type => Kitchen, kitchen => kitchen.memberships)
+  public kitchen: Kitchen;
 
 }

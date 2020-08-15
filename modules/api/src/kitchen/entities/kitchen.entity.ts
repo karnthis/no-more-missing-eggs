@@ -12,7 +12,7 @@ export class Kitchen {
   ownerId: number;
 
   @Column({ length: 50 })
-  kitchenName: string;
+  name: string;
 
   @Column({type: 'json', nullable: true})
   metadata: {data: string[]};
@@ -24,12 +24,12 @@ export class Kitchen {
   lastUpdated: Date;
 
   @OneToMany(type => Membership, membership => membership.kitchen)
-  public membership: Membership[];
+  public memberships: Membership[];
 
   @OneToMany(type => Category, category => category.kitchen)
-  public category: Category[];
+  public categories: Category[];
 
   @OneToMany(type => Carton, carton => carton.kitchen)
-  public carton: Carton[];
+  public cartons: Carton[];
 
 }
