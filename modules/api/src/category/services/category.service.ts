@@ -13,7 +13,7 @@ export class CategoryService {
   ) {}
 
   saveNew(createCategoryDto: CreateCategoryDto): Promise<Category> {
-    const addedCategory = {...new Category(), ...createCategoryDto};
+    const addedCategory = {...new Category(), ...createCategoryDto, ...{status: 'active', lastUpdated: new Date()}};
     return this.categoryRepository.save(addedCategory);
   }
 
@@ -29,12 +29,12 @@ export class CategoryService {
       'Pantry',
     ];
     const baseCategory: CreateCategoryDto = {
-      categoryName: '',
+      name: '',
       kitchen: freshKitchen,
-      items: [],
+      cartons: [],
     };
     for (const name of defaultCategories) {
-      baseCategory.categoryName = name;
+      baseCategory.name = name;
       await this.saveNew(baseCategory);
     }
     return true;

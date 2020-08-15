@@ -1,7 +1,7 @@
 import {ApiProperty} from '@nestjs/swagger';
-import {ItemDto} from '../item/item.dto';
-import {CreateKitchenDto} from '../kitchen/create-kitchen.dto';
 import {IsAlpha, IsNotEmpty, ValidateNested} from 'class-validator';
+import {KitchenDto} from '../kitchen/kitchen.dto';
+import {Carton} from '../../carton/entities/carton.entity';
 
 export class CategoryDto {
 
@@ -12,10 +12,10 @@ export class CategoryDto {
 
     @ApiProperty()
     @ValidateNested()
-    kitchen: CreateKitchenDto;
+    kitchen: KitchenDto;
 
     @ApiProperty()
     @ValidateNested()
-    items: ItemDto;
+    cartons: Carton[];
 
 }
