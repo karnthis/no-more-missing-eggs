@@ -3,6 +3,10 @@ import {IsEmail, IsNumber, isNumber, Length} from 'class-validator';
 
 export class CleanUserDto {
   @ApiProperty()
+  @IsNumber()
+  id: number;
+
+  @ApiProperty()
   @Length(1, 50)
   firstName: string;
 
@@ -16,14 +20,10 @@ export class CleanUserDto {
 
   @ApiProperty()
   @IsEmail()
-  emailAddress: string;
+  email: string;
 
   @ApiProperty()
   @Length(1, 10)
   status: string;
-
-  @ApiProperty()
-  @IsNumber()
-  id: number;
 
 }
