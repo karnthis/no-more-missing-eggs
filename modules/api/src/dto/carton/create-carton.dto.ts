@@ -2,7 +2,7 @@ import {CartonDto} from './carton.dto';
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNumber, ValidateNested} from 'class-validator';
 
-export class CreateItemDto {
+export class CreateCartonDto {
 
     @ApiProperty()
     @IsNumber()
