@@ -31,6 +31,6 @@ export class CategoryDto {
     @ApiProperty()
     @IsNotEmpty()
     @IsDate()
-    lastUpdate: number;
+    lastUpdate: Date;
 
 }
