@@ -65,6 +65,8 @@ export class KitchenService {
 
   // TODO superadmin only
   async findMine(id: number): Promise<Kitchen[]> {
+    // tslint:disable-next-line:no-console
+    console.log('fetching kitchens for id', id);
     return await this.kitchenRepository
         .createQueryBuilder('k')
         .leftJoinAndSelect('k.membership', 'kmembers')

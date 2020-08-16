@@ -23,7 +23,7 @@ export class KitchenController {
             role: 'Owner',
         };
         return await this.kitchenService.saveNewKitchen({
-            userId: req.user.sub.id,
+            userId: req.user.sub,
             savableKitchen,
             membership,
         });
@@ -35,7 +35,7 @@ export class KitchenController {
     getAllOfMine(
       @Request() req,
     ) {
-        return this.kitchenService.findMine(req.user.sub.id);
+        return this.kitchenService.findMine(req.user.sub);
     }
 
     @UseGuards(JwtAuthGuard)

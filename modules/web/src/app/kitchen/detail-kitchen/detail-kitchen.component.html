@@ -1,0 +1,8 @@
+<ng-container *ngIf="kitchen$ | async as k">
+  <a [routerLink]="['item', 'new']">Add Item</a>
+
+  <pre>{{k | json}}</pre>
+
+  <pre>TODO get all items for this kitchen</pre>
+  <button class="btn btn--danger" (click)="remove(k)">Delete</button>
+</ng-container>

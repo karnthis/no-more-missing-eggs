@@ -17,10 +17,10 @@ export class Item {
   count: number;
 
   @Column('date')
-  expiration: number;
+  expiration: Date;
 
   @Column('date')
-  added: number;
+  added: Date;
 
   @Column()
   isDelete: boolean;

@@ -30,5 +30,4 @@ export class CreateUserDto {
     @ApiProperty()
     @Length(1, 10)
     status: string;
-
 }
