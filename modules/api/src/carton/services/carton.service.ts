@@ -6,7 +6,6 @@ import {CreateCartonDto} from '../../dto/carton/create-carton.dto';
 import {KitchenService} from '../../kitchen/services/kitchen.service';
 import {CategoryService} from '../../category/services/category.service';
 import {Category} from '../../category/entities/category.entity';
-import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
 import {UpdateCartonDto} from '../../dto/carton/update-carton.dto';
 
 @Injectable()

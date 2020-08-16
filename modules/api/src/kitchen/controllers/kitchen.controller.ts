@@ -5,7 +5,6 @@ import {MembershipDto} from '../../dto/membership/membership.dto';
 import {Kitchen} from '../entities/kitchen.entity';
 import {UpdateKitchenDto} from '../../dto/kitchen/update-kitchen.dto';
 import {KitchenDto} from '../../dto/kitchen/kitchen.dto';
-import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
 
 @Controller('kitchen')
 export class KitchenController {
