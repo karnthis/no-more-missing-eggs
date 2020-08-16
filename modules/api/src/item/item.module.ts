@@ -3,14 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ItemService } from './services/item.service';
 import { ItemController } from './controllers/item.controller';
 import {Item} from './entities/item.entity';
-import {CategoryModule} from '../category/category.module';
-import {KitchenModule} from '../kitchen/kitchen.module';
+import {CartonModule} from '../carton/carton.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Item]),
-    CategoryModule,
-    KitchenModule,
+    CartonModule,
   ],
   controllers: [ItemController],
   providers: [ItemService],

@@ -21,6 +21,9 @@ export class KitchenController {
     ): Promise<Kitchen> {
         const membership: MembershipDto = {
             role: 'Owner',
+            metadata: {},
+            status: '',
+            lastUpdate: 0,
         };
         return await this.kitchenService.saveNewKitchen({
             userId: req.user.sub,
@@ -87,6 +90,9 @@ export class KitchenController {
     ): Promise<Kitchen> {
         const membership: MembershipDto = {
             role: 'User',
+            metadata: {},
+            status: '',
+            lastUpdate: 0,
         };
 
         return await this.kitchenService.saveNewKitchenMembership({
