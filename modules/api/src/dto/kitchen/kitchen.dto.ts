@@ -1,5 +1,5 @@
 import {ApiProperty} from '@nestjs/swagger';
-import {IsAlpha, IsNotEmpty, IsNumber, IsString} from 'class-validator';
+import {IsAlpha, IsDate, IsJSON, IsNotEmpty, IsNumber, IsOptional, IsString} from 'class-validator';
 
 export class KitchenDto {
 
@@ -11,5 +11,20 @@ export class KitchenDto {
     @IsNotEmpty()
     @IsString()
     name: string;
+
+    @ApiProperty()
+    @IsOptional()
+    @IsJSON()
+    metadata: {};
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsAlpha()
+    status: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsDate()
+    lastUpdate: number;
 
 }

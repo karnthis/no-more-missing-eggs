@@ -1,7 +1,7 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {Category} from '../../category/entities/category.entity';
 import {Column} from 'typeorm';
-import {IsBoolean, IsNotEmpty, IsNumber} from 'class-validator';
+import {IsAlpha, IsBoolean, IsDate, IsJSON, IsNotEmpty, IsNumber, IsOptional} from 'class-validator';
 
 export class ItemDto {
 
@@ -24,5 +24,20 @@ export class ItemDto {
     @ApiProperty()
     @IsNumber()
     added: number;
+
+    @ApiProperty()
+    @IsOptional()
+    @IsJSON()
+    metadata: {};
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsAlpha()
+    status: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsDate()
+    lastUpdate: number;
 
 }
