@@ -53,8 +53,11 @@ export class UserService {
     return this.userRepository.findOne(id);
   }
 
-  async deleteUser(id: number): Promise<DeleteResultsDto> {
-    return this.userRepository.delete(id);
+  async deleteUser(id: number): Promise<any> {
+    const toInactivate = await this.userRepository.findOne(id);
+    toInactivate.status = 'inactive';
+    await this.userRepository.update(id, toInactivate);
+    return this.userRepository.findOne(id);
   }
 
 }

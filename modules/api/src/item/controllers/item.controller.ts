@@ -63,7 +63,7 @@ export class ItemController {
   @Delete(':id')
   async deleteItem(
     @Param('id') id: number,
-  ): Promise<DeleteResultsDto> {
+  ): Promise<any> {
     return this.itemService.deleteItem(id);
   }
 

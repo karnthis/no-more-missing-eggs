@@ -39,4 +39,11 @@ export class CategoryService {
     }
     return true;
   }
+
+  async delete(id: number): Promise<any> {
+    const toInactivate = await this.categoryRepository.findOne(id);
+    toInactivate.status = 'inactive';
+    await this.categoryRepository.update(id, toInactivate);
+    return this.categoryRepository.findOne(id);
+  }
 }

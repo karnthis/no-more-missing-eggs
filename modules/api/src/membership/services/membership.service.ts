@@ -46,7 +46,10 @@ export class MembershipService {
     return this.membershipRepository.findOne(id);
   }
 
-  async deleteOne(id: number): Promise<DeleteResultsDto> {
-    return await this.membershipRepository.delete(id);
+  async deleteOne(id: number): Promise<any> {
+    const toInactivate = await this.membershipRepository.findOne(id);
+    toInactivate.status = 'inactive';
+    await this.membershipRepository.update(id, toInactivate);
+    return this.membershipRepository.findOne(id);
   }
 }

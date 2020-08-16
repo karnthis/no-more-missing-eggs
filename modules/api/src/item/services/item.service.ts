@@ -48,8 +48,11 @@ export class ItemService {
     return this.itemRepository.findOne(id);
   }
 
-  async deleteItem(id: number): Promise<DeleteResultsDto> {
-    return this.itemRepository.delete(id);
+  async deleteItem(id: number): Promise<any> {
+    const toInactivate = await this.itemRepository.findOne(id);
+    toInactivate.status = 'inactive';
+    await this.itemRepository.update(id, toInactivate);
+    return this.itemRepository.findOne(id);
   }
 
 }

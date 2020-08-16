@@ -41,8 +41,11 @@ export class CartonService {
     return this.cartonRepository.findOne(id);
   }
 
-  async deleteItem(id: number): Promise<DeleteResultsDto> {
-    return this.cartonRepository.delete(id);
+  async deleteCarton(id: number): Promise<any> {
+    const toInactivate = await this.cartonRepository.findOne(id);
+    toInactivate.status = 'inactive';
+    await this.cartonRepository.update(id, toInactivate);
+    return this.cartonRepository.findOne(id);
   }
 
   async loadCategories(ids: number[]): Promise<Category[]> {
