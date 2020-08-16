@@ -49,6 +49,7 @@ export class MembershipService {
   async deleteOne(id: number): Promise<any> {
     const toInactivate = await this.membershipRepository.findOne(id);
     toInactivate.status = 'inactive';
+    toInactivate.lastUpdated = new Date();
     await this.membershipRepository.update(id, toInactivate);
     return this.membershipRepository.findOne(id);
   }

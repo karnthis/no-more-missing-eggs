@@ -5,7 +5,6 @@ import { CartonController } from './controllers/carton.controller';
 import {Carton} from './entities/carton.entity';
 import {KitchenModule} from '../kitchen/kitchen.module';
 import {CategoryModule} from '../category/category.module';
-import {KitchenService} from '../kitchen/services/kitchen.service';
 
 @Module({
   imports: [

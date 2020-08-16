@@ -56,6 +56,7 @@ export class UserService {
   async deleteUser(id: number): Promise<any> {
     const toInactivate = await this.userRepository.findOne(id);
     toInactivate.status = 'inactive';
+    toInactivate.lastUpdated = new Date();
     await this.userRepository.update(id, toInactivate);
     return this.userRepository.findOne(id);
   }

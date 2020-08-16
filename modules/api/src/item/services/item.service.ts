@@ -51,6 +51,7 @@ export class ItemService {
   async deleteItem(id: number): Promise<any> {
     const toInactivate = await this.itemRepository.findOne(id);
     toInactivate.status = 'inactive';
+    toInactivate.lastUpdated = new Date();
     await this.itemRepository.update(id, toInactivate);
     return this.itemRepository.findOne(id);
   }

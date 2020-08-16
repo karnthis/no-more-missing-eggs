@@ -44,6 +44,7 @@ export class CartonService {
   async deleteCarton(id: number): Promise<any> {
     const toInactivate = await this.cartonRepository.findOne(id);
     toInactivate.status = 'inactive';
+    toInactivate.lastUpdated = new Date();
     await this.cartonRepository.update(id, toInactivate);
     return this.cartonRepository.findOne(id);
   }
