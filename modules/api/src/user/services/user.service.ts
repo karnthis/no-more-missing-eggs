@@ -15,11 +15,11 @@ export class UserService {
 
   async saveNew(createUser): Promise<CleanUserDto> {
     try {
-      const userToSave = {...new User(), ...createUser};
+      const userToSave = {...new User(), ...createUser, ...{status: 'active', lastUpdated: new Date()}};
 
       const result = await this.userRepository.save(userToSave)
         .catch(err => ({error: err}));
-      const {password, ...toSend} = result;
+      const {password, lastUpdated, ...toSend} = result;
       return toSend;
     } catch (err) {
       throw new HttpException({
@@ -49,12 +49,15 @@ export class UserService {
   }
 
   async updateUser(id: number, user: UpdateUserDto): Promise<User> {
-    await this.userRepository.update(id, user);
+    await this.userRepository.update(id, {...user, ...{lastUpdated: new Date()}});
     return this.userRepository.findOne(id);
   }
 
-  async deleteUser(id: number): Promise<DeleteResultsDto> {
-    return this.userRepository.delete(id);
+  async deleteUser(id: number): Promise<any> {
+    const toInactivate = await this.userRepository.findOne(id);
+    toInactivate.status = 'inactive';
+    await this.userRepository.update(id, toInactivate);
+    return this.userRepository.findOne(id);
   }
 
 }

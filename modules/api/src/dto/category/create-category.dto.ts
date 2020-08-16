@@ -1,21 +1,21 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {KitchenDto} from '../kitchen/kitchen.dto';
-import {Item} from '../../item/entities/item.entity';
 import {ArrayMinSize, IsAlpha, IsNotEmpty, ValidateNested} from 'class-validator';
+import {Carton} from '../../carton/entities/carton.entity';
 
 export class CreateCategoryDto {
 
     @ApiProperty()
     @IsNotEmpty()
     @IsAlpha()
-    categoryName: string;
+    name: string;
 
     @ApiProperty()
     @ValidateNested()
     kitchen: KitchenDto;
 
     @ApiProperty()
-    @ArrayMinSize(1)
-    items: Item[];
+    @ArrayMinSize(0)
+    cartons: Carton[];
 
 }

@@ -64,7 +64,7 @@ export class MembershipController {
   @Delete('/:id')
   deleteOne(
     @Param() id: number,
-  ): Promise<DeleteResultsDto> {
+  ): Promise<any> {
     return this.membershipService.deleteOne(id);
   }
 

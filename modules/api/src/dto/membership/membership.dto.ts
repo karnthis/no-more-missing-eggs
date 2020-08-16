@@ -1,5 +1,5 @@
 import {ApiProperty} from '@nestjs/swagger';
-import {IsAlpha, IsNotEmpty} from 'class-validator';
+import {IsAlpha, IsDate, IsJSON, IsNotEmpty, IsOptional} from 'class-validator';
 
 export class MembershipDto {
 
@@ -7,5 +7,20 @@ export class MembershipDto {
     @IsNotEmpty()
     @IsAlpha()
     role: string;
+
+    @ApiProperty()
+    @IsOptional()
+    @IsJSON()
+    metadata: {};
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsAlpha()
+    status: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsDate()
+    lastUpdate: number;
 
 }

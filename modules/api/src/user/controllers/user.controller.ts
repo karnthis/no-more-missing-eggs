@@ -55,7 +55,7 @@ export class UserController {
   @Delete(':id')
   deleteOne(
     @Param('id') id: number,
-  ): Promise<DeleteResultsDto> {
+  ): Promise<any> {
     return this.userService.deleteUser(id);
   }
 }

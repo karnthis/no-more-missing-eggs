@@ -24,7 +24,7 @@ export class MembershipService {
       const {userId, myKitchen, membership} = createMembershipDto;
       const myUserDetails: User = await this.userService.findOneById(userId);
 
-      const firstMembership = {...new Membership(), ...membership};
+      const firstMembership = {...new Membership(), ...membership, ...{status: 'active', lastUpdated: new Date()}};
       firstMembership.user = myUserDetails;
       firstMembership.kitchen = myKitchen;
 
@@ -42,11 +42,14 @@ export class MembershipService {
   }
 
   async update(id: number, updateMembership: UpdateMembershipDto): Promise<Membership> {
-    await this.membershipRepository.update(id, updateMembership);
+    await this.membershipRepository.update(id, {...updateMembership, ...{lastUpdated: new Date()}});
     return this.membershipRepository.findOne(id);
   }
 
-  async deleteOne(id: number): Promise<DeleteResultsDto> {
-    return await this.membershipRepository.delete(id);
+  async deleteOne(id: number): Promise<any> {
+    const toInactivate = await this.membershipRepository.findOne(id);
+    toInactivate.status = 'inactive';
+    await this.membershipRepository.update(id, toInactivate);
+    return this.membershipRepository.findOne(id);
   }
 }

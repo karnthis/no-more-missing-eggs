@@ -1,7 +1,7 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {Membership} from '../../membership/entities/membership.entity';
 import {Category} from '../../category/entities/category.entity';
-import {Item} from '../../item/entities/item.entity';
+import {Carton} from '../../carton/entities/carton.entity';
 
 @Entity()
 export class Kitchen {
@@ -12,7 +12,10 @@ export class Kitchen {
   ownerId: number;
 
   @Column({ length: 50 })
-  kitchenName: string;
+  name: string;
+
+  @Column({type: 'json', nullable: true})
+  metadata: {data: string[]};
 
   @Column({ length: 10 })
   status: string;
@@ -21,12 +24,12 @@ export class Kitchen {
   lastUpdated: Date;
 
   @OneToMany(type => Membership, membership => membership.kitchen)
-  public membership: Membership[];
+  public memberships: Membership[];
 
   @OneToMany(type => Category, category => category.kitchen)
-  public category: Category[];
+  public categories: Category[];
 
-  @OneToMany(type => Item, item => item.kitchen)
-  public item: Item[];
+  @OneToMany(type => Carton, carton => carton.kitchen)
+  public cartons: Carton[];
 
 }

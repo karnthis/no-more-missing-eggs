@@ -1,15 +1,12 @@
 import {ApiProperty} from '@nestjs/swagger';
-import {IsAlpha, IsDate, IsJSON, IsNotEmpty, IsNumber, IsOptional, IsString} from 'class-validator';
+import {Category} from '../../category/entities/category.entity';
+import {Column} from 'typeorm';
+import {IsAlpha, IsBoolean, IsDate, IsJSON, IsNotEmpty, IsNumber, IsOptional} from 'class-validator';
 
-export class KitchenDto {
-
-    @ApiProperty()
-    @IsNumber()
-    ownerId: number;
+export class CartonDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    @IsString()
     name: string;
 
     @ApiProperty()

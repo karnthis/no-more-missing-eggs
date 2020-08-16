@@ -6,11 +6,7 @@ export class CreateItemDto {
 
     @ApiProperty()
     @IsNumber()
-    kitchenId: number;
-
-    @ApiProperty()
-    // @IsNumber()
-    usedCategories: number[];
+    cartonId: number;
 
     @ApiProperty()
     @ValidateNested()
