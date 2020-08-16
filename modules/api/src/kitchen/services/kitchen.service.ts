@@ -1,4 +1,4 @@
-import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
+import {HttpException, Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Kitchen } from '../entities/kitchen.entity';
@@ -62,14 +62,13 @@ export class KitchenService {
 
   }
 
-  // TODO superadmin only
   async findMine(id: number): Promise<Kitchen[]> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
-        .leftJoinAndSelect('k.membership', 'kmembers')
-        .leftJoinAndSelect('kmembers.user', 'user')
+        .innerJoinAndSelect('k.membership', 'kmembers')
+        .innerJoinAndSelect('kmembers.user', 'user')
         .where('user.id = :id', { id })
-        .where('k.status != :status', {status: 'inactive'})
+        .where('k.status != `inactive`')
         .getMany();
   }
 
@@ -77,19 +76,21 @@ export class KitchenService {
     return await this.kitchenRepository
       .createQueryBuilder('k')
       .select('k.id')
-      .leftJoin('k.membership', 'kmembers')
-      .leftJoin('kmembers.user', 'user')
+      .innerJoin('k.membership', 'kmembers')
+      .innerJoin('kmembers.user', 'user')
       .where('user.id = :id', { id })
-      .where('k.status != :status', {status: 'inactive'})
+      .where('k.status != `inactive`')
       .getMany();
   }
 
   async findOneExpanded(id: number): Promise<Kitchen|undefined> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
-        .leftJoinAndSelect('k.membership', 'kmembers')
-        .leftJoinAndSelect('kmembers.user', 'user')
+        .innerJoinAndSelect('k.membership', 'kmembers')
+        .innerJoinAndSelect('kmembers.user', 'user')
         .where('k.id = :id', { id })
+        .where('k.status != `inactive`')
+        .where('kmembers.status != `inactive`')
         .getOne();
   }
 
