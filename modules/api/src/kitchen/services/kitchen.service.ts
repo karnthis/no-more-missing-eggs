@@ -7,7 +7,6 @@ import {MembershipService} from '../../membership/services/membership.service';
 import {CreateMembershipDto} from '../../dto/membership/create-membership.dto';
 import {CategoryService} from '../../category/services/category.service';
 import {UpdateKitchenDto} from '../../dto/kitchen/update-kitchen.dto';
-import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
 
 @Injectable()
 export class KitchenService {
@@ -20,7 +19,8 @@ export class KitchenService {
   async saveNewKitchen(createKitchen: CreateKitchenDto) {
     try {
       const {userId, savableKitchen, membership} = createKitchen;
-      const addKitchen = {...new Kitchen(), ...savableKitchen};
+      const baselineKitchen = {status: 'active', lastUpdated: new Date()};
+      const addKitchen = {...new Kitchen(), ...savableKitchen, ...baselineKitchen};
       const savedKitchen = await this.kitchenRepository.save(addKitchen);
 
       const createMembership: CreateMembershipDto = {
@@ -65,13 +65,12 @@ export class KitchenService {
 
   // TODO superadmin only
   async findMine(id: number): Promise<Kitchen[]> {
-    // tslint:disable-next-line:no-console
-    console.log('fetching kitchens for id', id);
     return await this.kitchenRepository
         .createQueryBuilder('k')
         .leftJoinAndSelect('k.membership', 'kmembers')
         .leftJoinAndSelect('kmembers.user', 'user')
         .where('user.id = :id', { id })
+        .where('k.status != :status', {status: 'inactive'})
         .getMany();
   }
 
@@ -82,6 +81,7 @@ export class KitchenService {
       .leftJoin('k.membership', 'kmembers')
       .leftJoin('kmembers.user', 'user')
       .where('user.id = :id', { id })
+      .where('k.status != :status', {status: 'inactive'})
       .getMany();
   }
 
@@ -90,7 +90,6 @@ export class KitchenService {
         .createQueryBuilder('k')
         .leftJoinAndSelect('k.membership', 'kmembers')
         .leftJoinAndSelect('kmembers.user', 'user')
-        // .leftJoinAndSelect('k.category', 'category')
         .where('k.id = :id', { id })
         .getOne();
   }
@@ -104,8 +103,11 @@ export class KitchenService {
     return this.kitchenRepository.findOne(id);
   }
 
-  async delete(id: number): Promise<DeleteResultsDto> {
-    return this.kitchenRepository.delete(id);
+  async delete(id: number): Promise<any> {
+    const toInactivate = await this.kitchenRepository.findOne(id);
+    toInactivate.status = 'inactive';
+    await this.kitchenRepository.update(id, toInactivate);
+    return this.kitchenRepository.findOne(id);
   }
 
 }

@@ -1,5 +1,5 @@
 import {ApiProperty} from '@nestjs/swagger';
-import {IsAlpha, IsNotEmpty, IsNumber} from 'class-validator';
+import {IsAlpha, IsNotEmpty, IsNumber, IsString} from 'class-validator';
 
 export class KitchenDto {
 
@@ -9,7 +9,7 @@ export class KitchenDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    @IsAlpha()
+    @IsString()
     kitchenName: string;
 
 }
