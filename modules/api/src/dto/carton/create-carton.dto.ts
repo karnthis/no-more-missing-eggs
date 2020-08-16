@@ -14,6 +14,6 @@ export class CreateCartonDto {
 
     @ApiProperty()
     @ValidateNested()
-    item: CartonDto;
+    carton: CartonDto;
 
 }

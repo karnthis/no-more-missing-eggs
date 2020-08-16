@@ -9,24 +9,4 @@ export class CartonDto {
     @IsNotEmpty()
     name: string;
 
-    @ApiProperty()
-    @IsNumber()
-    barcode: number;
-
-    @ApiProperty()
-    @IsNumber()
-    count: number;
-
-    @ApiProperty()
-    @IsNumber()
-    expiration: number;
-
-    @ApiProperty()
-    @IsNumber()
-    added: number;
-
-    @Column()
-    @IsBoolean()
-    isDelete: boolean;
-
 }

@@ -6,22 +6,7 @@ export class UpdateCartonDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsOptional()
+  // @IsOptional()
   name: string;
-
-  @ApiProperty()
-  @IsNumber()
-  @IsOptional()
-  count: number;
-
-  @ApiProperty()
-  @IsNumber()
-  @IsOptional()
-  expiration: number;
-
-  @Column()
-  @IsBoolean()
-  @IsOptional()
-  isDelete: boolean;
 
 }
