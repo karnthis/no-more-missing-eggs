@@ -19,9 +19,4 @@ export class UpdateItemDto {
   @IsOptional()
   expiration: number;
 
-  @Column()
-  @IsBoolean()
-  @IsOptional()
-  isDelete: boolean;
-
 }

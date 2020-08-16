@@ -25,8 +25,4 @@ export class ItemDto {
     @IsNumber()
     added: number;
 
-    @Column()
-    @IsBoolean()
-    isDelete: boolean;
-
 }
