@@ -64,34 +64,37 @@ export class KitchenService {
 
   async findMine(id: number): Promise<Kitchen[]> {
     return await this.kitchenRepository
-        .createQueryBuilder('k')
-        .innerJoinAndSelect('k.membership', 'kmembers')
-        .innerJoinAndSelect('kmembers.user', 'user')
-        .where('user.id = :id', { id })
-        .where('k.status != `inactive`')
-        .getMany();
+      .createQueryBuilder('k')
+      .innerJoinAndSelect('k.memberships', 'kmembers')
+      .innerJoinAndSelect('kmembers.user', 'user')
+      .where('user.id = :id')
+      .andWhere('k.status != :status')
+      .setParameters({ status: 'inactive', id })
+      .getMany();
   }
 
   async findMyIds(id: number): Promise<Kitchen[]> {
     return await this.kitchenRepository
       .createQueryBuilder('k')
       .select('k.id')
-      .innerJoin('k.membership', 'kmembers')
+      .innerJoin('k.memberships', 'kmembers')
       .innerJoin('kmembers.user', 'user')
-      .where('user.id = :id', { id })
-      .where('k.status != `inactive`')
+      .where('user.id = :id')
+      .andWhere('k.status != :status')
+      .setParameters({ status: 'inactive', id })
       .getMany();
   }
 
   async findOneExpanded(id: number): Promise<Kitchen|undefined> {
     return await this.kitchenRepository
-        .createQueryBuilder('k')
-        .innerJoinAndSelect('k.membership', 'kmembers')
-        .innerJoinAndSelect('kmembers.user', 'user')
-        .where('k.id = :id', { id })
-        .where('k.status != `inactive`')
-        .where('kmembers.status != `inactive`')
-        .getOne();
+      .createQueryBuilder('k')
+      .innerJoinAndSelect('k.memberships', 'kmembers')
+      .innerJoinAndSelect('kmembers.user', 'user')
+      .where('k.id = :id')
+      .andWhere('k.status != :status')
+      .andWhere('kmembers.status != :status')
+      .setParameters({ status: 'inactive', id })
+      .getOne();
   }
 
   async findOneFocused(id: number): Promise<Kitchen|undefined> {
