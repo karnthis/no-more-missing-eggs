@@ -105,6 +105,7 @@ export class KitchenService {
   async delete(id: number): Promise<any> {
     const toInactivate = await this.kitchenRepository.findOne(id);
     toInactivate.status = 'inactive';
+    toInactivate.lastUpdated = new Date();
     await this.kitchenRepository.update(id, toInactivate);
     return this.kitchenRepository.findOne(id);
   }

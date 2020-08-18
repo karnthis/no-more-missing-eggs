@@ -5,7 +5,6 @@ import {MembershipDto} from '../../dto/membership/membership.dto';
 import {Kitchen} from '../entities/kitchen.entity';
 import {UpdateKitchenDto} from '../../dto/kitchen/update-kitchen.dto';
 import {KitchenDto} from '../../dto/kitchen/kitchen.dto';
-import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
 
 @Controller('kitchen')
 export class KitchenController {
@@ -21,6 +20,9 @@ export class KitchenController {
     ): Promise<Kitchen> {
         const membership: MembershipDto = {
             role: 'Owner',
+            metadata: {},
+            status: null,
+            lastUpdate: null,
         };
         return await this.kitchenService.saveNewKitchen({
             userId: req.user.sub,
@@ -87,6 +89,9 @@ export class KitchenController {
     ): Promise<Kitchen> {
         const membership: MembershipDto = {
             role: 'User',
+            metadata: {},
+            status: null,
+            lastUpdate: null,
         };
 
         return await this.kitchenService.saveNewKitchenMembership({

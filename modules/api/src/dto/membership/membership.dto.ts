@@ -21,6 +21,6 @@ export class MembershipDto {
     @ApiProperty()
     @IsNotEmpty()
     @IsDate()
-    lastUpdate: number;
+    lastUpdate: Date;
 
 }

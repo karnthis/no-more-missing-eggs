@@ -22,6 +22,6 @@ export class CartonDto {
     @ApiProperty()
     @IsNotEmpty()
     @IsDate()
-    lastUpdate: number;
+    lastUpdate: Date;
 
 }

@@ -3,8 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {Item} from '../entities/item.entity';
 import {UpdateItemDto} from '../../dto/item/update-item.dto';
-import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
-import {Category} from '../../category/entities/category.entity';
 import {CreateItemDto} from '../../dto/item/create-item.dto';
 import {CartonService} from '../../carton/services/carton.service';
 
@@ -29,15 +27,13 @@ export class ItemService {
     }
   }
 
-  async findFullKitchen(id: number): Promise<Item[]> {
-    // tslint:disable-next-line:no-console
-    console.log('fetching items for kitchen id', id);
-    return await this.itemRepository
-      .createQueryBuilder('items')
-      .leftJoinAndSelect('items.kitchen', 'kitchen')
-      .where('kitchen.id = :id', { id })
-      .getMany();
-  }
+  // async findFullKitchen(id: number): Promise<Item[]> {
+  //   return await this.itemRepository
+  //     .createQueryBuilder('items')
+  //     .leftJoinAndSelect('items.kitchen', 'kitchen')
+  //     .where('kitchen.id = :id', { id })
+  //     .getMany();
+  // }
 
   getOne(id: number): Promise<Item|undefined> {
     return this.itemRepository.findOne(id);
@@ -51,6 +47,7 @@ export class ItemService {
   async deleteItem(id: number): Promise<any> {
     const toInactivate = await this.itemRepository.findOne(id);
     toInactivate.status = 'inactive';
+    toInactivate.lastUpdated = new Date();
     await this.itemRepository.update(id, toInactivate);
     return this.itemRepository.findOne(id);
   }

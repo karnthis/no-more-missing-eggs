@@ -38,6 +38,6 @@ export class ItemDto {
     @ApiProperty()
     @IsNotEmpty()
     @IsDate()
-    lastUpdate: number;
+    lastUpdate: Date;
 
 }

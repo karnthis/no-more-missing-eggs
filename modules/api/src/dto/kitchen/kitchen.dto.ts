@@ -25,6 +25,6 @@ export class KitchenDto {
     @ApiProperty()
     @IsNotEmpty()
     @IsDate()
-    lastUpdate: number;
+    lastUpdate: Date;
 
 }

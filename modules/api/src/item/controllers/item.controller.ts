@@ -15,7 +15,7 @@ export class ItemController {
   getKitchenContents(
     @Param('id') id: number,
   ) {
-    return this.itemService.findFullKitchen(id);
+    // return this.itemService.findFullKitchen(id);
   }
 
   @UseGuards(JwtAuthGuard)
