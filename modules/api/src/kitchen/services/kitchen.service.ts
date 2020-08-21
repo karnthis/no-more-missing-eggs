@@ -97,6 +97,52 @@ export class KitchenService {
       .getOne();
   }
 
+  async findOneComplete(id: number): Promise<Kitchen|undefined> {
+    return await this.kitchenRepository
+        .createQueryBuilder('k')
+        .innerJoinAndSelect('k.cartons', 'carton')
+        .innerJoinAndSelect('carton.categories', 'category')
+        .innerJoinAndSelect('carton.items', 'item')
+        .where('k.id = :id')
+        .andWhere('k.status != :status')
+        .setParameters({ status: 'inactive', id })
+        .getOne();
+  }
+
+  async findOneWithCartons(id: number): Promise<Kitchen|undefined> {
+    return await this.kitchenRepository
+        .createQueryBuilder('k')
+        .innerJoinAndSelect('k.cartons', 'carton')
+        .innerJoinAndSelect('carton.categories', 'category')
+        .where('k.id = :id')
+        .andWhere('k.status != :status')
+        .setParameters({ status: 'inactive', id })
+        .getOne();
+  }
+
+  async findOneWithCategories(id: number): Promise<Kitchen|undefined> {
+    return await this.kitchenRepository
+        .createQueryBuilder('k')
+        .innerJoinAndSelect('k.categories', 'category')
+        .where('k.id = :id')
+        .andWhere('k.status != :status')
+        .setParameters({ status: 'inactive', id })
+        .getOne();
+  }
+
+  async findOneMeta(id: number): Promise<Kitchen|undefined> {
+    const kitchen = await this.kitchenRepository
+        .createQueryBuilder('k')
+        .innerJoinAndSelect('k.cartons', 'carton')
+        .where('k.id = :id')
+        .andWhere('k.status != :status')
+        .setParameters({ status: 'inactive', id })
+        .getOne();
+    const metadata = {cartonCount: kitchen.cartons.length};
+    await this.kitchenRepository.update(id, {metadata, lastUpdated: new Date()});
+    return this.kitchenRepository.findOne(id);
+  }
+
   async findOneFocused(id: number): Promise<Kitchen|undefined> {
     return this.kitchenRepository.findOne(id);
   }

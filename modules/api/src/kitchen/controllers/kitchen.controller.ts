@@ -57,6 +57,70 @@ export class KitchenController {
     }
 
     @UseGuards(JwtAuthGuard)
+    @Get('/f/:id')
+    async getFullOne(
+        @Param('id') id: number,
+    ): Promise<Kitchen> {
+        const foundKitchen = await this.kitchenService.findOneComplete(id);
+        if (foundKitchen) {
+            return foundKitchen;
+        } else {
+            throw new HttpException({
+                statusCode: HttpStatus.NOT_FOUND,
+                error: 'No Kitchen Found',
+            }, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('/f/:id')
+    async getCartonOne(
+        @Param('id') id: number,
+    ): Promise<Kitchen> {
+        const foundKitchen = await this.kitchenService.findOneWithCartons(id);
+        if (foundKitchen) {
+            return foundKitchen;
+        } else {
+            throw new HttpException({
+                statusCode: HttpStatus.NOT_FOUND,
+                error: 'No Kitchen Found',
+            }, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('/f/:id')
+    async getCategoryOne(
+        @Param('id') id: number,
+    ): Promise<Kitchen> {
+        const foundKitchen = await this.kitchenService.findOneWithCategories(id);
+        if (foundKitchen) {
+            return foundKitchen;
+        } else {
+            throw new HttpException({
+                statusCode: HttpStatus.NOT_FOUND,
+                error: 'No Kitchen Found',
+            }, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('/meta/:id')
+    async getMetaOne(
+        @Param('id') id: number,
+    ): Promise<Kitchen> {
+        const foundKitchen = await this.kitchenService.findOneMeta(id);
+        if (foundKitchen) {
+            return foundKitchen;
+        } else {
+            throw new HttpException({
+                statusCode: HttpStatus.NOT_FOUND,
+                error: 'No Kitchen Found',
+            }, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @UseGuards(JwtAuthGuard)
     @Put(':id')
     async updateKitchen(
       @Param('id') id: number,
@@ -93,7 +157,6 @@ export class KitchenController {
             status: null,
             lastUpdate: null,
         };
-
         return await this.kitchenService.saveNewKitchenMembership({
             userId: req.user.sub,
             kitchenId: id,

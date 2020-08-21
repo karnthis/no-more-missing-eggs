@@ -15,7 +15,7 @@ export class Kitchen {
   name: string;
 
   @Column({type: 'json', nullable: true})
-  metadata: {data: string[]};
+  metadata: {cartonCount: number};
 
   @Column({ length: 10 })
   status: string;

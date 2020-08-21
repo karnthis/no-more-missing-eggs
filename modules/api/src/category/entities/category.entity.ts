@@ -24,6 +24,6 @@ export class Category {
 
   @ManyToMany(type => Carton, carton => carton.categories)
   @JoinTable()
-  cartons: Carton[];
+  public cartons: Carton[];
 
 }

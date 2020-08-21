@@ -17,14 +17,14 @@ export class KitchenDto {
     @IsJSON()
     metadata: {};
 
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsAlpha()
-    status: string;
-
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsDate()
-    lastUpdate: Date;
+    // @ApiProperty()
+    // @IsNotEmpty()
+    // @IsAlpha()
+    // status: string;
+    //
+    // @ApiProperty()
+    // @IsNotEmpty()
+    // @IsDate()
+    // lastUpdate: Date;
 
 }
