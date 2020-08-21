@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import {Category} from '../entities/category.entity';
 import {CreateCategoryDto} from '../../dto/category/create-category.dto';
 import {KitchenDto} from '../../dto/kitchen/kitchen.dto';
+import {Carton} from '../../carton/entities/carton.entity';
 
   // TODO update all of this
 @Injectable()
@@ -38,6 +39,28 @@ export class CategoryService {
       await this.saveNew(baseCategory);
     }
     return true;
+  }
+
+  async findOneComplete(id: number): Promise<Category|undefined> {
+    return await this.categoryRepository
+        .createQueryBuilder('c')
+        .innerJoinAndSelect('c.cartons', 'carton')
+        .innerJoinAndSelect('carton.items', 'item')
+        .where('c.id = :id')
+        .andWhere('c.status != :status')
+        .setParameters({ status: 'inactive', id })
+        .getOne();
+  }
+
+  async findOneWithCartons(id: number): Promise<Category|undefined> {
+    return await this.categoryRepository
+        .createQueryBuilder('c')
+        .innerJoinAndSelect('c.cartons', 'carton')
+        .where('c.id = :id')
+        .andWhere('c.status != :status')
+        .andWhere('carton.status != :status')
+        .setParameters({ status: 'inactive', id })
+        .getOne();
   }
 
   async delete(id: number): Promise<any> {

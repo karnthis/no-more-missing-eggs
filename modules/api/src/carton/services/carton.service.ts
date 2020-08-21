@@ -7,6 +7,7 @@ import {KitchenService} from '../../kitchen/services/kitchen.service';
 import {CategoryService} from '../../category/services/category.service';
 import {Category} from '../../category/entities/category.entity';
 import {UpdateCartonDto} from '../../dto/carton/update-carton.dto';
+import {Kitchen} from '../../kitchen/entities/kitchen.entity';
 
 @Injectable()
 export class CartonService {
@@ -29,6 +30,40 @@ export class CartonService {
         error: err,
       }, 400);
     }
+  }
+
+  async findOneComplete(id: number): Promise<Carton|undefined> {
+    return await this.cartonRepository
+        .createQueryBuilder('c')
+        .innerJoinAndSelect('c.categories', 'category')
+        .innerJoinAndSelect('c.items', 'item')
+        .where('c.id = :id')
+        .andWhere('c.status != :status')
+        .andWhere('item.status != :status')
+        .setParameters({ status: 'inactive', id })
+        .getOne();
+  }
+
+  async findOneWithItems(id: number): Promise<Carton|undefined> {
+    return await this.cartonRepository
+        .createQueryBuilder('c')
+        .innerJoinAndSelect('c.items', 'item')
+        .where('c.id = :id')
+        .andWhere('c.status != :status')
+        .andWhere('item.status != :status')
+        .setParameters({ status: 'inactive', id })
+        .getOne();
+  }
+
+  async findOneWithCategories(id: number): Promise<Carton|undefined> {
+    return await this.cartonRepository
+        .createQueryBuilder('c')
+        .innerJoinAndSelect('c.categories', 'category')
+        .where('c.id = :id')
+        .andWhere('c.status != :status')
+        .andWhere('category.status != :status')
+        .setParameters({ status: 'inactive', id })
+        .getOne();
   }
 
   getOne(id: number): Promise<Carton|undefined> {

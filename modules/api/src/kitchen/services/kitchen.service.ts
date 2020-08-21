@@ -105,6 +105,7 @@ export class KitchenService {
         .innerJoinAndSelect('carton.items', 'item')
         .where('k.id = :id')
         .andWhere('k.status != :status')
+        .andWhere('carton.status != :status')
         .setParameters({ status: 'inactive', id })
         .getOne();
   }
@@ -116,6 +117,7 @@ export class KitchenService {
         .innerJoinAndSelect('carton.categories', 'category')
         .where('k.id = :id')
         .andWhere('k.status != :status')
+        .andWhere('carton.status != :status')
         .setParameters({ status: 'inactive', id })
         .getOne();
   }
@@ -126,6 +128,19 @@ export class KitchenService {
         .innerJoinAndSelect('k.categories', 'category')
         .where('k.id = :id')
         .andWhere('k.status != :status')
+        .andWhere('category.status != :status')
+        .setParameters({ status: 'inactive', id })
+        .getOne();
+  }
+
+  async findOneWithMembers(id: number): Promise<Kitchen|undefined> {
+    return await this.kitchenRepository
+        .createQueryBuilder('k')
+        .innerJoinAndSelect('k.memberships', 'membership')
+        .innerJoinAndSelect('membership.user', 'user')
+        .where('k.id = :id')
+        .andWhere('k.status != :status')
+        .andWhere('membership.status != :status')
         .setParameters({ status: 'inactive', id })
         .getOne();
   }
