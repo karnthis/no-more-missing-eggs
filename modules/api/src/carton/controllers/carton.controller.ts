@@ -2,7 +2,6 @@ import {Controller, UseGuards, Request, Get, Post, Put, Param, Body, Delete, Htt
 import { CartonService } from '../services/carton.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import {Carton} from '../entities/carton.entity';
-import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
 
 @Controller('carton')
 export class CartonController {
@@ -26,6 +25,54 @@ export class CartonController {
     const carton = await this.cartonService.getOne(id);
     if (carton) {
       return carton;
+    } else {
+      throw new HttpException({
+        statusCode: HttpStatus.NOT_FOUND,
+        error: 'No Carton Found',
+      }, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/f/:id')
+  async getFullOne(
+      @Param('id') id: number,
+  ): Promise<Carton> {
+    const foundCarton = await this.cartonService.findOneComplete(id);
+    if (foundCarton) {
+      return foundCarton;
+    } else {
+      throw new HttpException({
+        statusCode: HttpStatus.NOT_FOUND,
+        error: 'No Carton Found',
+      }, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/i/:id')
+  async getItemsOne(
+      @Param('id') id: number,
+  ): Promise<Carton> {
+    const foundCarton = await this.cartonService.findOneWithItems(id);
+    if (foundCarton) {
+      return foundCarton;
+    } else {
+      throw new HttpException({
+        statusCode: HttpStatus.NOT_FOUND,
+        error: 'No Carton Found',
+      }, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/c/:id')
+  async getCategoriesOne(
+      @Param('id') id: number,
+  ): Promise<Carton> {
+    const foundCarton = await this.cartonService.findOneWithCategories(id);
+    if (foundCarton) {
+      return foundCarton;
     } else {
       throw new HttpException({
         statusCode: HttpStatus.NOT_FOUND,
