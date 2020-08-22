@@ -73,7 +73,7 @@ export class KitchenController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Get('/f/:id')
+    @Get('/car/:id')
     async getCartonOne(
         @Param('id') id: number,
     ): Promise<Kitchen> {
@@ -89,7 +89,7 @@ export class KitchenController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Get('/f/:id')
+    @Get('/cat/:id')
     async getCategoryOne(
         @Param('id') id: number,
     ): Promise<Kitchen> {
@@ -146,7 +146,7 @@ export class KitchenController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Post('/m/:id')
+    @Post('/mem/:id')
     async saveNewKitchenMembership(
       @Request() req,
       @Param() id: any,

@@ -1,15 +1,10 @@
 import {
   Controller,
   UseGuards,
-  Request,
   Get,
-  Post,
-  Put,
   Param,
-  Body,
-  Delete,
   HttpException,
-  HttpStatus
+  HttpStatus,
 } from '@nestjs/common';
 import { CategoryService } from '../services/category.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
@@ -22,7 +17,7 @@ export class CategoryController {
   ) {}
 
   @UseGuards(JwtAuthGuard)
-  @Get('/c/:id')
+  @Get('/f/:id')
   async getFullOne(
       @Param('id') id: number,
   ): Promise<Category> {
@@ -52,14 +47,5 @@ export class CategoryController {
       }, HttpStatus.NOT_FOUND);
     }
   }
-
-  // TODO update this
-  // @UseGuards(JwtAuthGuard)
-  // @Post()
-  // async saveNew(
-  //   @Body() createItemDto: CreateItemDto,
-  // ): Promise<Item> {
-  //   return this.categoryService.saveNew();
-  // }
 
 }

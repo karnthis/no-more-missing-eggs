@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import {Category} from '../entities/category.entity';
 import {CreateCategoryDto} from '../../dto/category/create-category.dto';
 import {KitchenDto} from '../../dto/kitchen/kitchen.dto';
-import {Carton} from '../../carton/entities/carton.entity';
 
   // TODO update all of this
 @Injectable()
@@ -63,11 +62,11 @@ export class CategoryService {
         .getOne();
   }
 
-  async delete(id: number): Promise<any> {
-    const toInactivate = await this.categoryRepository.findOne(id);
-    toInactivate.status = 'inactive';
-    toInactivate.lastUpdated = new Date();
-    await this.categoryRepository.update(id, toInactivate);
+  async delete(id: number): Promise<Category|undefined> {
+    // const toInactivate = await this.categoryRepository.findOne(id);
+    // toInactivate.status = 'inactive';
+    // toInactivate.lastUpdated = new Date();
+    await this.categoryRepository.update(id, {status: 'inactive', lastUpdated: new Date()});
     return this.categoryRepository.findOne(id);
   }
 }

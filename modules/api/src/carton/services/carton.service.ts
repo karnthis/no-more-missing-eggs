@@ -7,7 +7,6 @@ import {KitchenService} from '../../kitchen/services/kitchen.service';
 import {CategoryService} from '../../category/services/category.service';
 import {Category} from '../../category/entities/category.entity';
 import {UpdateCartonDto} from '../../dto/carton/update-carton.dto';
-import {Kitchen} from '../../kitchen/entities/kitchen.entity';
 
 @Injectable()
 export class CartonService {
@@ -75,11 +74,11 @@ export class CartonService {
     return this.cartonRepository.findOne(id);
   }
 
-  async deleteCarton(id: number): Promise<any> {
-    const toInactivate = await this.cartonRepository.findOne(id);
-    toInactivate.status = 'inactive';
-    toInactivate.lastUpdated = new Date();
-    await this.cartonRepository.update(id, toInactivate);
+  async deleteCarton(id: number): Promise<Carton|undefined> {
+    // const toInactivate = await this.cartonRepository.findOne(id);
+    // toInactivate.status = 'inactive';
+    // toInactivate.lastUpdated = new Date();
+    await this.cartonRepository.update(id, {status: 'inactive', lastUpdated: new Date()});
     return this.cartonRepository.findOne(id);
   }
 

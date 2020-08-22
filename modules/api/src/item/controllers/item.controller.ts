@@ -2,21 +2,12 @@ import {Controller, UseGuards, Request, Get, Post, Put, Param, Body, Delete, Htt
 import { ItemService } from '../services/item.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import {Item} from '../entities/item.entity';
-import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
 
 @Controller('item')
 export class ItemController {
   constructor(
       private readonly itemService: ItemService,
   ) {}
-
-  @UseGuards(JwtAuthGuard)
-  @Get('k/:id')
-  getKitchenContents(
-    @Param('id') id: number,
-  ) {
-    // return this.itemService.findFullKitchen(id);
-  }
 
   @UseGuards(JwtAuthGuard)
   @Post()
