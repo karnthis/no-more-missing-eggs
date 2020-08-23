@@ -1,4 +1,4 @@
-import {ApiProperty} from '@nestjs/swagger';
+import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Category} from '../../category/entities/category.entity';
 import {Column} from 'typeorm';
 import {IsAlpha, IsBoolean, IsDate, IsJSON, IsNotEmpty, IsNumber, IsOptional} from 'class-validator';
@@ -25,7 +25,7 @@ export class ItemDto {
     @IsNumber()
     added: number;
 
-    @ApiProperty()
+    @ApiPropertyOptional()
     @IsOptional()
     @IsJSON()
     metadata: {};

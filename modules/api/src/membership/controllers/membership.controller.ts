@@ -4,9 +4,12 @@ import {MembershipService} from '../services/membership.service';
 import {CreateMembershipDto} from '../../dto/membership/create-membership.dto';
 import {Membership} from '../entities/membership.entity';
 import {UpdateMembershipDto} from '../../dto/membership/update-membership.dto';
-import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
+import {HttpErrors} from '../../decorator/errors.decorator';
+import {ApiCreatedResponse, ApiTags} from '@nestjs/swagger';
 
 @Controller('membership')
+@HttpErrors()
+@ApiTags('Membership')
 export class MembershipController {
   constructor(
       private readonly membershipService: MembershipService,
@@ -14,18 +17,12 @@ export class MembershipController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
+  @ApiCreatedResponse({ description: 'The Kitchen has been successfully created.', type: Membership})
   async createMembership(
       @Body() createMembershipDto: CreateMembershipDto,
   ): Promise<Membership> {
     return await this.membershipService.saveNew(createMembershipDto);
 }
-
-  // TODO do we need this?
-  // @UseGuards(JwtAuthGuard)
-  // @Get()
-  // getAll(): string {
-  //   return 'hello from user';
-  // }
 
   @UseGuards(JwtAuthGuard)
   @Get('/:id')

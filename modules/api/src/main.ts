@@ -15,6 +15,14 @@ async function bootstrap() {
     .setTitle('No More Missing Eggs: The API')
     .setDescription('This API provides the backbone of the NMME project')
     .setVersion('1.0')
+    .addTag('Authentication')
+    .addTag('Carton')
+    .addTag('Category')
+    .addTag('Item')
+    .addTag('Kitchen')
+    .addTag('Membership')
+    .addTag('User')
+    .addTag('General')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);

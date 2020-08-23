@@ -1,30 +1,28 @@
 import { Controller, Get, Request, Post, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
-import { LocalAuthGuard } from './auth/guards/local-auth.guard';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
-import { AuthService } from './auth/services/auth.service';
+import {HttpErrors} from './decorator/errors.decorator';
+import {ApiOkResponse, ApiTags} from '@nestjs/swagger';
+import {User} from './user/entities/user.entity';
 
 @Controller()
+@HttpErrors()
+@ApiTags('General')
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly authService: AuthService,
     ) {}
 
   @Get()
+  @ApiOkResponse({ type: String })
   getHello(): string {
     return this.appService.getHello();
   }
 
-  // @UseGuards(LocalAuthGuard)
-  // @Post('auth/login')
-  // async login(@Request() req) {
-  //   return this.authService.login(req.user);
-  // }
-
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  getProfile(@Request() req) {
+  @ApiOkResponse({ type: User })
+  getProfile(@Request() req): User {
     return req.user;
   }
 }

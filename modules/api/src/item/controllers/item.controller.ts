@@ -2,8 +2,12 @@ import {Controller, UseGuards, Request, Get, Post, Put, Param, Body, Delete, Htt
 import { ItemService } from '../services/item.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import {Item} from '../entities/item.entity';
+import {HttpErrors} from '../../decorator/errors.decorator';
+import {ApiCreatedResponse, ApiOkResponse, ApiTags} from '@nestjs/swagger';
 
 @Controller('item')
+@HttpErrors()
+@ApiTags('Item')
 export class ItemController {
   constructor(
       private readonly itemService: ItemService,
@@ -11,6 +15,7 @@ export class ItemController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
+  @ApiCreatedResponse({ description: 'The Item has been successfully created.', type: Item})
   async saveNew(
     @Body() createItemDto: any, // CreateItemDto,
   ): Promise<Item> {
@@ -19,6 +24,7 @@ export class ItemController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
+  @ApiOkResponse({ type: Item })
   async getOne(
     @Param('id') id: number,
   ): Promise<Item> {
@@ -35,6 +41,7 @@ export class ItemController {
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
+  @ApiOkResponse({ type: Item })
   async updateItem(
     @Param('id') id: number,
     @Body() body: any,
@@ -52,6 +59,7 @@ export class ItemController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
+  @ApiOkResponse({ type: Item })
   async deleteItem(
     @Param('id') id: number,
   ): Promise<any> {

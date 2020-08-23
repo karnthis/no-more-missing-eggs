@@ -1,4 +1,4 @@
-import {ApiProperty} from '@nestjs/swagger';
+import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {IsAlpha, IsDate, IsJSON, IsNotEmpty, IsOptional, ValidateNested} from 'class-validator';
 import {KitchenDto} from '../kitchen/kitchen.dto';
 import {Carton} from '../../carton/entities/carton.entity';
@@ -18,7 +18,7 @@ export class CategoryDto {
     @ValidateNested()
     cartons: Carton[];
 
-    @ApiProperty()
+    @ApiPropertyOptional()
     @IsOptional()
     @IsJSON()
     metadata: {};
