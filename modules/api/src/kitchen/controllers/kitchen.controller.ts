@@ -3,10 +3,11 @@ import {KitchenService} from '../services/kitchen.service';
 import {JwtAuthGuard} from '../../auth/guards/jwt-auth.guard';
 import {MembershipDto} from '../../dto/membership/membership.dto';
 import {Kitchen} from '../entities/kitchen.entity';
-import {UpdateKitchenDto} from '../../dto/kitchen/update-kitchen.dto';
+import {UpdateKitchenDto} from '../../dto/kitchen/inbound/update-kitchen.dto';
 import {KitchenDto} from '../../dto/kitchen/kitchen.dto';
 import {HttpErrors} from '../../decorator/errors.decorator';
 import {ApiCreatedResponse, ApiOkResponse, ApiTags} from '@nestjs/swagger';
+import {ExpandedKitchenDto} from '../../dto/kitchen/outbound/expandedKitchen.dto';
 
 @Controller('kitchen')
 @HttpErrors()
@@ -22,7 +23,7 @@ export class KitchenController {
     async saveNew(
         @Request() req,
         @Body() savableKitchen: KitchenDto,
-    ): Promise<Kitchen> {
+    ): Promise<ExpandedKitchenDto> {
         const membership: MembershipDto = {
             role: 'Owner',
             metadata: {},
@@ -36,7 +37,6 @@ export class KitchenController {
         });
     }
 
-    // TODO do we need this?
     @UseGuards(JwtAuthGuard)
     @Get()
     @ApiOkResponse({ type: [Kitchen] })

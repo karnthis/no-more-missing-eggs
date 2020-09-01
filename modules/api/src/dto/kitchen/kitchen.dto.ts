@@ -15,16 +15,18 @@ export class KitchenDto {
     @ApiPropertyOptional()
     @IsOptional()
     @IsJSON()
-    metadata: {};
+    metadata: {
+        cartonCount: number,
+    };
 
-    // @ApiProperty()
-    // @IsNotEmpty()
-    // @IsAlpha()
-    // status: string;
-    //
-    // @ApiProperty()
-    // @IsNotEmpty()
-    // @IsDate()
-    // lastUpdate: Date;
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsAlpha()
+    status: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsDate()
+    lastUpdated: Date;
 
 }

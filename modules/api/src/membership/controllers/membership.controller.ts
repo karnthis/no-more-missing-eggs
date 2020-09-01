@@ -1,9 +1,9 @@
 import {Controller, UseGuards, Get, Post, Body, Put, Param, Delete, HttpException, HttpStatus} from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import {MembershipService} from '../services/membership.service';
-import {CreateMembershipDto} from '../../dto/membership/create-membership.dto';
+import {CreateMembershipDto} from '../../dto/membership/inbound/create-membership.dto';
 import {Membership} from '../entities/membership.entity';
-import {UpdateMembershipDto} from '../../dto/membership/update-membership.dto';
+import {UpdateMembershipDto} from '../../dto/membership/inbound/update-membership.dto';
 import {HttpErrors} from '../../decorator/errors.decorator';
 import {ApiCreatedResponse, ApiTags} from '@nestjs/swagger';
 

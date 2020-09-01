@@ -1,9 +1,9 @@
+import {MembershipDto} from '../membership.dto';
 import {ApiProperty} from '@nestjs/swagger';
-import {KitchenDto} from './kitchen.dto';
-import {MembershipDto} from '../membership/membership.dto';
+import {Kitchen} from '../../../kitchen/entities/kitchen.entity';
 import {IsNumber, ValidateNested} from 'class-validator';
 
-export class CreateKitchenDto {
+export class CreateMembershipDto {
 
     @ApiProperty()
     @IsNumber()
@@ -11,10 +11,10 @@ export class CreateKitchenDto {
 
     @ApiProperty()
     @ValidateNested()
-    membership: MembershipDto;
+    myKitchen: Kitchen;
 
     @ApiProperty()
     @ValidateNested()
-    savableKitchen: KitchenDto;
+    membership: MembershipDto;
 
 }

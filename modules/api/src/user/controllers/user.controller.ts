@@ -2,7 +2,7 @@ import {Controller, UseGuards, Get, Param, Put, Body, Delete, HttpException, Htt
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import {UserService} from '../../user/services/user.service';
 import {User} from '../entities/user.entity';
-import {UpdateUserDto} from '../../dto/user/update-user.dto';
+import {UpdateUserDto} from '../../dto/user/inbound/update-user.dto';
 import {HttpErrors} from '../../decorator/errors.decorator';
 import {ApiOkResponse, ApiTags} from '@nestjs/swagger';
 

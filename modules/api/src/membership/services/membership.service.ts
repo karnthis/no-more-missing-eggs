@@ -5,9 +5,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Membership } from '../entities/membership.entity';
 import {User} from '../../user/entities/user.entity';
-import {CreateMembershipDto} from '../../dto/membership/create-membership.dto';
+import {CreateMembershipDto} from '../../dto/membership/inbound/create-membership.dto';
 import {UserService} from '../../user/services/user.service';
-import {UpdateMembershipDto} from '../../dto/membership/update-membership.dto';
+import {UpdateMembershipDto} from '../../dto/membership/inbound/update-membership.dto';
 import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
 
 @Injectable()

@@ -4,9 +4,9 @@ import {HttpException, Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
-import {UpdateUserDto} from '../../dto/user/update-user.dto';
+import {UpdateUserDto} from '../../dto/user/inbound/update-user.dto';
 import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
-import {CleanUserDto} from '../../dto/user/clean-user.dto';
+import {CleanUserDto} from '../../dto/user/inbound/clean-user.dto';
 
 @Injectable()
 export class UserService {

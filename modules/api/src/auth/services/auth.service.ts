@@ -3,8 +3,8 @@ import {HttpException, Injectable} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UserService } from '../../user/services/user.service';
-import {CreateUserDto} from '../../dto/user/create-user.dto';
-import {CleanUserDto} from '../../dto/user/clean-user.dto';
+import {CreateUserDto} from '../../dto/user/inbound/create-user.dto';
+import {CleanUserDto} from '../../dto/user/inbound/clean-user.dto';
 import {LoginResponseDto} from '../../dto/auth/login-response.dto';
 import {KitchenService} from '../../kitchen/services/kitchen.service';
 

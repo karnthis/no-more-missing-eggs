@@ -2,7 +2,7 @@ import {Body, Controller, Get, HttpException, Post, Request, UseGuards} from '@n
 import {AuthService} from '../services/auth.service';
 import {LocalAuthGuard} from '../guards/local-auth.guard';
 import {JwtAuthGuard} from '../guards/jwt-auth.guard';
-import {CreateUserDto} from '../../dto/user/create-user.dto';
+import {CreateUserDto} from '../../dto/user/inbound/create-user.dto';
 import {LoginResponseDto} from '../../dto/auth/login-response.dto';
 import {HttpErrors} from '../../decorator/errors.decorator';
 import {ApiCreatedResponse, ApiOkResponse, ApiTags} from '@nestjs/swagger';

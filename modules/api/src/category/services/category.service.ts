@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {Category} from '../entities/category.entity';
-import {CreateCategoryDto} from '../../dto/category/create-category.dto';
+import {CreateCategoryDto} from '../../dto/category/inbound/create-category.dto';
 import {KitchenDto} from '../../dto/kitchen/kitchen.dto';
 
   // TODO update all of this

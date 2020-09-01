@@ -2,11 +2,11 @@ import {HttpException, Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {Carton} from '../entities/carton.entity';
-import {CreateCartonDto} from '../../dto/carton/create-carton.dto';
+import {CreateCartonDto} from '../../dto/carton/inbound/create-carton.dto';
 import {KitchenService} from '../../kitchen/services/kitchen.service';
 import {CategoryService} from '../../category/services/category.service';
 import {Category} from '../../category/entities/category.entity';
-import {UpdateCartonDto} from '../../dto/carton/update-carton.dto';
+import {UpdateCartonDto} from '../../dto/carton/inbound/update-carton.dto';
 
 @Injectable()
 export class CartonService {
