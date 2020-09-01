@@ -4,7 +4,7 @@ import {ItemDto} from '../../item/item.dto';
 
 export class ItemsCartonDto extends CartonDto {
 
-    @ApiProperty()
+    @ApiProperty({type: [ItemDto]})
     items: ItemDto[];
 
 }

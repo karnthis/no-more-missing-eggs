@@ -4,7 +4,7 @@ import {CompleteCategoryDto} from '../../category/outbound/completeCategory.dto'
 
 export class CategoriesCartonDto extends CartonDto {
 
-    @ApiProperty()
+    @ApiProperty({type: [CompleteCategoryDto]})
     categories: CompleteCategoryDto[];
 
 }

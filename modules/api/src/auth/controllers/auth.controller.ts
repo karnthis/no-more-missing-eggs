@@ -6,7 +6,6 @@ import {CreateUserDto} from '../../dto/user/inbound/create-user.dto';
 import {LoginResponseDto} from '../../dto/auth/login-response.dto';
 import {HttpErrors} from '../../decorator/errors.decorator';
 import {ApiCreatedResponse, ApiOkResponse, ApiTags} from '@nestjs/swagger';
-import {Kitchen} from '../../kitchen/entities/kitchen.entity';
 
 @Controller('auth')
 @HttpErrors()

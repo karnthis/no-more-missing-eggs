@@ -5,10 +5,10 @@ import {CompleteCategoryDto} from '../../category/outbound/completeCategory.dto'
 
 export class CompleteCartonDto extends CartonDto {
 
-    @ApiProperty()
+    @ApiProperty({type: [CompleteCategoryDto]})
     categories: CompleteCategoryDto[];
 
-    @ApiProperty()
+    @ApiProperty({type: [ItemDto]})
     items: ItemDto[];
 
 }

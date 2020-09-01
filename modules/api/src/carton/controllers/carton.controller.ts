@@ -28,7 +28,7 @@ export class CartonController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  @ApiOkResponse({ type: Carton })
+  @ApiOkResponse({ type: CartonDto })
   async getOne(
     @Param('id') id: number,
   ): Promise<CartonDto> {
@@ -45,7 +45,7 @@ export class CartonController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/f/:id')
-  @ApiOkResponse({ type: Carton })
+  @ApiOkResponse({ type: CompleteCartonDto })
   async getFullOne(
       @Param('id') id: number,
   ): Promise<CompleteCartonDto> {
@@ -62,7 +62,7 @@ export class CartonController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/i/:id')
-  @ApiOkResponse({ type: Carton })
+  @ApiOkResponse({ type: ItemsCartonDto })
   async getItemsOne(
       @Param('id') id: number,
   ): Promise<ItemsCartonDto> {
@@ -79,7 +79,7 @@ export class CartonController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/c/:id')
-  @ApiOkResponse({ type: Carton })
+  @ApiOkResponse({ type: CategoriesCartonDto })
   async getCategoriesOne(
       @Param('id') id: number,
   ): Promise<CategoriesCartonDto> {
@@ -96,7 +96,7 @@ export class CartonController {
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
-  @ApiOkResponse({ type: Carton })
+  @ApiOkResponse({ type: CartonDto })
   async updateCarton(
     @Param('id') id: number,
     @Body() body: any,
@@ -114,7 +114,7 @@ export class CartonController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  @ApiOkResponse({ type: Carton })
+  @ApiOkResponse({ type: CartonDto })
   async deleteCarton(
     @Param('id') id: number,
   ): Promise<CartonDto> {

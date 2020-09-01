@@ -9,6 +9,7 @@ import {CategoryService} from '../../category/services/category.service';
 import {UpdateKitchenDto} from '../../dto/kitchen/inbound/update-kitchen.dto';
 import {ExpandedKitchenDto} from '../../dto/kitchen/outbound/expandedKitchen.dto';
 import {KitchenDto} from '../../dto/kitchen/kitchen.dto';
+import {IdKitchenDto} from '../../dto/kitchen/outbound/idKitchen.dto';
 
 @Injectable()
 export class KitchenService {
@@ -75,7 +76,7 @@ export class KitchenService {
       .getMany();
   }
 
-  async findMyIds(id: number): Promise<ExpandedKitchenDto[]> {
+  async findMyIds(id: number): Promise<IdKitchenDto[]> {
     return await this.kitchenRepository
       .createQueryBuilder('k')
       .select('k.id')

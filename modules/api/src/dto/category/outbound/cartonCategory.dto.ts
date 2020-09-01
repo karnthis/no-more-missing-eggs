@@ -4,7 +4,7 @@ import {ValidateNested} from 'class-validator';
 import {CartonDto} from '../../carton/carton.dto';
 
 export class CartonCategoryDto extends CategoryDto {
-    @ApiProperty()
+    @ApiProperty({type: [CartonDto]})
     @ValidateNested()
     cartons: CartonDto[];
 }
