@@ -64,7 +64,7 @@ export class KitchenService {
 
   }
 
-  async findMine(id: number): Promise<Kitchen[]> {
+  async findMine(id: number): Promise<ExpandedKitchenDto[]> {
     return await this.kitchenRepository
       .createQueryBuilder('k')
       .innerJoinAndSelect('k.memberships', 'kmembers')
@@ -75,7 +75,7 @@ export class KitchenService {
       .getMany();
   }
 
-  async findMyIds(id: number): Promise<Kitchen[]> {
+  async findMyIds(id: number): Promise<ExpandedKitchenDto[]> {
     return await this.kitchenRepository
       .createQueryBuilder('k')
       .select('k.id')
@@ -99,6 +99,7 @@ export class KitchenService {
       .getOne();
   }
 
+  // todo: add DTO
   async findOneComplete(id: number): Promise<Kitchen|undefined> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
@@ -112,6 +113,7 @@ export class KitchenService {
         .getOne();
   }
 
+  // todo: add DTO
   async findOneWithCartons(id: number): Promise<Kitchen|undefined> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
@@ -124,6 +126,7 @@ export class KitchenService {
         .getOne();
   }
 
+  // todo: add DTO
   async findOneWithCategories(id: number): Promise<Kitchen|undefined> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
@@ -135,7 +138,7 @@ export class KitchenService {
         .getOne();
   }
 
-  async findOneWithMembers(id: number): Promise<Kitchen|undefined> {
+  async findOneWithMembers(id: number): Promise<ExpandedKitchenDto|undefined> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
         .innerJoinAndSelect('k.memberships', 'membership')
@@ -160,6 +163,7 @@ export class KitchenService {
     return this.kitchenRepository.findOne(id);
   }
 
+  // todo: add DTO
   async findOneFocused(id: number): Promise<Kitchen|undefined> {
     return this.kitchenRepository.findOne(id);
   }
@@ -169,7 +173,7 @@ export class KitchenService {
     return this.kitchenRepository.findOne(id);
   }
 
-  async delete(id: number): Promise<Kitchen> {
+  async delete(id: number): Promise<KitchenDto> {
     const toInactivate = await this.kitchenRepository.findOne(id);
     toInactivate.status = 'inactive';
     toInactivate.lastUpdated = new Date();

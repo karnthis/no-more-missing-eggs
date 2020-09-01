@@ -9,6 +9,7 @@ import {CreateMembershipDto} from '../../dto/membership/inbound/create-membershi
 import {UserService} from '../../user/services/user.service';
 import {UpdateMembershipDto} from '../../dto/membership/inbound/update-membership.dto';
 import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
+import {MembershipDto} from '../../dto/membership/membership.dto';
 
 @Injectable()
 export class MembershipService {
@@ -19,7 +20,7 @@ export class MembershipService {
   ) {}
 
   // Used on Kitchen creation and to add new relations
-  async saveNew(createMembershipDto: CreateMembershipDto): Promise<Membership> {
+  async saveNew(createMembershipDto: CreateMembershipDto): Promise<MembershipDto> {
     try {
       const {userId, myKitchen, membership} = createMembershipDto;
       const myUserDetails: User = await this.userService.findOneById(userId);
@@ -37,16 +38,16 @@ export class MembershipService {
     }
   }
 
-  async getOne(id: number): Promise<Membership|undefined> {
+  async getOne(id: number): Promise<MembershipDto|undefined> {
     return await this.membershipRepository.findOne(id);
   }
 
-  async update(id: number, updateMembership: UpdateMembershipDto): Promise<Membership> {
+  async update(id: number, updateMembership: UpdateMembershipDto): Promise<MembershipDto> {
     await this.membershipRepository.update(id, {...updateMembership, ...{lastUpdated: new Date()}});
     return this.membershipRepository.findOne(id);
   }
 
-  async deleteOne(id: number): Promise<any> {
+  async deleteOne(id: number): Promise<MembershipDto> {
     const toInactivate = await this.membershipRepository.findOne(id);
     toInactivate.status = 'inactive';
     toInactivate.lastUpdated = new Date();

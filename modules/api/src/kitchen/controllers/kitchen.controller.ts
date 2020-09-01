@@ -19,7 +19,7 @@ export class KitchenController {
 
     @UseGuards(JwtAuthGuard)
     @Post()
-    @ApiCreatedResponse({ description: 'The Kitchen has been successfully created.', type: Kitchen})
+    @ApiCreatedResponse({ description: 'The Kitchen has been successfully created.', type: KitchenDto})
     async saveNew(
         @Request() req,
         @Body() savableKitchen: KitchenDto,
@@ -39,16 +39,16 @@ export class KitchenController {
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    @ApiOkResponse({ type: [Kitchen] })
+    @ApiOkResponse({ type: [ExpandedKitchenDto] })
     getAllOfMine(
       @Request() req,
-    ): Promise<Kitchen[]> {
+    ): Promise<ExpandedKitchenDto[]> {
         return this.kitchenService.findMine(req.user.sub);
     }
 
     @UseGuards(JwtAuthGuard)
     @Get(':id')
-    @ApiOkResponse({ type: Kitchen })
+    @ApiOkResponse({ type: ExpandedKitchenDto })
     async getOne(
       @Param('id') id: number,
     ): Promise<ExpandedKitchenDto> {
@@ -116,7 +116,7 @@ export class KitchenController {
 
     @UseGuards(JwtAuthGuard)
     @Get('/meta/:id')
-    @ApiOkResponse({ description: 'Kitchen metadata refreshed', type: Kitchen })
+    @ApiOkResponse({ description: 'Kitchen metadata refreshed', type: KitchenDto })
     async getMetaOne(
         @Param('id') id: number,
     ): Promise<KitchenDto> {
@@ -151,16 +151,16 @@ export class KitchenController {
 
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
-    @ApiOkResponse({ type: Kitchen })
+    @ApiOkResponse({ type: KitchenDto })
     async deleteKitchen(
       @Param('id') id: number,
-    ): Promise<Kitchen> {
+    ): Promise<KitchenDto> {
         return await this.kitchenService.delete(id);
     }
 
     @UseGuards(JwtAuthGuard)
     @Post('/mem/:id')
-    @ApiCreatedResponse({ description: 'The Membership has been successfully added.', type: Kitchen})
+    @ApiCreatedResponse({ description: 'The Membership has been successfully added.', type: ExpandedKitchenDto})
     async saveNewKitchenMembership(
       @Request() req,
       @Param() id: any,

@@ -6,6 +6,7 @@ import {Membership} from '../entities/membership.entity';
 import {UpdateMembershipDto} from '../../dto/membership/inbound/update-membership.dto';
 import {HttpErrors} from '../../decorator/errors.decorator';
 import {ApiCreatedResponse, ApiTags} from '@nestjs/swagger';
+import {MembershipDto} from '../../dto/membership/membership.dto';
 
 @Controller('membership')
 @HttpErrors()
@@ -17,10 +18,10 @@ export class MembershipController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  @ApiCreatedResponse({ description: 'The Kitchen has been successfully created.', type: Membership})
+  @ApiCreatedResponse({ description: 'The Kitchen has been successfully created.', type: MembershipDto})
   async createMembership(
       @Body() createMembershipDto: CreateMembershipDto,
-  ): Promise<Membership> {
+  ): Promise<MembershipDto> {
     return await this.membershipService.saveNew(createMembershipDto);
 }
 
@@ -28,7 +29,7 @@ export class MembershipController {
   @Get('/:id')
   async getOne(
     @Param() id: number,
-  ): Promise<Membership> {
+  ): Promise<MembershipDto> {
     const membership = await this.membershipService.getOne(id);
     if (membership) {
       return membership;
@@ -45,7 +46,7 @@ export class MembershipController {
   async updateOne(
     @Param() id: number,
     @Body() updateMembership: UpdateMembershipDto,
-  ): Promise<Membership> {
+  ): Promise<MembershipDto> {
     const membership = await this.membershipService.update(id, updateMembership);
     if (membership) {
       return membership;
@@ -61,7 +62,7 @@ export class MembershipController {
   @Delete('/:id')
   deleteOne(
     @Param() id: number,
-  ): Promise<any> {
+  ): Promise<MembershipDto> {
     return this.membershipService.deleteOne(id);
   }
 
