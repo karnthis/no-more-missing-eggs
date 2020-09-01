@@ -6,14 +6,14 @@ import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import {UpdateUserDto} from '../../dto/user/inbound/update-user.dto';
 import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
-import {CleanUserDto} from '../../dto/user/inbound/clean-user.dto';
+import {UserDto} from '../../dto/user/user.dto';
 
 @Injectable()
 export class UserService {
 
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
 
-  async saveNew(createUser): Promise<CleanUserDto> {
+  async saveNew(createUser): Promise<UserDto> {
     try {
       const userToSave = {...new User(), ...createUser, ...{status: 'active', lastUpdated: new Date()}};
 

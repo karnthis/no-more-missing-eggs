@@ -4,6 +4,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import {Item} from '../entities/item.entity';
 import {HttpErrors} from '../../decorator/errors.decorator';
 import {ApiCreatedResponse, ApiOkResponse, ApiTags} from '@nestjs/swagger';
+import {ItemDto} from '../../dto/item/item.dto';
 
 @Controller('item')
 @HttpErrors()
@@ -18,7 +19,7 @@ export class ItemController {
   @ApiCreatedResponse({ description: 'The Item has been successfully created.', type: Item})
   async saveNew(
     @Body() createItemDto: any, // CreateItemDto,
-  ): Promise<Item> {
+  ): Promise<ItemDto> {
     return this.itemService.saveNew(createItemDto);
   }
 
@@ -27,7 +28,7 @@ export class ItemController {
   @ApiOkResponse({ type: Item })
   async getOne(
     @Param('id') id: number,
-  ): Promise<Item> {
+  ): Promise<ItemDto|undefined> {
     const item = await this.itemService.getOne(id);
     if (item) {
       return item;
@@ -45,7 +46,7 @@ export class ItemController {
   async updateItem(
     @Param('id') id: number,
     @Body() body: any,
-  ): Promise<Item> {
+  ): Promise<ItemDto> {
     const item = await this.itemService.updateItem(id, body);
     if (item) {
       return item;
@@ -62,7 +63,7 @@ export class ItemController {
   @ApiOkResponse({ type: Item })
   async deleteItem(
     @Param('id') id: number,
-  ): Promise<any> {
+  ): Promise<ItemDto> {
     return this.itemService.deleteItem(id);
   }
 

@@ -28,7 +28,7 @@ export class KitchenController {
             role: 'Owner',
             metadata: {},
             status: null,
-            lastUpdate: null,
+            lastUpdated: null,
         };
         return await this.kitchenService.saveNewKitchen({
             userId: req.user.sub,
@@ -51,7 +51,7 @@ export class KitchenController {
     @ApiOkResponse({ type: Kitchen })
     async getOne(
       @Param('id') id: number,
-    ): Promise<Kitchen> {
+    ): Promise<ExpandedKitchenDto> {
         const foundKitchen = await this.kitchenService.findOneExpanded(id);
         if (foundKitchen) {
             return foundKitchen;
@@ -119,7 +119,7 @@ export class KitchenController {
     @ApiOkResponse({ description: 'Kitchen metadata refreshed', type: Kitchen })
     async getMetaOne(
         @Param('id') id: number,
-    ): Promise<Kitchen> {
+    ): Promise<KitchenDto> {
         const foundKitchen = await this.kitchenService.findOneMeta(id);
         if (foundKitchen) {
             return foundKitchen;
@@ -164,12 +164,12 @@ export class KitchenController {
     async saveNewKitchenMembership(
       @Request() req,
       @Param() id: any,
-    ): Promise<Kitchen> {
+    ): Promise<ExpandedKitchenDto> {
         const membership: MembershipDto = {
             role: 'User',
             metadata: {},
             status: null,
-            lastUpdate: null,
+            lastUpdated: null,
         };
         return await this.kitchenService.saveNewKitchenMembership({
             userId: req.user.sub,

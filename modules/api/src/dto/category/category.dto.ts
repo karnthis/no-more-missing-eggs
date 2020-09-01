@@ -1,7 +1,7 @@
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {IsAlpha, IsDate, IsJSON, IsNotEmpty, IsOptional, ValidateNested} from 'class-validator';
-import {KitchenDto} from '../../kitchen/kitchen.dto';
-import {Carton} from '../../../carton/entities/carton.entity';
+import {KitchenDto} from '../kitchen/kitchen.dto';
+import {Carton} from '../../carton/entities/carton.entity';
 
 export class CategoryDto {
 
@@ -9,14 +9,6 @@ export class CategoryDto {
     @IsNotEmpty()
     @IsAlpha()
     name: string;
-
-    @ApiProperty()
-    @ValidateNested()
-    kitchen: KitchenDto;
-
-    @ApiProperty()
-    @ValidateNested()
-    cartons: Carton[];
 
     @ApiPropertyOptional()
     @IsOptional()
@@ -31,6 +23,6 @@ export class CategoryDto {
     @ApiProperty()
     @IsNotEmpty()
     @IsDate()
-    lastUpdate: Date;
+    lastUpdated: Date;
 
 }

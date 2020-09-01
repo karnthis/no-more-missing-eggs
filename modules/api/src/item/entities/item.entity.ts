@@ -22,7 +22,7 @@ export class Item {
   added: Date;
 
   @Column({type: 'json', nullable: true})
-  metadata: {data: string[]};
+  metadata: {};
 
   @Column({ length: 10 })
   status: string;

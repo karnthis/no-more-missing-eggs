@@ -5,6 +5,7 @@ import {Item} from '../entities/item.entity';
 import {UpdateItemDto} from '../../dto/item/inbound/update-item.dto';
 import {CreateItemDto} from '../../dto/item/inbound/create-item.dto';
 import {CartonService} from '../../carton/services/carton.service';
+import {ItemDto} from '../../dto/item/item.dto';
 
 @Injectable()
 export class ItemService {
@@ -13,7 +14,7 @@ export class ItemService {
     private readonly cartonService: CartonService,
   ) {}
 
-  async saveNew(createItemObject: CreateItemDto): Promise<Item> {
+  async saveNew(createItemObject: CreateItemDto): Promise<ItemDto> {
     try {
       const {item, cartonId} = createItemObject;
       const creatableItem = {...new Item(), ...item, ...{status: 'active', lastUpdated: new Date()}};

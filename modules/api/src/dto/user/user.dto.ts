@@ -1,7 +1,7 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {IsEmail, IsNumber, isNumber, Length} from 'class-validator';
 
-export class CleanUserDto {
+export class UserDto {
   @ApiProperty()
   @IsNumber()
   id: number;

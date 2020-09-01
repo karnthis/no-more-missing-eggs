@@ -1,5 +1,5 @@
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
-import {Category} from '../../../category/entities/category.entity';
+import {Category} from '../../category/entities/category.entity';
 import {Column} from 'typeorm';
 import {IsAlpha, IsBoolean, IsDate, IsJSON, IsNotEmpty, IsNumber, IsOptional} from 'class-validator';
 
@@ -22,6 +22,6 @@ export class CartonDto {
     @ApiProperty()
     @IsNotEmpty()
     @IsDate()
-    lastUpdate: Date;
+    lastUpdated: Date;
 
 }

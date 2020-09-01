@@ -7,6 +7,11 @@ import {KitchenService} from '../../kitchen/services/kitchen.service';
 import {CategoryService} from '../../category/services/category.service';
 import {Category} from '../../category/entities/category.entity';
 import {UpdateCartonDto} from '../../dto/carton/inbound/update-carton.dto';
+import {CartonDto} from '../../dto/carton/carton.dto';
+import {CompleteCartonDto} from '../../dto/carton/outbound/completeCarton.dto';
+import {ItemsCartonDto} from '../../dto/carton/outbound/itemsCarton.dto';
+import {CategoriesCartonDto} from '../../dto/carton/outbound/categoriesCarton.dto';
+import {SavableCartonDto} from '../../dto/carton/inbound/savableCarton.dto';
 
 @Injectable()
 export class CartonService {
@@ -16,7 +21,7 @@ export class CartonService {
     private readonly kitchenService: KitchenService,
   ) {}
 
-  async saveNew(createCartonObject: CreateCartonDto): Promise<Carton> {
+  async saveNew(createCartonObject: CreateCartonDto): Promise<CartonDto> {
     try {
       const {carton, usedCategories, kitchenId} = createCartonObject;
       const creatableCarton = {...new Carton(), ...carton, ...{status: 'active', lastUpdated: new Date()}};
@@ -31,7 +36,7 @@ export class CartonService {
     }
   }
 
-  async findOneComplete(id: number): Promise<Carton|undefined> {
+  async findOneComplete(id: number): Promise<CompleteCartonDto|undefined> {
     return await this.cartonRepository
         .createQueryBuilder('c')
         .innerJoinAndSelect('c.categories', 'category')
@@ -43,7 +48,7 @@ export class CartonService {
         .getOne();
   }
 
-  async findOneWithItems(id: number): Promise<Carton|undefined> {
+  async findOneWithItems(id: number): Promise<ItemsCartonDto|undefined> {
     return await this.cartonRepository
         .createQueryBuilder('c')
         .innerJoinAndSelect('c.items', 'item')
@@ -54,7 +59,7 @@ export class CartonService {
         .getOne();
   }
 
-  async findOneWithCategories(id: number): Promise<Carton|undefined> {
+  async findOneWithCategories(id: number): Promise<CategoriesCartonDto|undefined> {
     return await this.cartonRepository
         .createQueryBuilder('c')
         .innerJoinAndSelect('c.categories', 'category')
@@ -65,16 +70,16 @@ export class CartonService {
         .getOne();
   }
 
-  getOne(id: number): Promise<Carton|undefined> {
+  getOne(id: number): Promise<SavableCartonDto|undefined> {
     return this.cartonRepository.findOne(id);
   }
 
-  async updateCarton(id: number, updateItem: UpdateCartonDto): Promise<Carton> {
+  async updateCarton(id: number, updateItem: UpdateCartonDto): Promise<CartonDto> {
     await this.cartonRepository.update(id, {...updateItem, ...{lastUpdated: new Date()}});
     return this.cartonRepository.findOne(id);
   }
 
-  async deleteCarton(id: number): Promise<Carton|undefined> {
+  async deleteCarton(id: number): Promise<CartonDto|undefined> {
     // const toInactivate = await this.cartonRepository.findOne(id);
     // toInactivate.status = 'inactive';
     // toInactivate.lastUpdated = new Date();

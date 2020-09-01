@@ -4,6 +4,9 @@ import { Repository } from 'typeorm';
 import {Category} from '../entities/category.entity';
 import {CreateCategoryDto} from '../../dto/category/inbound/create-category.dto';
 import {KitchenDto} from '../../dto/kitchen/kitchen.dto';
+import {CategoryDto} from '../../dto/category/category.dto';
+import {CompleteCategoryDto} from '../../dto/category/outbound/completeCategory.dto';
+import {CartonCategoryDto} from '../../dto/category/outbound/cartonCategory.dto';
 
   // TODO update all of this
 @Injectable()
@@ -17,7 +20,7 @@ export class CategoryService {
     return this.categoryRepository.save(addedCategory);
   }
 
-  getOne(id: number): Promise<Category|undefined> {
+  getOne(id: number): Promise<CategoryDto|undefined> {
     return this.categoryRepository.findOne(id);
   }
 
@@ -40,7 +43,7 @@ export class CategoryService {
     return true;
   }
 
-  async findOneComplete(id: number): Promise<Category|undefined> {
+  async findOneComplete(id: number): Promise<CompleteCategoryDto|undefined> {
     return await this.categoryRepository
         .createQueryBuilder('c')
         .innerJoinAndSelect('c.cartons', 'carton')
@@ -51,7 +54,7 @@ export class CategoryService {
         .getOne();
   }
 
-  async findOneWithCartons(id: number): Promise<Category|undefined> {
+  async findOneWithCartons(id: number): Promise<CartonCategoryDto|undefined> {
     return await this.categoryRepository
         .createQueryBuilder('c')
         .innerJoinAndSelect('c.cartons', 'carton')
@@ -62,7 +65,7 @@ export class CategoryService {
         .getOne();
   }
 
-  async delete(id: number): Promise<Category|undefined> {
+  async delete(id: number): Promise<CategoryDto|undefined> {
     // const toInactivate = await this.categoryRepository.findOne(id);
     // toInactivate.status = 'inactive';
     // toInactivate.lastUpdated = new Date();

@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UserService } from '../../user/services/user.service';
 import {CreateUserDto} from '../../dto/user/inbound/create-user.dto';
-import {CleanUserDto} from '../../dto/user/inbound/clean-user.dto';
+import {UserDto} from '../../dto/user/user.dto';
 import {LoginResponseDto} from '../../dto/auth/login-response.dto';
 import {KitchenService} from '../../kitchen/services/kitchen.service';
 
@@ -28,7 +28,7 @@ export class AuthService {
     return null;
   }
 
-  async login(passportUser: CleanUserDto): Promise<LoginResponseDto> {
+  async login(passportUser: UserDto): Promise<LoginResponseDto> {
     const kitchens = await this.kitchenService.findMyIds(passportUser.id);
     const kitchenIds = kitchens.map(item => item.id);
     const payload = {

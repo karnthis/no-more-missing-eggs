@@ -8,6 +8,7 @@ import {CreateMembershipDto} from '../../dto/membership/inbound/create-membershi
 import {CategoryService} from '../../category/services/category.service';
 import {UpdateKitchenDto} from '../../dto/kitchen/inbound/update-kitchen.dto';
 import {ExpandedKitchenDto} from '../../dto/kitchen/outbound/expandedKitchen.dto';
+import {KitchenDto} from '../../dto/kitchen/kitchen.dto';
 
 @Injectable()
 export class KitchenService {
@@ -146,7 +147,7 @@ export class KitchenService {
         .getOne();
   }
 
-  async findOneMeta(id: number): Promise<Kitchen|undefined> {
+  async findOneMeta(id: number): Promise<KitchenDto|undefined> {
     const kitchen = await this.kitchenRepository
         .createQueryBuilder('k')
         .innerJoinAndSelect('k.cartons', 'carton')

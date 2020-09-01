@@ -11,6 +11,8 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import {Category} from '../entities/category.entity';
 import {HttpErrors} from '../../decorator/errors.decorator';
 import {ApiOkResponse, ApiTags} from '@nestjs/swagger';
+import {CompleteCategoryDto} from '../../dto/category/outbound/completeCategory.dto';
+import {CartonCategoryDto} from '../../dto/category/outbound/cartonCategory.dto';
 
 @Controller('category')
 @HttpErrors()
@@ -25,7 +27,7 @@ export class CategoryController {
   @ApiOkResponse({ type: Category })
   async getFullOne(
       @Param('id') id: number,
-  ): Promise<Category> {
+  ): Promise<CompleteCategoryDto> {
     const foundCategory = await this.categoryService.findOneComplete(id);
     if (foundCategory) {
       return foundCategory;
@@ -42,7 +44,7 @@ export class CategoryController {
   @ApiOkResponse({ type: Category })
   async getCartonOne(
       @Param('id') id: number,
-  ): Promise<Category> {
+  ): Promise<CartonCategoryDto> {
     const foundCategory = await this.categoryService.findOneWithCartons(id);
     if (foundCategory) {
       return foundCategory;

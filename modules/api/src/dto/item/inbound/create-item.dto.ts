@@ -1,4 +1,4 @@
-import {ItemDto} from './item.dto';
+import {ItemDto} from '../item.dto';
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNumber, ValidateNested} from 'class-validator';
 
