@@ -12,7 +12,7 @@ export class Carton {
   name: string;
 
   @Column({type: 'json', nullable: true})
-  metadata: {data: string[]};
+  metadata: {};
 
   @Column({ length: 10 })
   status: string;

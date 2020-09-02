@@ -2,8 +2,16 @@ import {Controller, UseGuards, Request, Get, Post, Put, Param, Body, Delete, Htt
 import { CartonService } from '../services/carton.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import {Carton} from '../entities/carton.entity';
+import {HttpErrors} from '../../decorator/errors.decorator';
+import {ApiCreatedResponse, ApiOkResponse, ApiTags} from '@nestjs/swagger';
+import {CartonDto} from '../../dto/carton/carton.dto';
+import {CompleteCartonDto} from '../../dto/carton/outbound/completeCarton.dto';
+import {ItemsCartonDto} from '../../dto/carton/outbound/itemsCarton.dto';
+import {CategoriesCartonDto} from '../../dto/carton/outbound/categoriesCarton.dto';
 
 @Controller('carton')
+@HttpErrors()
+@ApiTags('Carton')
 export class CartonController {
   constructor(
       private readonly cartonService: CartonService,
@@ -11,17 +19,19 @@ export class CartonController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
+  @ApiCreatedResponse({ description: 'The Carton has been successfully created.', type: Carton})
   async saveNew(
     @Body() createCartonDto: any, // CreateItemDto,
-  ): Promise<Carton> {
+  ): Promise<CartonDto> {
     return this.cartonService.saveNew(createCartonDto);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
+  @ApiOkResponse({ type: CartonDto })
   async getOne(
     @Param('id') id: number,
-  ): Promise<Carton> {
+  ): Promise<CartonDto> {
     const carton = await this.cartonService.getOne(id);
     if (carton) {
       return carton;
@@ -35,9 +45,10 @@ export class CartonController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/f/:id')
+  @ApiOkResponse({ type: CompleteCartonDto })
   async getFullOne(
       @Param('id') id: number,
-  ): Promise<Carton> {
+  ): Promise<CompleteCartonDto> {
     const foundCarton = await this.cartonService.findOneComplete(id);
     if (foundCarton) {
       return foundCarton;
@@ -51,9 +62,10 @@ export class CartonController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/i/:id')
+  @ApiOkResponse({ type: ItemsCartonDto })
   async getItemsOne(
       @Param('id') id: number,
-  ): Promise<Carton> {
+  ): Promise<ItemsCartonDto> {
     const foundCarton = await this.cartonService.findOneWithItems(id);
     if (foundCarton) {
       return foundCarton;
@@ -67,9 +79,10 @@ export class CartonController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/c/:id')
+  @ApiOkResponse({ type: CategoriesCartonDto })
   async getCategoriesOne(
       @Param('id') id: number,
-  ): Promise<Carton> {
+  ): Promise<CategoriesCartonDto> {
     const foundCarton = await this.cartonService.findOneWithCategories(id);
     if (foundCarton) {
       return foundCarton;
@@ -83,10 +96,11 @@ export class CartonController {
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
+  @ApiOkResponse({ type: CartonDto })
   async updateCarton(
     @Param('id') id: number,
     @Body() body: any,
-  ): Promise<Carton> {
+  ): Promise<CartonDto> {
     const carton = await this.cartonService.updateCarton(id, body);
     if (carton) {
       return carton;
@@ -100,9 +114,10 @@ export class CartonController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
+  @ApiOkResponse({ type: CartonDto })
   async deleteCarton(
     @Param('id') id: number,
-  ): Promise<any> {
+  ): Promise<CartonDto> {
     return this.cartonService.deleteCarton(id);
   }
 

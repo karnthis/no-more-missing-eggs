@@ -1,20 +1,20 @@
-import {ApiProperty} from '@nestjs/swagger';
+import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Column} from 'typeorm';
 import {IsBoolean, IsNotEmpty, IsNumber, IsOptional} from 'class-validator';
 
 export class UpdateItemDto {
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsNotEmpty()
   @IsOptional()
   name: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsNumber()
   @IsOptional()
   count: number;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsNumber()
   @IsOptional()
   expiration: number;

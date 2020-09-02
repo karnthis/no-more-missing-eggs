@@ -1,4 +1,4 @@
-import {CartonDto} from './carton.dto';
+import {CartonDto} from '../carton.dto';
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNumber, ValidateNested} from 'class-validator';
 

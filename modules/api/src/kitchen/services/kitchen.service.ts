@@ -2,11 +2,14 @@ import {HttpException, Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Kitchen } from '../entities/kitchen.entity';
-import {CreateKitchenDto} from '../../dto/kitchen/create-kitchen.dto';
+import {CreateKitchenDto} from '../../dto/kitchen/inbound/create-kitchen.dto';
 import {MembershipService} from '../../membership/services/membership.service';
-import {CreateMembershipDto} from '../../dto/membership/create-membership.dto';
+import {CreateMembershipDto} from '../../dto/membership/inbound/create-membership.dto';
 import {CategoryService} from '../../category/services/category.service';
-import {UpdateKitchenDto} from '../../dto/kitchen/update-kitchen.dto';
+import {UpdateKitchenDto} from '../../dto/kitchen/inbound/update-kitchen.dto';
+import {ExpandedKitchenDto} from '../../dto/kitchen/outbound/expandedKitchen.dto';
+import {KitchenDto} from '../../dto/kitchen/kitchen.dto';
+import {IdKitchenDto} from '../../dto/kitchen/outbound/idKitchen.dto';
 
 @Injectable()
 export class KitchenService {
@@ -62,7 +65,7 @@ export class KitchenService {
 
   }
 
-  async findMine(id: number): Promise<Kitchen[]> {
+  async findMine(id: number): Promise<ExpandedKitchenDto[]> {
     return await this.kitchenRepository
       .createQueryBuilder('k')
       .innerJoinAndSelect('k.memberships', 'kmembers')
@@ -73,7 +76,7 @@ export class KitchenService {
       .getMany();
   }
 
-  async findMyIds(id: number): Promise<Kitchen[]> {
+  async findMyIds(id: number): Promise<IdKitchenDto[]> {
     return await this.kitchenRepository
       .createQueryBuilder('k')
       .select('k.id')
@@ -85,7 +88,7 @@ export class KitchenService {
       .getMany();
   }
 
-  async findOneExpanded(id: number): Promise<Kitchen|undefined> {
+  async findOneExpanded(id: number): Promise<ExpandedKitchenDto|undefined> {
     return await this.kitchenRepository
       .createQueryBuilder('k')
       .innerJoinAndSelect('k.memberships', 'kmembers')
@@ -97,6 +100,7 @@ export class KitchenService {
       .getOne();
   }
 
+  // todo: add DTO
   async findOneComplete(id: number): Promise<Kitchen|undefined> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
@@ -110,6 +114,7 @@ export class KitchenService {
         .getOne();
   }
 
+  // todo: add DTO
   async findOneWithCartons(id: number): Promise<Kitchen|undefined> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
@@ -122,6 +127,7 @@ export class KitchenService {
         .getOne();
   }
 
+  // todo: add DTO
   async findOneWithCategories(id: number): Promise<Kitchen|undefined> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
@@ -133,7 +139,7 @@ export class KitchenService {
         .getOne();
   }
 
-  async findOneWithMembers(id: number): Promise<Kitchen|undefined> {
+  async findOneWithMembers(id: number): Promise<ExpandedKitchenDto|undefined> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
         .innerJoinAndSelect('k.memberships', 'membership')
@@ -145,7 +151,7 @@ export class KitchenService {
         .getOne();
   }
 
-  async findOneMeta(id: number): Promise<Kitchen|undefined> {
+  async findOneMeta(id: number): Promise<KitchenDto|undefined> {
     const kitchen = await this.kitchenRepository
         .createQueryBuilder('k')
         .innerJoinAndSelect('k.cartons', 'carton')
@@ -158,6 +164,7 @@ export class KitchenService {
     return this.kitchenRepository.findOne(id);
   }
 
+  // todo: add DTO
   async findOneFocused(id: number): Promise<Kitchen|undefined> {
     return this.kitchenRepository.findOne(id);
   }
@@ -167,7 +174,7 @@ export class KitchenService {
     return this.kitchenRepository.findOne(id);
   }
 
-  async delete(id: number): Promise<any> {
+  async delete(id: number): Promise<KitchenDto> {
     const toInactivate = await this.kitchenRepository.findOne(id);
     toInactivate.status = 'inactive';
     toInactivate.lastUpdated = new Date();
