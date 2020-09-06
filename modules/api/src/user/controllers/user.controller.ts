@@ -2,10 +2,13 @@ import {Controller, UseGuards, Get, Param, Put, Body, Delete, HttpException, Htt
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import {UserService} from '../../user/services/user.service';
 import {User} from '../entities/user.entity';
-import {DeleteResultsDto} from '../../dto/misc/delete-results.dto';
-import {UpdateUserDto} from '../../dto/user/update-user.dto';
+import {UpdateUserDto} from '../../dto/user/inbound/update-user.dto';
+import {HttpErrors} from '../../decorator/errors.decorator';
+import {ApiOkResponse, ApiTags} from '@nestjs/swagger';
 
 @Controller('user')
+@HttpErrors()
+@ApiTags('User')
 export class UserController {
   constructor(
       private readonly userService: UserService,
@@ -14,12 +17,14 @@ export class UserController {
   // TODO do we need this?
   @UseGuards(JwtAuthGuard)
   @Get()
+  @ApiOkResponse({ type: String })
   getAll(): string {
     return 'hello from user';
   }
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
+  @ApiOkResponse({ type: User })
   async getOne(
     @Param('id') id: number,
   ): Promise<User> {
@@ -36,6 +41,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
+  @ApiOkResponse({ type: User })
   async updateOne(
     @Param('id') id: number,
     @Body() userInfo: UpdateUserDto,
@@ -53,9 +59,10 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
+  @ApiOkResponse({ type: User })
   deleteOne(
     @Param('id') id: number,
-  ): Promise<any> {
+  ): Promise<User> {
     return this.userService.deleteUser(id);
   }
 }

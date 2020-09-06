@@ -5,7 +5,6 @@ export class UpdateKitchenDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsAlpha()
   // @IsOptional()
   name: string;
 

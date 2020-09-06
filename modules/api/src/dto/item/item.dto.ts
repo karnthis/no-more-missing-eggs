@@ -1,4 +1,4 @@
-import {ApiProperty} from '@nestjs/swagger';
+import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {Category} from '../../category/entities/category.entity';
 import {Column} from 'typeorm';
 import {IsAlpha, IsBoolean, IsDate, IsJSON, IsNotEmpty, IsNumber, IsOptional} from 'class-validator';
@@ -18,14 +18,14 @@ export class ItemDto {
     count: number;
 
     @ApiProperty()
-    @IsNumber()
-    expiration: number;
+    @IsDate()
+    expiration: Date;
 
     @ApiProperty()
-    @IsNumber()
-    added: number;
+    @IsDate()
+    added: Date;
 
-    @ApiProperty()
+    @ApiPropertyOptional()
     @IsOptional()
     @IsJSON()
     metadata: {};
@@ -38,6 +38,6 @@ export class ItemDto {
     @ApiProperty()
     @IsNotEmpty()
     @IsDate()
-    lastUpdate: Date;
+    lastUpdated: Date;
 
 }

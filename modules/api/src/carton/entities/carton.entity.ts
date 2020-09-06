@@ -12,7 +12,7 @@ export class Carton {
   name: string;
 
   @Column({type: 'json', nullable: true})
-  metadata: {data: string[]};
+  metadata: {};
 
   @Column({ length: 10 })
   status: string;
@@ -27,6 +27,6 @@ export class Carton {
   public items: Item[];
 
   @ManyToMany(type => Category, category => category.cartons)
-  categories: Category[];
+  public categories: Category[];
 
 }

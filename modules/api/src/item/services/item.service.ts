@@ -2,9 +2,10 @@ import {HttpException, Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {Item} from '../entities/item.entity';
-import {UpdateItemDto} from '../../dto/item/update-item.dto';
-import {CreateItemDto} from '../../dto/item/create-item.dto';
+import {UpdateItemDto} from '../../dto/item/inbound/update-item.dto';
+import {CreateItemDto} from '../../dto/item/inbound/create-item.dto';
 import {CartonService} from '../../carton/services/carton.service';
+import {ItemDto} from '../../dto/item/item.dto';
 
 @Injectable()
 export class ItemService {
@@ -13,7 +14,7 @@ export class ItemService {
     private readonly cartonService: CartonService,
   ) {}
 
-  async saveNew(createItemObject: CreateItemDto): Promise<Item> {
+  async saveNew(createItemObject: CreateItemDto): Promise<ItemDto> {
     try {
       const {item, cartonId} = createItemObject;
       const creatableItem = {...new Item(), ...item, ...{status: 'active', lastUpdated: new Date()}};
@@ -26,14 +27,6 @@ export class ItemService {
       }, 400);
     }
   }
-
-  // async findFullKitchen(id: number): Promise<Item[]> {
-  //   return await this.itemRepository
-  //     .createQueryBuilder('items')
-  //     .leftJoinAndSelect('items.kitchen', 'kitchen')
-  //     .where('kitchen.id = :id', { id })
-  //     .getMany();
-  // }
 
   getOne(id: number): Promise<Item|undefined> {
     return this.itemRepository.findOne(id);

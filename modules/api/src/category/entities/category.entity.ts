@@ -11,7 +11,7 @@ export class Category {
   name: string;
 
   @Column({type: 'json', nullable: true})
-  metadata: {data: string[]};
+  metadata: {};
 
   @Column({ length: 10 })
   status: string;
@@ -24,6 +24,6 @@ export class Category {
 
   @ManyToMany(type => Carton, carton => carton.categories)
   @JoinTable()
-  cartons: Carton[];
+  public cartons: Carton[];
 
 }

@@ -1,19 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { IngredientController } from './ingredient.controller';
-import { IngredientService } from '../../services/ingredient/ingredient.service';
-import { Ingredient } from '../../entities/ingredient.entity';
+import {KitchenController} from './kitchen.controller';
+import {KitchenService} from '../services/kitchen.service';
+import {Kitchen} from '../entities/kitchen.entity';
 
-describe('Ingredient Controller', () => {
-  let controller: IngredientController;
+describe('Kitchen Controller', () => {
+  let controller: KitchenController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      controllers: [IngredientController],
+      controllers: [KitchenController],
       providers: [
-        IngredientService,
+        KitchenService,
         {
-          provide: getRepositoryToken(Ingredient),
+          provide: getRepositoryToken(Kitchen),
           useValue: {
             save: () => new Promise(res => res()),
           },
@@ -21,11 +21,11 @@ describe('Ingredient Controller', () => {
       ],
     }).compile();
 
-    controller = app.get<IngredientController>(IngredientController);
+    controller = app.get<KitchenController>(KitchenController);
   });
 
   it('should be defined', () => {
-    expect(1).toEqual(1);
-    // expect(controller).toBeDefined();
+    // expect(1).toEqual(1);
+    expect(controller).toBeDefined();
   });
 });
