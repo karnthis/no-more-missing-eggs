@@ -11,13 +11,13 @@
           class="shrink mr-2"
           contain
           src="./assets/SquirrellogicEve.png"
-          transition="scale-transition"
           width="60"
         />
+        <span v-if="$store.state.activeSession">Hi, {{ $store.state.firstName }}</span>
       </div>
 
       <v-spacer></v-spacer>
-      <div>
+      <div v-if="!$store.state.activeSession">
         <MenuBarBtn dest="signup" label="Sign Up" />
         <span>|</span>
         <MenuBarBtn dest="login" label="Log In" />
@@ -27,13 +27,13 @@
 
     <v-main>
       <v-navigation-drawer v-model="drawer" absolute temporary>
-        <MenuDrawerBtn label="test" dest="sample" />
+        <MenuDrawerBtn label="Kitchen" dest="k" />
         <MenuDrawerBtn label="test2" dest="sample2" />
         <MenuDrawerBtn label="test3" dest="sample3" />
 
         <v-divider></v-divider>
 
-<!--        <LeftMenu :client="$store.state.mainName" />-->
+        <MenuDrawerBtn label="Log Out" @clicked="logout" />
 
       </v-navigation-drawer>
 
@@ -63,7 +63,17 @@ export default {
     },
     toggleDrawer () {
       this.drawer = !this.drawer
+    },
+    logout () {
+      this.$store.commit('resetState')
+      window.location = '/'
     }
   }
 }
 </script>
+
+<style>
+html, body {
+  overflow: visible;
+}
+</style>

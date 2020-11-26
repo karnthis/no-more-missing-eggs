@@ -101,7 +101,25 @@ export default {
         body: JSON.stringify(this.bundleData())
       })
         .then(resp => resp.json())
-        .then(resp => console.log(resp))
+        .then(resp => {
+          this.$store.commit('setLoggedIn', resp)
+
+          localStorage.setItem('activeSession', 'true')
+          localStorage.setItem('token', resp.access_token)
+          localStorage.setItem('firstName', resp.userInfo.firstName)
+          localStorage.setItem('lastName', resp.userInfo.lastName)
+          localStorage.setItem('username', resp.userInfo.username)
+          localStorage.setItem('userId', resp.userInfo.id)
+          localStorage.setItem('email', resp.userInfo.email)
+
+          try {
+            localStorage.setItem('kitchenIds', JSON.stringify(resp.kitchenIds))
+          } catch (err) {
+            console.dir(err)
+          }
+
+          window.location = '/#/home'
+        })
     },
     bundleData () {
       return {
