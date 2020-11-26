@@ -1,6 +1,0 @@
-<a routerLink="/kitchen/new">New Kitchen</a>
-<div *ngFor="let k of k$ | async">
-    <h3>{{k.kitchenName}}</h3>
-    <p>{{k.id}}</p>
-  <a [routerLink]="[k.id]">View</a>
-</div>
