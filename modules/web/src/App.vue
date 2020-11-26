@@ -5,56 +5,65 @@
       color="primary"
       dark
     >
-      <div class="d-flex align-center">
+      <div class="d-flex align-center" @click="toggleDrawer">
         <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          src="./assets/SquirrellogicEve.png"
           transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
+          width="60"
         />
       </div>
 
       <v-spacer></v-spacer>
+      <div>
+        <MenuBarBtn dest="signup" label="Sign Up" />
+        <span>|</span>
+        <MenuBarBtn dest="login" label="Log In" />
+      </div>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      <v-navigation-drawer v-model="drawer" absolute temporary>
+        <MenuDrawerBtn label="test" dest="sample" />
+        <MenuDrawerBtn label="test2" dest="sample2" />
+        <MenuDrawerBtn label="test3" dest="sample3" />
+
+        <v-divider></v-divider>
+
+<!--        <LeftMenu :client="$store.state.mainName" />-->
+
+      </v-navigation-drawer>
+
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import MenuBarBtn from './components/MenuBarBtn'
+import MenuDrawerBtn from './components/MenuDrawerBtn'
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld
+    MenuBarBtn,
+    MenuDrawerBtn
   },
 
   data: () => ({
-    //
-  })
+    drawer: false
+  }),
+  methods: {
+    alert () {
+      window.alert('clicked!')
+    },
+    toggleDrawer () {
+      this.drawer = !this.drawer
+    }
+  }
 }
 </script>
