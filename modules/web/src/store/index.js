@@ -6,6 +6,7 @@ Vue.use(Vuex)
 function setDefaultState () {
   return {
     activeSession: false,
+    activeKitchen: {},
     token: '',
     firstName: '',
     lastName: '',
@@ -30,7 +31,7 @@ export default new Vuex.Store({
       state.firstName = value.userInfo.firstName
       state.lastName = value.userInfo.lastName
       state.username = value.userInfo.username
-      state.userId = value.userInfo.id
+      state.userId = Number(value.userInfo.id)
       state.email = value.userInfo.email
       state.kitchenIds = value.kitchenIds
     },
@@ -53,7 +54,7 @@ export default new Vuex.Store({
       localStorage.setItem('username', value)
     },
     setUserId (state, value) {
-      state.userId = value
+      state.userId = Number(value)
       localStorage.setItem('userId', value)
     },
     setKitchenIds (state, value) {
@@ -64,9 +65,29 @@ export default new Vuex.Store({
         console.dir(err)
       }
     },
+    addKitchenId (state, value) {
+      state.kitchenIds.push(value)
+      try {
+        localStorage.setItem('kitchenIds', JSON.stringify(state.kitchenIds))
+      } catch (err) {
+        console.dir(err)
+      }
+    },
     setEmail (state, value) {
       state.email = value
       localStorage.setItem('email', value)
+    }
+  },
+  getters: {
+    getAuthedFetchOptions (state) {
+      return {
+        mode: 'cors',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${state.token}`
+        }
+      }
     }
   },
   actions: {

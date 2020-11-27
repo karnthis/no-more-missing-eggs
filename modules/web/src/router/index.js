@@ -34,7 +34,7 @@ const routes = [
   {
     path: '/notauthorized',
     name: 'NotAuthorized',
-    component: () => import(/* webpackChunkName: "notauthorized" */ '../views/NotAuthorized.vue'),
+    component: () => import(/* webpackChunkName: "notAuthorized" */ '../views/NotAuthorized.vue'),
     meta: {
       noAuth: true
     }
@@ -57,7 +57,7 @@ const routes = [
     }
   },
   {
-    path: '/k',
+    path: '/kitchen',
     name: 'Kitchen',
     component: () => import(/* webpackChunkName: "kitchen" */ '../views/Kitchen.vue'),
     meta: {
@@ -65,9 +65,9 @@ const routes = [
     }
   },
   {
-    path: '/k/:id',
-    name: 'Kitchen',
-    component: () => import(/* webpackChunkName: "kitchen" */ '../views/Kitchen.vue'),
+    path: '/kitchen/:id',
+    name: 'KitchenDetails',
+    component: () => import(/* webpackChunkName: "kitchenDetails" */ '../views/KitchenDetails.vue'),
     meta: {
       requiresAuth: true
     }

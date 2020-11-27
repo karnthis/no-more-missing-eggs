@@ -7,10 +7,10 @@
     >
       <div class="d-flex align-center" @click="toggleDrawer">
         <v-img
-          alt="Vuetify Logo"
+          alt="Squirrellogic Logo"
           class="shrink mr-2"
           contain
-          src="./assets/SquirrellogicEve.png"
+          src="./assets/Squirrellogic.png"
           width="60"
         />
         <span v-if="$store.state.activeSession">Hi, {{ $store.state.firstName }}</span>
@@ -18,18 +18,18 @@
 
       <v-spacer></v-spacer>
       <div v-if="!$store.state.activeSession">
-        <MenuBarBtn dest="signup" label="Sign Up" />
+        <MenuBarBtn dest="/signup" label="Sign Up" />
         <span>|</span>
-        <MenuBarBtn dest="login" label="Log In" />
+        <MenuBarBtn dest="/login" label="Log In" />
       </div>
 
     </v-app-bar>
 
     <v-main>
       <v-navigation-drawer v-model="drawer" absolute temporary>
-        <MenuDrawerBtn label="Kitchen" dest="k" />
-        <MenuDrawerBtn label="test2" dest="sample2" />
-        <MenuDrawerBtn label="test3" dest="sample3" />
+        <MenuDrawerBtn label="Kitchen" dest="/kitchen" />
+        <MenuDrawerBtn label="test2" dest="/sample2" />
+        <MenuDrawerBtn label="test3" dest="/sample3" />
 
         <v-divider></v-divider>
 
@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import MenuBarBtn from './components/MenuBarBtn'
-import MenuDrawerBtn from './components/MenuDrawerBtn'
+import MenuBarBtn from '@/components/MenuBarBtn'
+import MenuDrawerBtn from '@/components/MenuDrawerBtn'
 
 export default {
   name: 'App',
