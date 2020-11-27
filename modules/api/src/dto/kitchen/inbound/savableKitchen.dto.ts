@@ -13,6 +13,11 @@ export class SavableKitchenDto extends KitchenDto {
     id: number;
 
     @ApiProperty()
+    // @IsNotEmpty()
+    // @IsDate()
+    lastUpdated: Date;
+
+    @ApiProperty()
     memberships: SavableMembershipDto[];
 
     @ApiProperty()

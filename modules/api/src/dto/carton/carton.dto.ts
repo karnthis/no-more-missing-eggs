@@ -17,9 +17,9 @@ export class CartonDto {
     @IsAlpha()
     status: string;
 
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsDate()
-    lastUpdated: Date;
+    // @ApiProperty()
+    // @IsNotEmpty()
+    // @IsDate()
+    // lastUpdated: Date;
 
 }
