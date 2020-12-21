@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import MenuBarBtn from '@/components/MenuBarBtn'
-import MenuDrawerBtn from '@/components/MenuDrawerBtn'
+import MenuBarBtn from '@/components/MenuBarBtnComponent'
+import MenuDrawerBtn from '@/components/MenuDrawerBtnComponent'
 
 export default {
   name: 'App',

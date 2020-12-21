@@ -36,7 +36,7 @@
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
 
-import MenuBarBtn from '@/components/MenuBarBtn'
+import MenuBarBtn from '@/components/MenuBarBtnComponent'
 
 export default {
   name: 'Login',

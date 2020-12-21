@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import KitchenDetail from '@/components/KitchenDetail'
-import MenuBarBtn from '@/components/MenuBarBtn'
+import KitchenDetail from '@/components/KitchenDetailComponent'
+import MenuBarBtn from '@/components/MenuBarBtnComponent'
 
 export default {
   name: 'App',

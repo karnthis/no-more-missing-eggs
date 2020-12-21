@@ -15,7 +15,7 @@
           <v-col cols="6" md="3">
             <span>Current Categories</span>
             <div v-for="category in completeKitchen.categories" :key="category.id">
-              <span>{{ category.name }}</span>
+              <MenuBarBtn @clicked="hello" :label="`${category.name} (${JSON.stringify(category)})`" />
             </div>
           </v-col>
           <v-col cols="6" md="3">
@@ -34,9 +34,19 @@
 </template>
 
 <script>
+import MenuBarBtn from '@/components/MenuBarBtnComponent'
+
 export default {
   name: 'KitchenSummary',
-  props: ['completeKitchen']
+  components: {
+    MenuBarBtn
+  },
+  props: ['completeKitchen'],
+  methods: {
+    hello () {
+      console.log('hello')
+    }
+  }
 }
 </script>
 

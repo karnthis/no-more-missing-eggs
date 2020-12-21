@@ -4,15 +4,20 @@
     <span>Current Kitchen: {{ $route.params.id }}</span>
     <MenuBarBtn @clicked="showCreate = !showCreate" label="Create New Kitchen" />
     <KitchenCreateForm v-if="showCreate"></KitchenCreateForm>
-    <KitchenSummary v-if="!showCreate" :members="members" :last-update="lastUpdate" :name="kitchenName"></KitchenSummary>
+
+      <v-row v-if="!showCreate">
+        <v-col cols="12" md="3" v-for="kitchen in allKitchens" :key="kitchen.id" @click="visitKitchen(kitchen.id)">
+          <KitchenSummary :members="kitchen.memberships.length" :last-update="kitchen.lastUpdated" :name="kitchen.name"></KitchenSummary>
+        </v-col>
+      </v-row>
 
   </v-container>
 </template>
 
 <script>
-import KitchenSummary from '@/components/KitchenSummary'
-import KitchenCreateForm from '@/components/KitchenCreateForm'
-import MenuBarBtn from '@/components/MenuBarBtn'
+import KitchenSummary from '@/components/KitchenSummaryComponent'
+import KitchenCreateForm from '@/components/KitchenCreateFormComponent'
+import MenuBarBtn from '@/components/MenuBarBtnComponent'
 
 export default {
   name: 'App',
@@ -29,12 +34,16 @@ export default {
     nameRules: [
       v => !!v || 'Kitchen Name is required'
     ],
+    allKitchens: [],
     kitchenName: '',
     members: [],
     lastUpdate: null
   }),
   methods: {
-
+    visitKitchen (key) {
+      // console.dir(key)
+      window.location = `/#/kitchen/${key}`
+    }
   },
   beforeMount () {
     const kitchenId = this.$route.params.id
@@ -50,6 +59,7 @@ export default {
             this.lastUpdate = resp[0].lastUpdated
             this.kitchenName = resp[0].name
             this.members = resp[0].memberships.length
+            this.allKitchens = resp
           }
         })
     } else {

@@ -59,7 +59,7 @@
 
 <script>
 // @ is an alias to /src
-import MenuBarBtn from '@/components/MenuBarBtn.vue'
+import MenuBarBtn from '@/components/MenuBarBtnComponent.vue'
 
 export default {
   name: 'SignUp',

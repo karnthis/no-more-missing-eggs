@@ -13,18 +13,19 @@
             label="New Kitchen Name"
             required
           ></v-text-field>
+          <MenuBarBtn @clicked="createKitchen" label="Create" />
+
         </v-col>
 
         <v-col cols="12" md="4"></v-col>
       </v-row>
-      <MenuBarBtn @clicked="createKitchen" label="Create" />
 
     </v-container>
   </v-form>
 </template>
 
 <script>
-import MenuBarBtn from '@/components/MenuBarBtn'
+import MenuBarBtn from '@/components/MenuBarBtnComponent'
 
 export default {
   name: 'KitchenSummary',
@@ -55,7 +56,7 @@ export default {
           console.log(resp)
           if (resp.id) {
             this.$store.commit('addKitchenId', resp.id)
-            window.location = `/#/k/${resp.id}`
+            window.location = `/#/kitchen/${resp.id}`
           } else {
             console.log('unable to update')
           }
