@@ -1,6 +1,0 @@
-<a class="h4 nav-link" routerLink="/">Home</a>
-<div class="flex-spacer"></div>
-<a class="h4 nav-link" routerLink="/me" *ngIf="isLoggedIn$ | async; else showLogin">Profile</a>
-<ng-template #showLogin>
-  <a class="h4 nav-link" routerLink="/login">Login</a>
-</ng-template>

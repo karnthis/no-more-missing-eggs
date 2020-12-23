@@ -11,6 +11,9 @@ export class SavableCartonDto extends CartonDto {
     id: number;
 
     @ApiProperty()
+    lastUpdated: Date;
+
+    @ApiProperty()
     kitchen: SavableKitchenDto;
 
     @ApiProperty()

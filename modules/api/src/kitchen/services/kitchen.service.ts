@@ -104,12 +104,12 @@ export class KitchenService {
   async findOneComplete(id: number): Promise<Kitchen|undefined> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
-        .innerJoinAndSelect('k.cartons', 'carton')
-        .innerJoinAndSelect('carton.categories', 'category')
-        .innerJoinAndSelect('carton.items', 'item')
+        .leftJoinAndSelect('k.cartons', 'carton')
+        .leftJoinAndSelect('k.categories', 'category')
+        .leftJoinAndSelect('carton.items', 'item')
         .where('k.id = :id')
         .andWhere('k.status != :status')
-        .andWhere('carton.status != :status')
+        // .andWhere('carton.status != :status')
         .setParameters({ status: 'inactive', id })
         .getOne();
   }
@@ -118,8 +118,8 @@ export class KitchenService {
   async findOneWithCartons(id: number): Promise<Kitchen|undefined> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
-        .innerJoinAndSelect('k.cartons', 'carton')
-        .innerJoinAndSelect('carton.categories', 'category')
+        .leftJoinAndSelect('k.cartons', 'carton')
+        .leftJoinAndSelect('carton.categories', 'category')
         .where('k.id = :id')
         .andWhere('k.status != :status')
         .andWhere('carton.status != :status')
