@@ -1,0 +1,31 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import {KitchenController} from './kitchen.controller';
+import {KitchenService} from '../services/kitchen.service';
+import {Kitchen} from '../entities/kitchen.entity';
+
+describe('Kitchen Controller', () => {
+  let controller: KitchenController;
+
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      controllers: [KitchenController],
+      providers: [
+        KitchenService,
+        {
+          provide: getRepositoryToken(Kitchen),
+          useValue: {
+            save: () => new Promise(res => res()),
+          },
+        },
+      ],
+    }).compile();
+
+    controller = app.get<KitchenController>(KitchenController);
+  });
+
+  it('should be defined', () => {
+    // expect(1).toEqual(1);
+    expect(controller).toBeDefined();
+  });
+});
