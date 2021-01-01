@@ -14,23 +14,23 @@
               <v-toolbar
                 color="primary"
                 dark
-              ><h3>{{ activeCategory.name }}</h3></v-toolbar>
+              ><h3>{{ activeCarton.name }}</h3></v-toolbar>
               <v-card-text>
-                <div class="font-weight-medium pt-5">Linked Cartons: {{ activeCategory.cartons.length }}</div>
-                <div class="font-weight-medium" v-if="activeCategory.cartons.length">First Three Cartons:</div>
-                <div class="font-weight-medium" v-for="carton in activeCategory.cartons" :key="carton.id"> - {{ carton.name }} (Last Update: {{ carton.lastUpdated }})</div>
+                <div class="font-weight-medium pt-5">Items in Carton: {{ activeCarton.items.length }}</div>
+                <div class="font-weight-medium" v-if="activeCarton.items.length">First Three Items:</div>
+                <div class="font-weight-medium" v-for="item in activeCarton.items" :key="item.id"> - {{ item.name }} (Expires {{ item.expiration }})</div>
               </v-card-text>
               <v-card-actions class="justify-end">
                 <v-btn
                   color="green"
-                  @click="goToCategoryDetails"
+                  @click="goToCartonDetails"
                 >Open</v-btn>
                 <v-btn
                   @click="detailsDialog = false"
                 >Close</v-btn>
                 <v-btn
                   color="red"
-                  @click="deleteCategory"
+                  @click="deleteCarton"
                 >Delete</v-btn>
               </v-card-actions>
             </v-card>
@@ -52,7 +52,7 @@
               <v-toolbar
                 color="primary"
                 dark
-              >New Category</v-toolbar>
+              >New Carton</v-toolbar>
               <v-card-text>
                 <div class="pt-5">Coming Soon</div>
 <!--                <v-form-->
@@ -61,14 +61,14 @@
 <!--                  lazy-validation-->
 <!--                >-->
 <!--                  <v-text-field-->
-<!--                    v-model="newCategory.name"-->
+<!--                    v-model="newCarton.name"-->
 <!--                    :rules="nameRules"-->
 <!--                    label="Name"-->
 <!--                    required-->
 <!--                    outlined-->
 <!--                  ></v-text-field>-->
 <!--                  <v-text-field-->
-<!--                    v-model="newCategory.count"-->
+<!--                    v-model="newCarton.count"-->
 <!--                    :rules="countRules"-->
 <!--                    label="Quantity"-->
 <!--                    type="number"-->
@@ -102,7 +102,7 @@
 <!--                    ></v-date-picker>-->
 <!--                  </v-menu>-->
 <!--                  <v-text-field-->
-<!--                    v-model="newCategory.barcode"-->
+<!--                    v-model="newCarton.barcode"-->
 <!--                    label="Barcode"-->
 <!--                    outlined-->
 <!--                  ></v-text-field>-->
@@ -111,11 +111,11 @@
               <v-card-actions class="justify-end">
 <!--                <v-btn-->
 <!--                  color="green"-->
-<!--                  @click="createCategory"-->
+<!--                  @click="createCarton"-->
 <!--                >Save</v-btn>-->
                 <v-btn
                   color="red"
-                  @click="cancelCreateCategory"
+                  @click="cancelCreateItem"
                 >Cancel</v-btn>
               </v-card-actions>
             </v-card>
@@ -127,21 +127,21 @@
     <v-row>
       <v-col cols="2" md="2"></v-col>
       <v-col cols="8" md="8">
-        <h1>This is a KitchenDetails page: {{ kitchenData.name }} ({{ kitchenData.lastUpdated }})</h1>
+        <h1>This is a CategoryDetails page: {{ categoryData.name }} ({{ categoryData.cartons.length }})</h1>
         <v-card>
           <v-card-title>
-            <!--            Category Last Updated: {{ categoryData.lastUpdated }}-->
+<!--            Category Last Updated: {{ categoryData.lastUpdated }}-->
           </v-card-title>
           <v-card-subtitle>
           </v-card-subtitle>
           <v-card-text>
-            <h2>Categories in the Kitchen:</h2>
-            <v-btn color="green" @click="triggerCreate"><v-icon dark>mdi-plus-box</v-icon> Add Category</v-btn>
+            <h2>Cartons in the Category:</h2>
+            <v-btn color="green" @click="triggerCreate"><v-icon dark>mdi-plus-box</v-icon> Add Carton</v-btn>
             <v-container>
               <v-row>
                 <v-col cols="6" md="3">
-                  <div v-for="category in kitchenData.categories" :key="category.id">
-                    <MenuBarBtn @clicked="triggerDetails(category.id)" :label="`${category.name} (Tagged Cartons: ${category.cartons.length})`" />
+                  <div v-for="carton in categoryData.cartons" :key="carton.id">
+                    <MenuBarBtn @clicked="triggerDetails(carton.id)" :label="`${carton.name} (Last Update: ${carton.lastUpdated})`" />
                   </div>
                 </v-col>
               </v-row>
@@ -167,8 +167,8 @@ export default {
     MenuBarBtn
   },
   data: () => ({
-    kitchenData: { kitchens: [] },
-    activeCategory: { cartons: [] },
+    categoryData: { cartons: [] },
+    activeCarton: { items: [] },
     activeId: null,
     detailsDialog: false,
     createDialog: false,
@@ -184,10 +184,11 @@ export default {
     ],
     internalDate: new Date().toISOString().substr(0, 10),
     dateSelect: false,
-    newCategory: {}
+    newCarton: {}
   }),
   computed: {
     ...mapState([
+      'kitchenNav',
       'kitchenNav',
       'apiUrl'
     ]),
@@ -197,75 +198,75 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setKitchenNav'
+      'setCategoryNav'
     ]),
     ...mapGetters([
       'getAuthedFetchOptions'
     ]),
-    goToCategoryDetails () {
-      this.$router.push({ name: 'CategoryDetails', params: { id: this.activeId } })
+    goToCartonDetails () {
+      this.$router.push({ name: 'CartonDetails', params: { id: this.activeId } })
     },
     triggerDetails (id) {
       this.activeId = id
-      this.activeCategory = this.kitchenData.categories.filter(category => category.id === id)[0]
+      this.activeCarton = this.categoryData.cartons.filter(carton => carton.id === id)[0]
       this.detailsDialog = true
     },
     triggerCreate () {
       this.createDialog = true
     },
-    cancelCreateCategory () {
-      this.newCategory = {}
+    cancelCreateItem () {
+      this.newCarton = {}
       this.internalDate = new Date().toISOString().substr(0, 10)
       this.$refs.form.resetValidation()
       this.createDialog = false
     },
-    deleteCategory () {
+    deleteCarton () {
       const options = {
         ...this.$store.getters.getAuthedFetchOptions,
         method: 'DELETE'
       }
-      fetch(`${this.$store.state.apiUrl}/category/${this.activeId}`, options)
+      fetch(`${this.$store.state.apiUrl}/carton/${this.activeId}`, options)
         .then(resp => resp.json())
         .then(resp => {
           // todo
           console.log(resp)
           if (resp.id) {
-            this.kitchenData.categories = this.kitchenData.categories.filter(category => category.id !== resp.id)
+            this.categoryData.cartons = this.categoryData.cartons.filter(carton => carton.id !== resp.id)
           } else {
             console.log('unable to update')
           }
           this.detailsDialog = false
         })
     },
-    createCategory () {
+    createCarton () {
       this.$refs.form.validate()
-      // if (!this.newCategory.barcode) {
-      //   this.newCategory.barcode = 0
-      // }
-      // this.newCategory.count = Number(this.newCategory.count)
-      // this.newCategory.expiration = this.formattedDate
+      if (!this.newCarton.barcode) {
+        this.newCarton.barcode = 0
+      }
+      this.newCarton.count = Number(this.newCarton.count)
+      this.newCarton.expiration = this.formattedDate
 
       const rightNow = new Date()
-      this.newCategory.status = 'init'
-      this.newCategory.lastUpdated = rightNow.toDateString()
-      // this.newCategory.added = rightNow.toDateString()
+      this.newCarton.status = 'init'
+      this.newCarton.lastUpdated = rightNow.toDateString()
+      this.newCarton.added = rightNow.toDateString()
 
       const options = {
         ...this.$store.getters.getAuthedFetchOptions,
         body: JSON.stringify({
-          kitchenId: this.kitchenNav,
-          category: this.newCategory
+          cartonId: this.cartonNav,
+          item: this.newCarton
         }),
         method: 'POST'
       }
-      fetch(`${this.$store.state.apiUrl}/category`, options)
+      fetch(`${this.$store.state.apiUrl}/item`, options)
         .then(resp => resp.json())
         .then(resp => {
           // todo
           console.log(resp)
           if (resp.id) {
-            this.cancelCreateCategory()
-            this.kitchenData.cartons.push(resp)
+            this.cancelCreateItem()
+            this.categoryData.cartons.push(resp)
           } else {
             console.log('unable to update')
           }
@@ -275,17 +276,17 @@ export default {
   created () {
     if (this.$route.params.id) {
       console.log(this.$route.params.id)
-      this.setKitchenNav(this.$route.params.id)
-      fetch(`${this.apiUrl}/kitchen/cat/${this.$route.params.id}`, this.getAuthedFetchOptions())
+      this.setCategoryNav(this.$route.params.id)
+      fetch(`${this.apiUrl}/category/f/${this.$route.params.id}`, this.getAuthedFetchOptions())
         .then(resp => resp.json())
         .then(resp => {
-          this.kitchenData = resp
-          console.dir(this.kitchenData)
+          this.categoryData = resp
+          console.dir(this.categoryData.cartons)
         })
     } else {
       console.log(this.$route.params.id)
       if (this.categoryNav) {
-        this.$router.push({ name: 'KitchenDetails', params: { id: this.kitchenNav } })
+        this.$router.push({ name: 'CategoryDetails', params: { id: this.categoryNav } })
       } else {
         this.$router.push('kitchen')
       }

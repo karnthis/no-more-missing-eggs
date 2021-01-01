@@ -56,20 +56,48 @@ const routes = [
       requiresAuth: true
     }
   },
+  // {
+  //   path: '/kitchen',
+  //   name: 'Kitchen',
+  //   component: () => import(/* webpackChunkName: "kitchen" */ '../views/Kitchen.vue'),
+  //   meta: {
+  //     requiresAuth: true
+  //   }
+  // },
   {
-    path: '/kitchen',
-    name: 'Kitchen',
-    component: () => import(/* webpackChunkName: "kitchen" */ '../views/Kitchen.vue'),
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/kitchen/:id',
+    path: '/kitchen/:id?',
     name: 'KitchenDetails',
     component: () => import(/* webpackChunkName: "kitchenDetails" */ '../views/KitchenDetails.vue'),
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      hasParent: true
+    }
+  },
+  {
+    path: '/carton/:id?',
+    name: 'CartonDetails',
+    component: () => import(/* webpackChunkName: "cartonDetails" */ '../views/CartonDetails.vue'),
+    meta: {
+      requiresAuth: true,
+      hasParent: true
+    }
+  },
+  {
+    path: '/category/:id?',
+    name: 'CategoryDetails',
+    component: () => import(/* webpackChunkName: "categoryDetails" */ '../views/CategoryDetails.vue'),
+    meta: {
+      requiresAuth: true,
+      hasParent: true
+    }
+  },
+  {
+    path: '/membership/:id?',
+    name: 'MembershipDetails',
+    component: () => import(/* webpackChunkName: "membershipDetails" */ '../views/MembershipDetails.vue'),
+    meta: {
+      requiresAuth: true,
+      hasParent: true
     }
   }
   // {
@@ -91,7 +119,11 @@ router.beforeEach((to, from, next) => {
     recoverSession()
   }
   if (to.matched.some(record => record.meta.requiresAuth) && Store.state.activeSession) {
-    next()
+    if (to.matched.some(record => record.meta.hasParent)) {
+      next()
+    } else {
+      next()
+    }
   } else if (to.matched.some(record => record.meta.noAuth)) {
     next()
   } else {

@@ -7,6 +7,10 @@ function setDefaultState () {
   return {
     activeSession: false,
     activeKitchen: {},
+    kitchenNav: null,
+    categoryNav: null,
+    cartonNav: null,
+    membershipNav: null,
     token: '',
     firstName: '',
     lastName: '',
@@ -76,6 +80,22 @@ export default new Vuex.Store({
     setEmail (state, value) {
       state.email = value
       localStorage.setItem('email', value)
+    },
+    setKitchenNav (state, value) {
+      state.kitchenNav = value
+      localStorage.setItem('kitchenNav', value)
+    },
+    setCategoryNav (state, value) {
+      state.categoryNav = value
+      localStorage.setItem('kitchenNav', value)
+    },
+    setCartonNav (state, value) {
+      state.cartonNav = value
+      localStorage.setItem('cartonNav', value)
+    },
+    setMembershipNav (state, value) {
+      state.membershipNav = value
+      localStorage.setItem('membershipNav', value)
     }
   },
   getters: {

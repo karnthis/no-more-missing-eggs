@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import KitchenSummary from '@/components/KitchenSummaryComponent'
-import KitchenCreateForm from '@/components/KitchenCreateFormComponent'
+import KitchenSummary from '@/components/kitchen/KitchenSummaryComponent'
+import KitchenCreateForm from '@/components/kitchen/KitchenCreateFormComponent'
 import MenuBarBtn from '@/components/MenuBarBtnComponent'
 
 export default {
