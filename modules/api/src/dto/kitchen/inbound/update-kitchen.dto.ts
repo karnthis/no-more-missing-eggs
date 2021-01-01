@@ -8,4 +8,8 @@ export class UpdateKitchenDto {
   // @IsOptional()
   name: string;
 
+  @ApiProperty()
+  @IsOptional()
+  metadata?: {};
+
 }

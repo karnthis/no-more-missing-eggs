@@ -40,10 +40,10 @@ export class CartonService {
     return await this.cartonRepository
         .createQueryBuilder('c')
         .innerJoinAndSelect('c.categories', 'category')
-        .innerJoinAndSelect('c.items', 'item')
+        .leftJoinAndSelect('c.items', 'item', `item.status != 'inactive'`)
         .where('c.id = :id')
         .andWhere('c.status != :status')
-        .andWhere('item.status != :status')
+        // .andWhere('item.status != :status')
         .setParameters({ status: 'inactive', id })
         .getOne();
   }

@@ -32,6 +32,14 @@ export class ItemService {
     return this.itemRepository.findOne(id);
   }
 
+  getMany(id: number): Promise<Item[]> {
+    return this.itemRepository
+        .createQueryBuilder('item')
+        .where('item."cartonId" = :id')
+        .setParameters({ id })
+        .getMany();
+  }
+
   async updateItem(id: number, updateItem: UpdateItemDto): Promise<Item> {
     await this.itemRepository.update(id, {...updateItem, ...{lastUpdated: new Date()}});
     return this.itemRepository.findOne(id);

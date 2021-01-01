@@ -32,7 +32,10 @@ export class KitchenService {
       };
 
       await this.membershipService.saveNew(createMembership);
-      await this.categoryService.saveDefaults(savedKitchen);
+      const totalCategories = await this.categoryService.saveDefaults(savedKitchen);
+      await this.saveUpdate(savedKitchen.id, { name: savedKitchen.name, metadata: {
+        categoryCount: totalCategories,
+        }});
 
       return this.findOneExpanded(savedKitchen.id);
     } catch (err) {
@@ -104,12 +107,11 @@ export class KitchenService {
   async findOneComplete(id: number): Promise<Kitchen|undefined> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
-        .leftJoinAndSelect('k.cartons', 'carton')
-        .leftJoinAndSelect('k.categories', 'category')
+        .leftJoinAndSelect('k.cartons', 'carton', `carton.status != 'inactive'`)
+        .leftJoinAndSelect('k.categories', 'category', `category.status != 'inactive'`)
         .leftJoinAndSelect('carton.items', 'item')
         .where('k.id = :id')
         .andWhere('k.status != :status')
-        // .andWhere('carton.status != :status')
         .setParameters({ status: 'inactive', id })
         .getOne();
   }
@@ -118,11 +120,10 @@ export class KitchenService {
   async findOneWithCartons(id: number): Promise<Kitchen|undefined> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
-        .leftJoinAndSelect('k.cartons', 'carton')
-        .leftJoinAndSelect('carton.categories', 'category')
+        .leftJoinAndSelect('k.cartons', 'carton', `carton.status != 'inactive'`)
+        .leftJoinAndSelect('carton.categories', 'category', `category.status != 'inactive'`)
         .where('k.id = :id')
         .andWhere('k.status != :status')
-        .andWhere('carton.status != :status')
         .setParameters({ status: 'inactive', id })
         .getOne();
   }
@@ -131,10 +132,10 @@ export class KitchenService {
   async findOneWithCategories(id: number): Promise<Kitchen|undefined> {
     return await this.kitchenRepository
         .createQueryBuilder('k')
-        .innerJoinAndSelect('k.categories', 'category')
+        .leftJoinAndSelect('k.categories', 'category', `category.status != 'inactive'`)
+        .leftJoinAndSelect('category.cartons', 'carton', `carton.status != 'inactive'`)
         .where('k.id = :id')
         .andWhere('k.status != :status')
-        .andWhere('category.status != :status')
         .setParameters({ status: 'inactive', id })
         .getOne();
   }

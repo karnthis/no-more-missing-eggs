@@ -41,6 +41,23 @@ export class ItemController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('/bycarton/:id')
+  @ApiOkResponse({ type: Item })
+  async getMany(
+      @Param('id') id: number,
+  ): Promise<ItemDto[]> {
+    const item = await this.itemService.getMany(id);
+    if (item) {
+      return item;
+    } else {
+      throw new HttpException({
+        statusCode: HttpStatus.NOT_FOUND,
+        error: 'No Item Found',
+      }, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   @ApiOkResponse({ type: Item })
   async updateItem(

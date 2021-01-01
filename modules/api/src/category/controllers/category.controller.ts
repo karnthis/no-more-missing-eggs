@@ -4,7 +4,7 @@ import {
   Get,
   Param,
   HttpException,
-  HttpStatus,
+  HttpStatus, Delete,
 } from '@nestjs/common';
 import { CategoryService } from '../services/category.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
@@ -54,6 +54,15 @@ export class CategoryController {
         error: 'No Category Found',
       }, HttpStatus.NOT_FOUND);
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  @ApiOkResponse({  })
+  async deleteKitchen(
+      @Param('id') id: number,
+  ): Promise<any> {
+    return await this.categoryService.delete(id);
   }
 
 }

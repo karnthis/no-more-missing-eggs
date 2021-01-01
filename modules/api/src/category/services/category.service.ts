@@ -17,6 +17,9 @@ export class CategoryService {
 
   saveNew(createCategoryDto: CreateCategoryDto): Promise<Category> {
     const addedCategory = {...new Category(), ...createCategoryDto, ...{status: 'active', lastUpdated: new Date()}};
+    // this.categoryRepository.save(addedCategory)
+    // createCategoryDto.kitchen.metadata
+
     return this.categoryRepository.save(addedCategory);
   }
 
@@ -26,7 +29,7 @@ export class CategoryService {
 
   async saveDefaults(freshKitchen: KitchenDto) {
     const defaultCategories: string[] = [
-      'All',
+      // 'All',
       'Frozen',
       'Refrigerated',
       'Pantry',
@@ -40,14 +43,14 @@ export class CategoryService {
       baseCategory.name = name;
       await this.saveNew(baseCategory);
     }
-    return true;
+    return defaultCategories.length;
   }
 
   async findOneComplete(id: number): Promise<CompleteCategoryDto|undefined> {
     return await this.categoryRepository
         .createQueryBuilder('c')
-        .innerJoinAndSelect('c.cartons', 'carton')
-        .innerJoinAndSelect('carton.items', 'item')
+        .leftJoinAndSelect('c.cartons', 'carton', `carton.status != 'inactive'`)
+        .leftJoinAndSelect('carton.items', 'item', `item.status != 'inactive'`)
         .where('c.id = :id')
         .andWhere('c.status != :status')
         .setParameters({ status: 'inactive', id })
@@ -57,7 +60,7 @@ export class CategoryService {
   async findOneWithCartons(id: number): Promise<CartonCategoryDto|undefined> {
     return await this.categoryRepository
         .createQueryBuilder('c')
-        .innerJoinAndSelect('c.cartons', 'carton')
+        .leftJoinAndSelect('c.cartons', 'carton', `carton.status != 'inactive'`)
         .where('c.id = :id')
         .andWhere('c.status != :status')
         .andWhere('carton.status != :status')

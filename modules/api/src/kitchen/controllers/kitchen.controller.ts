@@ -68,7 +68,7 @@ export class KitchenController {
     @ApiOkResponse({ type: Kitchen })
     async getFullOne(
         @Param('id') id: number,
-    ): Promise<Kitchen> {
+    ): Promise<any|Kitchen> {
         const foundKitchen = await this.kitchenService.findOneComplete(id);
         if (foundKitchen) {
             return foundKitchen;
